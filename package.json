@@ -1,0 +1,24 @@
+{
+  "name": "team-19-pizzagame",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/varshini-gurushankar/team-19-pizzagame.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/varshini-gurushankar/team-19-pizzagame/issues"
+  },
+  "homepage": "https://github.com/varshini-gurushankar/team-19-pizzagame#readme",
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "typescript": "^7.0.2"
+  }
+}
