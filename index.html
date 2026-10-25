@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Team 19 - Pizza Game</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        background: #f2d7d6;
+      }
+      #container {
+    	width: min(900px, 100%);
+    	min-height: calc(100vh - 40px);
+    	background: #fbe8a6;
+    	border: 1px solid #ddd;
+    	overflow: hidden;
+    	border-radius: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
