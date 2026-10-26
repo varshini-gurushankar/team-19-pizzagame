@@ -4,8 +4,83 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dinner Rush</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    /* background */
+    body {
+      margin: 0;
+      background: #fff8e5;
+    }
+
+    /* title area */
+    header {
+      height: 73px;
+      background: #e3d1d1;
+      border-bottom: 3px solid #d88b9c;
+    }
+
+    main {
+      display: grid;
+
+      /* three columns */
+      grid-template-columns: 
+      minmax(220px, 1fr) 
+      minmax(400px, 1.8fr) 
+      minmax(260px, 1.05fr);
+
+      gap: 28px;
+      padding: 30px 24px;
+      align-items: start;
+    }
+
+    /* pizza choose toppings area  */
+    .pizza-panel {
+      min-height: 745px;
+      background: #fffdf4;
+      border: 3px solid #34251e;
+      padding: 34px;
+    }
+
+    /* order details area */
+    .order-panel {
+      min-height: 620px;
+      background: #fae7a5;
+      border: 3px solid #34251e;
+      padding: 30px;
+    }
+
+    /* customer box area */
+    .customer {
+        height: 124px;
+        background: #fffdf4;
+        border: 2px solid #ff0000;
+        padding: 15px;
+        margin-bottom: 14px;
+    }
+
+    /* earning box area */
+    .earnings {
+        height: 146px;
+        margin-top: 28px;
+        border: 2px solid #34251e;
+        background: #fae7a5;
+    }
+  </style>
 </head>
+
 <body>
-  <h1>Dinner Rush</h1>
+  <header></header>
+  <main>
+    <section class="left-column">
+    <div class="customer"></div>
+    <div class="earnings"></div>
+</section>
+    <section class="pizza-panel"></section>
+    <section class="order-panel"></section>
+  </main>
 </body>
 </html>
