@@ -69,17 +69,85 @@
         border: 2px solid #34251e;
         background: #fae7a5;
     }
+
+    /* "CUT INTO X SLICES" text*/
+    .slice-control label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #34251e;
+      text-align: center; 
+    }
+
+    /* The num in ^^^ label */
+    #slice-count {
+      color:#4a3fa0;
+      font-size: 1.3em;
+    }
+
+    /* slider */
+    #slice-slider {
+      width: 100%;
+      accent-color: #4a3fa0;  
+    }
+
+    /* num indicators for slider */
+    .slice-ticks {
+      display: flex;
+      justify-content: space-between;
+      padding: 0px 5px;
+      font-size: 13px;
+      color: #4a3fa0;
+      font-weight: bold;
+    }
+
+    /* gap in between each num indictaor for slider */
+    .slice-ticks span {
+      width: 0px;                
+      display: flex;
+      justify-content: center;
+    }
+
   </style>
 </head>
 <body>
   <header></header>
   <main>
+    <!-- puts customer box and earnings box in left column -->
     <section class="left-column">
     <div class="customer"></div>
     <div class="earnings"></div>
 </section>
-    <section class="pizza-panel"></section>
+    <!-- in the pizza panel box -->
+    <section class="pizza-panel">
+
+        <div id="pizza-container"></div> 
+        <!-- placeholder for konva pizza -->
+
+        <!-- slice control area -->
+        <div class="slice-control">
+
+          <!-- "CUT INTO 1 SLICE" text by default -->
+          <label for="slice-slider">
+            CUT INTO <span id="slice-count">1</span> <span id="slice-word">SLICE</span>
+          </label>
+
+          <!-- slider -->
+          <input type="range" id="slice-slider" min="1" max="10" step="1" value="1">
+
+          <!-- num indicators for the slider -->
+          <div class="slice-ticks">
+            <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+            <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+          </div>
+
+        </div>
+
+    </section>
     <section class="order-panel"></section>
   </main>
+
+  <!-- implement typescript for pizzaAssembly -->
+  <script type="module" src="/src/pizzaAssembly.ts"></script>
 </body>
 </html>
