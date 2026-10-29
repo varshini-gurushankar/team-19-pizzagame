@@ -8,6 +8,7 @@ const serveButton = document.getElementById("serve-btn");
 serveButton?.addEventListener("click", () => {
     console.log("Test: Serve Button Functioning ");
 
+    //Testing the validator 
     const order: Order = {
         slices: 4,
 
@@ -36,7 +37,7 @@ serveButton?.addEventListener("click", () => {
     if (slices === null){
         return; 
     }
-    
+
     const passValidator = validatePizza(order, slices, toppingsList);
 
     if (passValidator){
