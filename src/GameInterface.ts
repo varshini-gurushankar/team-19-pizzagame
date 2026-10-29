@@ -1,3 +1,5 @@
+const WARNING_PERCENT = 50;
+const DANGER_PERCENT = 25;
 
 export class GameInterface {
 
@@ -10,9 +12,9 @@ export class GameInterface {
     timeText.textContent = `${Math.ceil(time)}s`;
     fill.style.width = `${percent}%`;
 
-    if (percent > 50) {
+    if (percent > WARNING_PERCENT) {
       fill.style.background = "#65b979"; // Green
-    } else if (percent > 25) {
+    } else if (percent > DANGER_PERCENT) {
       fill.style.background = "#edb954"; // Yellow
     } else {
       fill.style.background = "#e46c6c"; // Red
