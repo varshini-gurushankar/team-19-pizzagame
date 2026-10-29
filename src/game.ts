@@ -12,4 +12,14 @@ export interface Order {
     }[];
 
     showDecimal: boolean;
+
+    
+}
+
+export interface OrderList { 
+    getOrders():Order[]; 
+}
+
+export interface TopingList { 
+    getTopingList(): Record<string, number> 
 }

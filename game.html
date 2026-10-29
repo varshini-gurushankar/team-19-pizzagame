@@ -108,6 +108,27 @@
       justify-content: center;
     }
 
+    /* centering the button */
+    .serve-btn {
+      display: block;
+      margin: 20px auto 0;
+      padding: 20px 30px;
+      border: none;
+      border-radius: 8px;
+      background: #49834d;
+      color: white;
+      font: bold 18px Arial, sans-serif;
+      cursor: pointer;
+      transition: background-color 0.5s ease, padding 0.5s ease; 
+    }
+
+    /* hover effect for the button */
+    .serve-btn:hover {
+      background-color: #286c47;
+      padding:23px 33px;
+    }
+
+
   </style>
 </head>
 <body>
@@ -141,6 +162,12 @@
             <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
           </div>
 
+          <!-- Serve Button -->
+           <div class="complete-order">
+            <button class="serve-btn" id = "serve-btn" type="button">Serve Pizza</button>
+           </div>
+
+
         </div>
 
     </section>
@@ -149,5 +176,8 @@
 
   <!-- implement typescript for pizzaAssembly -->
   <script type="module" src="/src/pizzaAssembly.ts"></script>
+
+  <!-- typescript for submitting pizza  -->
+  <script type="module" src="/src/serve.ts"></script>
 </body>
 </html>
