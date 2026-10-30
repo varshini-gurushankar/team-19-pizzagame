@@ -109,6 +109,13 @@
       text-align: center; 
     }
 
+    /* konva pizza */
+    #pizza-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
     /* The num in ^^^ label */
     #slice-count {
       color:#4a3fa0;
@@ -136,6 +143,13 @@
       width: 0px;                
       display: flex;
       justify-content: center;
+    }
+
+    /* toppings container */
+    #toppings-container {
+      width: 100%;
+      height: 300px;
+      margin-top: 300px;
     }
 
   </style>
@@ -169,7 +183,6 @@
     <section class="pizza-panel">
 
         <div id="pizza-container"></div> 
-        <!-- placeholder for konva pizza -->
 
         <!-- slice control area -->
         <div class="slice-control">
@@ -190,6 +203,8 @@
 
         </div>
 
+        <div id="toppings-container"></div>
+
     </section>
     <section class="order-panel"></section>
   </main>
@@ -197,5 +212,7 @@
   <!-- implement typescript for pizzaAssembly -->
   <script type="module" src="/src/pizzaAssembly.ts"></script>
   <script type="module" src="/src/game.ts"></script>
+  <script type="module" src="/src/toppingsView.ts"></script>
+  
 </body>
 </html>
