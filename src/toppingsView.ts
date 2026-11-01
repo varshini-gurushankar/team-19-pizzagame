@@ -32,15 +32,7 @@ pepperoniTopping.on('mouseout', function () {
 	document.body.style.cursor = 'default';
 });
 pepperoniTopping.on("dragend", function () {
-	const copy = this.clone({
-		x: this.x(),
-		y: this.y(),
-		draggable: true,
-	});
-	this.position({ x: 100, y: 250 });
-	this.getLayer().add(copy);
-	copy.moveToTop();
-	this.getLayer().batchDraw();
+	cloneFactory(this, "pepperoni", 100);
 });
 
 
@@ -79,15 +71,7 @@ onionsTopping.on('mouseout', function () {
 	document.body.style.cursor = 'default';
 });
 onionsTopping.on("dragend", function () {
-	const copy = this.clone({
-		x: this.x(),
-		y: this.y(),
-		draggable: true,
-	});
-	this.position({ x: 220, y: 250 });
-	this.getLayer().add(copy);
-	copy.moveToTop();
-	this.getLayer().batchDraw();
+	cloneFactory(this, "onions", 220);
 });
 
 
@@ -126,15 +110,7 @@ olivesTopping.on('mouseout', function () {
 	document.body.style.cursor = 'default';
 });
 olivesTopping.on("dragend", function () {
-	const copy = this.clone({
-		x: this.x(),
-		y: this.y(),
-		draggable: true,
-	});
-	this.position({ x: 340, y: 250 });
-	this.getLayer().add(copy);
-	copy.moveToTop();
-	this.getLayer().batchDraw();
+	cloneFactory(this, "olives", 340);
 });
 
 
@@ -186,16 +162,37 @@ basilTopping.on('mouseout', function () {
 	document.body.style.cursor = 'default';
 });
 basilTopping.on("dragend", function () {
-	const copy = this.clone({
-		x: this.x(),
-		y: this.y(),
+	cloneFactory(this, "basil", 460);
+});
+
+
+/******************************************************************************
+ * Topping Cloning
+ *****************************************************************************/
+
+type Toppings = "pepperoni" | "onions" | "olives" | "basil";
+
+type ToppingClone = {
+	type: Toppings;
+	node: Konva.Node;
+}
+
+// Array that saves all copies of cloned toppings
+export const toppingClonesArray: ToppingClone[] = [];
+
+function cloneFactory(node: Konva.Node, type: Toppings, x0: number): void {
+	const copy = node.clone({
+		x: node.x(),
+		y: node.y(),
 		draggable: true,
 	});
-	this.position({ x: 460, y: 250 });
-	this.getLayer().add(copy);
+	node.position({ x: x0, y: 250 });
+	layer.add(copy);
 	copy.moveToTop();
-	this.getLayer().batchDraw();
-});
+	// Push to array
+	toppingClonesArray.push({ type, node: copy });
+	layer.batchDraw();
+}
 
 
 /******************************************************************************
