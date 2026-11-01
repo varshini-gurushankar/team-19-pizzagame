@@ -1,3 +1,4 @@
+import { createPizza } from "./pizzaDrawing";
 
 export function setupSliceSlider(onChange: (slices: number) => void): void {
 
@@ -35,4 +36,14 @@ export function setupSliceSlider(onChange: (slices: number) => void): void {
     update();
     }
 
-setupSliceSlider((slices) => console.log("Slices:", slices));
+// create pizza
+const pizza = createPizza("pizza-container");
+
+// calls setupSliceSlider which takes the amount of slices as parameter
+setupSliceSlider(function(slices) {
+    //if pizza object exists
+    if (pizza) {
+        // draw this amount of slices 
+        pizza.setSlices(slices);
+    }
+});
