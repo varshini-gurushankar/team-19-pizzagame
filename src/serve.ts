@@ -18,7 +18,6 @@ failContButton.addEventListener("click", () => failPopUp.close());
 const serveButton = document.getElementById("serve-btn") as HTMLButtonElement;
 
 serveButton?.addEventListener("click", () => {
-    console.log("Test: Serve Button Functioning ");
 
     //Testing the validator 
     const order: Order = {

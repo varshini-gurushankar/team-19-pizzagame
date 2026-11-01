@@ -12,17 +12,17 @@ export function validatePizza(order: Order, slices: number, toppings: Record<str
     }
 
     //case if the user doesnt have the right topping proportions for customer 
-    for (const currtoppings of order.toppings){
+    for (const requiredTopping of order.toppings){
 
-        //customer topping specs 
-        const numer = currtoppings.numerator
-        const denom = currtoppings.denominator
+        //customer topping specs
+        const numer = requiredTopping.numerator
+        const denom = requiredTopping.denominator
 
         //Get the expect number of topings that we should have 
         const expectedToppings = (numer / denom) * slices
 
         //Get the current toping number on the pizza
-        const actual = toppings[currtoppings.toppingName] ?? 0;
+        const actual = toppings[requiredTopping.toppingName] ?? 0;
 
         if (expectedToppings != actual){
             return false; 
