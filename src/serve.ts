@@ -3,7 +3,23 @@ import { validatePizza } from "./validate";
 import { getSelectedSlices } from "./pizzaAssembly";
 
 
+//NEW EDITS
+const successModal = document.getElementById("success-modal");
+const continueButton = document.getElementById("continue-button");
+
+if (!(successModal instanceof HTMLDialogElement)) {
+    throw new Error("Missing #success-modal");
+}
+if (!(continueButton instanceof HTMLButtonElement)) {
+    throw new Error("Missing #continue-button");
+}
+
+continueButton.addEventListener("click", () => successModal.close());
+
+
 const serveButton = document.getElementById("serve-btn");
+
+
 
 serveButton?.addEventListener("click", () => {
     console.log("Test: Serve Button Functioning ");
@@ -41,7 +57,8 @@ serveButton?.addEventListener("click", () => {
     const passValidator = validatePizza(order, slices, toppingsList);
 
     if (passValidator){
-        alert("Success")
+        //Show that the user got the answer correct 
+        successModal.showModal()
     }
     else { 
         alert("False")

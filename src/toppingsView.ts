@@ -31,6 +31,9 @@ pepperoniTopping.on('mouseover', function () {
 pepperoniTopping.on('mouseout', function () {
 	document.body.style.cursor = 'default';
 });
+pepperoniTopping.on("dragend", function () {
+	cloneFactory(this, "pepperoni", 100);
+});
 
 
 /******************************************************************************
@@ -67,6 +70,9 @@ onionsTopping.on('mouseover', function () {
 onionsTopping.on('mouseout', function () {
 	document.body.style.cursor = 'default';
 });
+onionsTopping.on("dragend", function () {
+	cloneFactory(this, "onions", 220);
+});
 
 
 /******************************************************************************
@@ -102,6 +108,9 @@ olivesTopping.on('mouseover', function () {
 });
 olivesTopping.on('mouseout', function () {
 	document.body.style.cursor = 'default';
+});
+olivesTopping.on("dragend", function () {
+	cloneFactory(this, "olives", 340);
 });
 
 
@@ -152,6 +161,38 @@ basilTopping.on('mouseover', function () {
 basilTopping.on('mouseout', function () {
 	document.body.style.cursor = 'default';
 });
+basilTopping.on("dragend", function () {
+	cloneFactory(this, "basil", 460);
+});
+
+
+/******************************************************************************
+ * Topping Cloning
+ *****************************************************************************/
+
+type Toppings = "pepperoni" | "onions" | "olives" | "basil";
+
+type ToppingClone = {
+	type: Toppings;
+	node: Konva.Node;
+}
+
+// Array that saves all copies of cloned toppings
+export const toppingClonesArray: ToppingClone[] = [];
+
+function cloneFactory(node: Konva.Node, type: Toppings, x0: number): void {
+	const copy = node.clone({
+		x: node.x(),
+		y: node.y(),
+		draggable: true,
+	});
+	node.position({ x: x0, y: 250 });
+	layer.add(copy);
+	copy.moveToTop();
+	// Push to array
+	toppingClonesArray.push({ type, node: copy });
+	layer.batchDraw();
+}
 
 
 /******************************************************************************
