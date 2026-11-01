@@ -1,5 +1,4 @@
 import type { Order } from "./game.ts";
-import { toppingClonesArry } from "./toppingsView.js"
  
 // Parameters def: 
 // Order gets the current order
@@ -22,8 +21,8 @@ export function validatePizza(order: Order, slices: number, toppings: Record<str
         //Get the expect number of topings that we should have 
         const expectedToppings = (numer / denom) * slices
 
-        //Get the current toping number 
-        const actual  = toppings[currtoppings.toppingName] ?? 0;
+        //Get the current toping number on the pizza
+        const actual = toppings[currtoppings.toppingName] ?? 0;
 
         if (expectedToppings != actual){
             return false; 

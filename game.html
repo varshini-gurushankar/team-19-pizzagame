@@ -235,11 +235,17 @@
     </section>
   </main>
 
-  <dialog id="success-modal">
+  <dialog id="success">
     <h2>Congrats!</h2>
-    <p>Your order was successful!</p>
-    <button id="continue-button">Continue</button>
-</dialog>
+    <p>The order was successful!</p>
+    <button id="success-continue" type="button">Continue</button>
+  </dialog>
+
+  <dialog id="fail">
+    <h2>Oh No!</h2>
+    <p>The order was incorrect.</p>
+    <button id="fail-continue" type="button">Continue</button>
+  </dialog>
 
   <!-- implement typescript for pizzaAssembly -->
   <script type="module" src="/src/pizzaAssembly.ts"></script>

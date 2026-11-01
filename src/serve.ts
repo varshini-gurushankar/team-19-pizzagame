@@ -1,25 +1,21 @@
-import { Order, OrderList, TopingList } from "./game";
+import { Order } from "./game";
 import { validatePizza } from "./validate";
 import { getSelectedSlices } from "./pizzaAssembly";
+import { toppingClonesArray } from "./toppingsView"
+
+//success and fail pop ups 
+const successPopUp = document.getElementById("success") as HTMLDialogElement;
+const failPopUp = document.getElementById("fail") as HTMLDialogElement;
+
+//Continue buttons after popup 
+const successContButton = document.getElementById("success-continue") as HTMLButtonElement;
+const failContButton = document.getElementById("fail-continue") as HTMLButtonElement;
 
 
-//NEW EDITS
-const successModal = document.getElementById("success-modal");
-const continueButton = document.getElementById("continue-button");
+successContButton.addEventListener("click", () => successPopUp.close());
+failContButton.addEventListener("click", () => failPopUp.close());
 
-if (!(successModal instanceof HTMLDialogElement)) {
-    throw new Error("Missing #success-modal");
-}
-if (!(continueButton instanceof HTMLButtonElement)) {
-    throw new Error("Missing #continue-button");
-}
-
-continueButton.addEventListener("click", () => successModal.close());
-
-
-const serveButton = document.getElementById("serve-btn");
-
-
+const serveButton = document.getElementById("serve-btn") as HTMLButtonElement;
 
 serveButton?.addEventListener("click", () => {
     console.log("Test: Serve Button Functioning ");
@@ -35,7 +31,7 @@ serveButton?.addEventListener("click", () => {
                 denominator: 2
             },
             {
-                toppingName: "mushroom",
+                toppingName: "olives",
                 numerator: 1,
                 denominator: 2
             }
@@ -44,24 +40,31 @@ serveButton?.addEventListener("click", () => {
         showDecimal: false
     };
 
-    const toppingsList: Record<string, number> = {
-        pepperoni: 2, 
-        mushroom: 2
-    }
+    // const toppingsList: Record<string, number> = {
+    //     pepperoni: 2, 
+    //     mushroom: 2
+    // }
 
     const slices = getSelectedSlices(); 
     if (slices === null){
         return; 
     }
 
+    const toppingsList: Record<string, number> = {};
+
+    for (const topping of toppingClonesArray) {
+        const name = topping.type;
+        toppingsList[name] = (toppingsList[name] ?? 0) + 1;
+    }
+
     const passValidator = validatePizza(order, slices, toppingsList);
 
     if (passValidator){
         //Show that the user got the answer correct 
-        successModal.showModal()
+        successPopUp.showModal();
     }
     else { 
-        alert("False")
+        failPopUp.showModal();
     }
     
 });
