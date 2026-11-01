@@ -31,6 +31,17 @@ pepperoniTopping.on('mouseover', function () {
 pepperoniTopping.on('mouseout', function () {
 	document.body.style.cursor = 'default';
 });
+pepperoniTopping.on("dragend", function () {
+	const copy = this.clone({
+		x: this.x(),
+		y: this.y(),
+		draggable: true,
+	});
+	this.position({ x: 100, y: 250 });
+	this.getLayer().add(copy);
+	copy.moveToTop();
+	this.getLayer().batchDraw();
+});
 
 
 /******************************************************************************
@@ -67,6 +78,17 @@ onionsTopping.on('mouseover', function () {
 onionsTopping.on('mouseout', function () {
 	document.body.style.cursor = 'default';
 });
+onionsTopping.on("dragend", function () {
+	const copy = this.clone({
+		x: this.x(),
+		y: this.y(),
+		draggable: true,
+	});
+	this.position({ x: 220, y: 250 });
+	this.getLayer().add(copy);
+	copy.moveToTop();
+	this.getLayer().batchDraw();
+});
 
 
 /******************************************************************************
@@ -102,6 +124,17 @@ olivesTopping.on('mouseover', function () {
 });
 olivesTopping.on('mouseout', function () {
 	document.body.style.cursor = 'default';
+});
+olivesTopping.on("dragend", function () {
+	const copy = this.clone({
+		x: this.x(),
+		y: this.y(),
+		draggable: true,
+	});
+	this.position({ x: 340, y: 250 });
+	this.getLayer().add(copy);
+	copy.moveToTop();
+	this.getLayer().batchDraw();
 });
 
 
@@ -151,6 +184,17 @@ basilTopping.on('mouseover', function () {
 });
 basilTopping.on('mouseout', function () {
 	document.body.style.cursor = 'default';
+});
+basilTopping.on("dragend", function () {
+	const copy = this.clone({
+		x: this.x(),
+		y: this.y(),
+		draggable: true,
+	});
+	this.position({ x: 460, y: 250 });
+	this.getLayer().add(copy);
+	copy.moveToTop();
+	this.getLayer().batchDraw();
 });
 
 
