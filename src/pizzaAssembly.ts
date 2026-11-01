@@ -1,4 +1,5 @@
 import { createPizza } from "./pizzaDrawing";
+import { setupToppings } from "./toppingsView";
 
 export function setupSliceSlider(onChange: (slices: number) => void): void {
 
@@ -46,6 +47,10 @@ export function getSelectedSlices(): number | null {
 }
 // create pizza
 const pizza = createPizza("pizza-container");
+
+if (pizza) {
+    setupToppings(pizza.layer, pizza.pizzaSize);
+}
 
 // calls setupSliceSlider which takes the amount of slices as parameter
 setupSliceSlider(function(slices) {
