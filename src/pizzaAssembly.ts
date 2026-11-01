@@ -37,6 +37,12 @@ export function setupSliceSlider(onChange: (slices: number) => void): void {
     update();
     }
 
+//Slider value to select slices (used in serve.ts)
+export function getSelectedSlices(): number | null { 
+    const slider = document.getElementById("slice-slider") as HTMLInputElement | null;
+    return slider ? Number(slider.value) : null;
+}
+
 // create pizza
 const pizza = createPizza("pizza-container");
 
