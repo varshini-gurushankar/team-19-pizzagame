@@ -1,6 +1,7 @@
 // main game: has shared state + game loop
 import { PatienceMeter } from "./PatienceMeter";
 import { GameInterface } from "./GameInterface";
+import { formatOrder } from "./formatOrder";
 
 const gameUI = new GameInterface();
 
@@ -38,14 +39,11 @@ export const currentOrder: Order = {
         { toppingName: "pepperoni", numerator: 1, denominator: 2 },
         { toppingName: "olives", numerator: 1, denominator: 2 },
     ],
-    showDecimal: false,
+        showDecimal: true,
 };
 
 const orderDetails = document.getElementById("order-details");
 
 if (orderDetails) {
-    const parts = currentOrder.toppings.map((topping) => {
-        return `${topping.numerator}/${topping.denominator} ${topping.toppingName}`;
-    });
-    orderDetails.textContent = `Cut into ${currentOrder.slices} slices. ${parts.join(" and ")}.`;
+    orderDetails.textContent = formatOrder(currentOrder);
 }
