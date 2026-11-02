@@ -11,6 +11,10 @@ const CHEESE_RATIO = 0.9;
 // room under the pie so toppings can sit in the same canvas and be dragged onto it
 const TRAY_HEIGHT = 120;
 
+// so that setSlices(0) doesnt result in doing 360/0
+export const MIN_SLICES = 1;
+export const MAX_SLICES = 10;
+
 //create pizza interface usable in other files promises setSlices function
 export interface Pizza {
     setSlices(slices: number): void;
@@ -62,6 +66,12 @@ export function createPizza(containerId: string): Pizza | null {
     // function for making x slices
     function setSlices(slices: number): void {
         // delete old slices in the sliceGroup before making new ones
+
+        if (!Number.isInteger(slices) || slices < MIN_SLICES || slices > MAX_SLICES) {
+            console.error(`Invalid slice count: ${slices}`);
+            return;
+        }
+        
         sliceGroup.destroyChildren();
 
         // 1 slice = blank pizza
