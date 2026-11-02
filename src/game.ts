@@ -16,9 +16,6 @@ const patience = new PatienceMeter(
 // when customer arrives:
 patience.start();
 
-// when player serves pizza:
-// patience.stop();
-
 export interface Order {
     
     slices: number;     
@@ -32,5 +29,23 @@ export interface Order {
 
     showDecimal: boolean;
 
-    
+}
+
+// shown under the patience meter; Serve checks this same order
+export const currentOrder: Order = {
+    slices: 4,
+    toppings: [
+        { toppingName: "pepperoni", numerator: 1, denominator: 2 },
+        { toppingName: "olives", numerator: 1, denominator: 2 },
+    ],
+    showDecimal: false,
+};
+
+const orderDetails = document.getElementById("order-details");
+
+if (orderDetails) {
+    const parts = currentOrder.toppings.map((topping) => {
+        return `${topping.numerator}/${topping.denominator} ${topping.toppingName}`;
+    });
+    orderDetails.textContent = `Cut into ${currentOrder.slices} slices. ${parts.join(" and ")}.`;
 }
