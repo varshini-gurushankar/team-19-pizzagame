@@ -1,4 +1,4 @@
-import { Order } from "./game";
+import { currentOrder } from "./game";
 import { validatePizza } from "./validate";
 import { getSelectedSlices } from "./pizzaAssembly";
 import { toppingClonesArray } from "./toppingsView"
@@ -19,30 +19,7 @@ const serveButton = document.getElementById("serve-btn") as HTMLButtonElement;
 
 serveButton?.addEventListener("click", () => {
 
-    //Testing the validator 
-    const order: Order = {
-        slices: 4,
-
-        toppings: [
-            {
-                toppingName: "pepperoni",
-                numerator: 1,
-                denominator: 2
-            },
-            {
-                toppingName: "olives",
-                numerator: 1,
-                denominator: 2
-            }
-        ],
-
-        showDecimal: false
-    };
-
-    // const toppingsList: Record<string, number> = {
-    //     pepperoni: 2, 
-    //     mushroom: 2
-    // }
+    const order = currentOrder;
 
     const slices = getSelectedSlices(); 
     if (slices === null){
