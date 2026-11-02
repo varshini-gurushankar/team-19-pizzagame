@@ -1,15 +1,20 @@
 import Konva from 'konva';
 
-const container = document.getElementById('toppings-container');
-if(!container) throw new Error('Missing #toppings-container');
+type Toppings = "pepperoni" | "onions" | "olives" | "basil";
 
-const stage = new Konva.Stage({
-	container,
-	width:		container.clientWidth,
-	height:		container.clientHeight
-});
+type ToppingClone = {
+	type: Toppings;
+	node: Konva.Node;
+}
 
-const layer = new Konva.Layer();
+// Array that saves all copies of cloned toppings
+export const toppingClonesArray: ToppingClone[] = [];
+
+export function setupToppings(layer: Konva.Layer, pizzaSize: number): void {
+	const trayY = pizzaSize + 58;
+	const margin = 46;
+	const span = pizzaSize - margin * 2;
+	const xs = [0, 1, 2, 3].map((i) => margin + (span * i) / 3);
 
 
 /******************************************************************************
@@ -17,8 +22,8 @@ const layer = new Konva.Layer();
  *****************************************************************************/
 
 const pepperoniTopping = new Konva.Circle({
-	x: 100,
-	y: 250,
+	x: xs[0],
+	y: trayY,
 	radius: 30,
 	fill: 'red',
 	stroke: 'black',
@@ -31,6 +36,9 @@ pepperoniTopping.on('mouseover', function () {
 pepperoniTopping.on('mouseout', function () {
 	document.body.style.cursor = 'default';
 });
+pepperoniTopping.on("dragend", function () {
+	cloneFactory(this, "pepperoni", xs[0]);
+});
 
 
 /******************************************************************************
@@ -38,8 +46,8 @@ pepperoniTopping.on('mouseout', function () {
  *****************************************************************************/
 
 const onionsTopping = new Konva.Group({
-	x: 220,
-	y: 250,
+	x: xs[1],
+	y: trayY,
 	rotation: -15,
 	draggable: true,
 });
@@ -67,6 +75,9 @@ onionsTopping.on('mouseover', function () {
 onionsTopping.on('mouseout', function () {
 	document.body.style.cursor = 'default';
 });
+onionsTopping.on("dragend", function () {
+	cloneFactory(this, "onions", xs[1]);
+});
 
 
 /******************************************************************************
@@ -74,8 +85,8 @@ onionsTopping.on('mouseout', function () {
  *****************************************************************************/
 
 const olivesTopping = new Konva.Group({
-	x: 340,
-	y: 250,
+	x: xs[2],
+	y: trayY,
 	rotation: -155,
 	draggable: true,
 });
@@ -85,7 +96,7 @@ olivesTopping.add(new Konva.Ellipse({
 	radiusX: 35,
 	radiusY: 29,
 	fill: '#665f4d',
-	stroke: '#black',
+	stroke: 'black',
 	strokeWidth: 2,
 }));
 olivesTopping.add(new Konva.Ellipse({
@@ -103,6 +114,9 @@ olivesTopping.on('mouseover', function () {
 olivesTopping.on('mouseout', function () {
 	document.body.style.cursor = 'default';
 });
+olivesTopping.on("dragend", function () {
+	cloneFactory(this, "olives", xs[2]);
+});
 
 
 /******************************************************************************
@@ -110,8 +124,8 @@ olivesTopping.on('mouseout', function () {
  *****************************************************************************/
 
 const basilTopping = new Konva.Group({
-	x: 460,
-	y: 250,
+	x: xs[3],
+	y: trayY,
 	draggable: true,
 });
 basilTopping.add(new Konva.Line({
@@ -152,6 +166,28 @@ basilTopping.on('mouseover', function () {
 basilTopping.on('mouseout', function () {
 	document.body.style.cursor = 'default';
 });
+basilTopping.on("dragend", function () {
+	cloneFactory(this, "basil", xs[3]);
+});
+
+
+/******************************************************************************
+ * Topping Cloning
+ *****************************************************************************/
+
+function cloneFactory(node: Konva.Node, type: Toppings, x0: number): void {
+	const copy = node.clone({
+		x: node.x(),
+		y: node.y(),
+		draggable: true,
+	});
+	node.position({ x: x0, y: trayY });
+	layer.add(copy);
+	copy.moveToTop();
+	// Push to array
+	toppingClonesArray.push({ type, node: copy });
+	layer.batchDraw();
+}
 
 
 /******************************************************************************
@@ -162,5 +198,5 @@ layer.add(pepperoniTopping);
 layer.add(onionsTopping);
 layer.add(olivesTopping);
 layer.add(basilTopping);
-
-stage.add(layer);
+layer.batchDraw();
+}

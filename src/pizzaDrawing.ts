@@ -8,10 +8,14 @@ const CUT_COLOR = "#7a3b1f";
 // pizza max_size in px, cheese ratio multiplier leaves the rest for the crust
 const MAX_SIZE = 420;
 const CHEESE_RATIO = 0.9;
+// room under the pie so toppings can sit in the same canvas and be dragged onto it
+const TRAY_HEIGHT = 120;
 
 //create pizza interface usable in other files promises setSlices function
 export interface Pizza {
     setSlices(slices: number): void;
+    layer: Konva.Layer;
+    pizzaSize: number;
 }
 
 //function that makes pizza, takes html element, returns null
@@ -37,8 +41,12 @@ export function createPizza(containerId: string): Pizza | null {
     // keep cheese outside of crust
     const cheeseRadius = radius * CHEESE_RATIO;
 
-    //main drawing area
-    const stage = new Konva.Stage({ container: containerId, width: size, height: size });
+    // pie on top, topping tray in the extra height so both live in this container
+    const stage = new Konva.Stage({
+        container: containerId,
+        width: size,
+        height: size + TRAY_HEIGHT,
+    });
 
     //create layer
     const layer = new Konva.Layer();
@@ -88,6 +96,8 @@ export function createPizza(containerId: string): Pizza | null {
 
     //returns pizza object with setSlices function so that createPizza can use it
     return {
-        setSlices: setSlices
+        setSlices: setSlices,
+        layer,
+        pizzaSize: size,
     };
 }
