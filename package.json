@@ -20,6 +20,7 @@
   "homepage": "https://github.com/varshini-gurushankar/team-19-pizzagame#readme",
   "devDependencies": {
     "@types/node": "^26.6.5",
+    "jsdom": "^30.1.3",
     "typescript": "^7.0.2",
     "vite": "^8.3.5",
     "vitest": "^4.1.12"
