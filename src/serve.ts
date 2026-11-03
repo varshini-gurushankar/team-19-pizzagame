@@ -1,6 +1,6 @@
 import { currentOrder } from "./game";
 import { validatePizza } from "./validate";
-import { getSelectedSlices } from "./pizzaAssembly";
+import { getSelectedSlices } from "./sliceSlider";
 import { toppingClonesArray } from "./toppingsView"
 
 //success and fail pop ups 
