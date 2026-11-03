@@ -62,7 +62,7 @@ const fakeKonva = vi.hoisted(() => {
 // replaces konva library with fake mockup konva we made
 vi.mock("konva", () => ({ default: fakeKonva.Konva }));
 
-import { createPizza, MAX_SLICES } from "./pizzaDrawing";
+import { createPizza, MAX_SLICES } from "../pizzaDrawing";
 
 // extracts Circle and Wedge classes so that we can write:
 // Circle instead of fakeKonva.Konva.Circle

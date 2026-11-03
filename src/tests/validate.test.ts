@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { validatePizza } from "./validate";
-import type { Order } from "./game";
+import { validatePizza } from "../validate";
+import type { Order } from "../game";
 
 const pepperoniAndOlives: Order = {
     slices: 4,
