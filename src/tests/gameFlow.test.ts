@@ -1,5 +1,5 @@
 import { describe, expect, it} from "vitest";
-import {GameFlow} from "../gameflow";
+import {GameFlow} from "../gameFlow";
 import { orders } from "../orders";
 
 describe("GameFlow", () => {
