@@ -2,6 +2,7 @@
 import { PatienceMeter } from "./PatienceMeter";
 import { GameInterface } from "./GameInterface";
 import { formatOrder } from "./formatOrder";
+import {type Order, orders} from "./orders";
 
 const gameUI = new GameInterface();
 
@@ -17,30 +18,9 @@ const patience = new PatienceMeter(
 // when customer arrives:
 patience.start();
 
-export interface Order {
-    
-    slices: number;     
-
-    //toppings as list of objects with name, and amount
-    toppings: {
-        toppingName: string; 
-        numerator: number;
-        denominator: number; 
-    }[];
-
-    showDecimal: boolean;
-
-}
 
 // shown under the patience meter; Serve checks this same order
-export const currentOrder: Order = {
-    slices: 4,
-    toppings: [
-        { toppingName: "pepperoni", numerator: 1, denominator: 2 },
-        { toppingName: "olives", numerator: 1, denominator: 2 },
-    ],
-        showDecimal: true,
-};
+export const currentOrder: Order = orders[0];
 
 const orderDetails = document.getElementById("order-details");
 

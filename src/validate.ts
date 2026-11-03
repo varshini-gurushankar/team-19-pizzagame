@@ -1,4 +1,4 @@
-import type { Order } from "./game.ts";
+import type { Order } from "./orders";
  
 // Parameters def: 
 // Order gets the current order
