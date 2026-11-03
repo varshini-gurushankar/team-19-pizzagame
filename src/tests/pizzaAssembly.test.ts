@@ -3,16 +3,16 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 // replaces file with a mock that provides a fake mock function
 // we dont need to test those functions again
 // we just want to know that the file is communicating with the other files correctly
-vi.mock("./pizzaDrawing", () => ({ createPizza: vi.fn() }));
-vi.mock("./toppingsView", () => ({ setupToppings: vi.fn() }));
-vi.mock("./sliceSlider", () => ({ setupSliceSlider: vi.fn() }));
+vi.mock("../pizzaDrawing", () => ({ createPizza: vi.fn() }));
+vi.mock("../toppingsView", () => ({ setupToppings: vi.fn() }));
+vi.mock("../sliceSlider", () => ({ setupSliceSlider: vi.fn() }));
 
 // pizzaAssembly runs on import
 async function loadPage() {
     //await makes sure each import finishes before moving on
-    const { createPizza } = await import("./pizzaDrawing");
-    const { setupToppings } = await import("./toppingsView");
-    const { setupSliceSlider } = await import("./sliceSlider");
+    const { createPizza } = await import("../pizzaDrawing");
+    const { setupToppings } = await import("../toppingsView");
+    const { setupSliceSlider } = await import("../sliceSlider");
     //returns object with 4 properties
     return {
         //mocked createPizza function
@@ -22,7 +22,7 @@ async function loadPage() {
         //mocked setupSliceSlider function
         setupSliceSlider: vi.mocked(setupSliceSlider),
         //imports pizzaAssembly causing it to run, so we can control when to run it
-        run: () => import("./pizzaAssembly"),
+        run: () => import("../pizzaAssembly"),
     };
 }
 
