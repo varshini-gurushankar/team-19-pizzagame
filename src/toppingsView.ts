@@ -183,6 +183,9 @@ function cloneFactory(node: Konva.Node, type: Toppings, x0: number): void {
 	});
 	node.position({ x: x0, y: trayY });
 	layer.add(copy);
+
+	console.log("Added: " + copy);
+
 	copy.moveToTop();
 	// Push to array
 	toppingClonesArray.push({ type, node: copy });

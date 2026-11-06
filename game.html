@@ -187,6 +187,20 @@
       margin-bottom: 10px;
     }
 
+    /* undo button */
+    #undo-button {
+      display: block;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #49834d;
+      color: white;
+      font: bold 18px Arial, sans-serif;
+      cursor: pointer;
+      transition: background-color 0.5s ease, padding 0.5s ease;
+      left: 40px;
+    }
+
   </style>
 </head>
 <body>
@@ -218,7 +232,10 @@
     <!-- in the pizza panel box -->
     <section class="pizza-panel">
 
-        <div id="pizza-container"></div> 
+        <!-- Undo Button -->
+        <button id="undo-button" type="button">Undo</button>
+
+        <div id="pizza-container"></div>
 
         <!-- slice control area -->
         <div class="slice-control">
@@ -268,6 +285,7 @@
   <!-- typescript for submitting pizza  -->
   <script type="module" src="/src/serve.ts"></script>
   <script type="module" src="/src/game.ts"></script>
+  <script type="module" src="/src/undoButtonView.ts"></script>
   
 </body>
 </html>
