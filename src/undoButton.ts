@@ -8,12 +8,13 @@ if (!(undoButton instanceof HTMLButtonElement)) {
 
 undoButton.addEventListener("click", () => {
     const clonedTopping = toppingClonesArray.pop();
-    if(!clonedTopping) return;
-
+    if(!clonedTopping) {
+        console.log("Empty.. " + toppingClonesArray.length);
+        return;
+    }
     const layer = clonedTopping.node.getLayer();
     clonedTopping.node.destroy();
+    layer?.batchDraw();
 
     console.log("Deleted: " + clonedTopping.type);
-
-    layer?.batchDraw();
 });
