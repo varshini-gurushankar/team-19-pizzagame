@@ -16,5 +16,6 @@ undoButton.addEventListener("click", () => {
     clonedTopping.node.destroy();
     layer?.batchDraw();
 
-    console.log("Deleted: " + clonedTopping.type);
+    console.log("Deleted: " + clonedTopping.type + "\nNum of Toppings: " +
+            toppingClonesArray.length);
 });
