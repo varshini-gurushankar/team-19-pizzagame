@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import {orders, toppingNames} from "../orders";
-import {validatePizza} from "../validate";
+import {orders, toppingNames} from "../../customer/CustomerModel";
+import {validatePizza} from "../../pizza/PizzaModel";
 
 
 // i wrote these tests so every order can be built in the game and we can catch any impossible orders

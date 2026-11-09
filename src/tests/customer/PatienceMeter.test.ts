@@ -8,7 +8,7 @@ import {
   afterEach, //runs cleanup code after every test
 } from "vitest";
 
-import { PatienceMeter } from "../PatienceMeter";
+import { PatienceMeter } from "../../customer/CustomerModel";
 
 describe("PatienceMeter", () => {
 

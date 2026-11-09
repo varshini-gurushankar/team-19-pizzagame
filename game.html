@@ -279,13 +279,10 @@
     <button id="fail-continue" type="button">Continue</button>
   </dialog>
 
-  <!-- implement typescript for pizzaAssembly -->
-  <script type="module" src="/src/pizzaAssembly.ts"></script>
-
-  <!-- typescript for submitting pizza  -->
-  <script type="module" src="/src/serve.ts"></script>
-  <script type="module" src="/src/game.ts"></script>
-  <script type="module" src="/src/undoButton.ts"></script>
+  <script type="module">
+    import { startGame } from "/src/game/GameController.ts";
+    startGame();
+  </script>
   
 </body>
 </html>
