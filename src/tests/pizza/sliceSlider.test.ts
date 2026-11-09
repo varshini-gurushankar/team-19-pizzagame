@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { setupSliceSlider, getSelectedSlices } from "../sliceSlider";
+import { setupSliceSlider, getSelectedSlices } from "../../pizza/sliceSlider";
 
 // start value is default 1, string because of html input
 function renderSlider(startValue = "1") {

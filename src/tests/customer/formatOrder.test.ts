@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatOrder, type OrderText } from "../formatOrder";
+import { formatOrder, type OrderText } from "../../customer/formatOrder";
 
 const pepperoniAndOlives: OrderText = {
     slices: 4,

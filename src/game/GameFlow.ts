@@ -1,5 +1,4 @@
-import { currentOrder } from "./game";
-import type { Order } from "./orders";
+import type { Order } from "../customer/CustomerModel";
 
 // this class checks what customer we are on, what score it is and if the game is still going
 export class GameFlow {
@@ -20,7 +19,7 @@ export class GameFlow {
         return this.round >= this.orders.length;
     }
 
-    // if the player presses serve, it goes to the result from validate.ts to check if the player inputted the right order
+    // if the player presses serve, it goes to the result from the pizza check to see if the player inputted the right order
     serve(passed: boolean): void {
         if (!this.wait){
             return;
