@@ -47,4 +47,19 @@ describe("validatePizza", () => {
 
         expect(validatePizza(noPepperoniOrder, 4, {pepperoni: 0})).toBe(true); 
     })
+
+    //Add test that checks for extra toppings that is not on customer specs 
+    it("denies pizzas that has extra toppings on it", () => {
+        const pepperonibasilOrder: Order = {
+            slices: 8,
+            toppings: [
+                { toppingName: "pepperoni", numerator: 2, denominator: 4 },
+                { toppingName: "basil", numerator:1, denominator:8}
+            ],
+            showDecimal: false
+        }; 
+
+        expect(validatePizza(pepperonibasilOrder, 8, {pepperoni: 4, basil:1, olives:3})).toBe(false); 
+    })
+    
 })
