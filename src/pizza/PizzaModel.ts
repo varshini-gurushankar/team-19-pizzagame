@@ -27,6 +27,19 @@ export function validatePizza(order: Order, slices: number, toppings: Record<str
         if (expectedToppings != actual){
             return false;
         }
+
+        //Check for extra toppings on the pizza that is not needed 
+        for (const toppingName in toppings) {
+
+            const found = order.toppings.find(requiredTopping => requiredTopping.toppingName === toppingName);
+
+            if (found === undefined && toppings[toppingName] > 0) {
+                return false;
+            }
+        }
+
+        //Check for topping that falls outside pizza
+        
     }
 
 
