@@ -17,6 +17,7 @@ export interface Order {
         denominator: number;
     }[];
 
+
     //true shows decimals, false shows fractions
     showDecimal: boolean;
   
