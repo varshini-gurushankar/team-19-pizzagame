@@ -22,6 +22,14 @@ export interface Pizza {
     pizzaSize: number;
 }
 
+//Dictionary of sizes for each topping
+export const topping_sizes = {
+    pepperoni: 30,
+    onions: 32,
+    olives: 35,
+    basil: 35,
+}
+
 //function that makes pizza, takes html element, returns null
 export function createPizza(containerId: string): Pizza | null {
     //finds html container

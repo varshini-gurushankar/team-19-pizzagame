@@ -1,7 +1,7 @@
 import { currentOrder, startCustomer } from "../customer/CustomerController";
 import { bindUndo, setupPizza } from "../pizza/PizzaController";
 import { validatePizza } from "../pizza/PizzaModel";
-import { toppingClonesArray } from "../pizza/PizzaView";
+import { toppingClonesArray, topping_sizes } from "../pizza/PizzaView";
 import { getSelectedSlices } from "../pizza/sliceSlider";
 
 export function startGame(): void {
@@ -10,6 +10,7 @@ export function startGame(): void {
     bindServe();
     bindUndo();
 }
+
 
 function bindServe(): void {
     const successPopUp = document.getElementById("success") as HTMLDialogElement;
@@ -35,7 +36,21 @@ function bindServe(): void {
             toppingsList[name] = (toppingsList[name] ?? 0) + 1;
         }
 
-        const passValidator = validatePizza(currentOrder, slices, toppingsList);
+        const placedToppings = toppingClonesArray.map(({ type, node }) => {
+            const { x, y } = node.getAbsolutePosition();
+            return { x, y, radius: topping_sizes[type] };
+        });
+
+        //Get the konva stage width
+        const pizzaSize = toppingClonesArray[0]?.node.getStage()?.width() ?? 0;
+
+        const passValidator = validatePizza(currentOrder, slices, {
+            toppings: toppingsList,
+            placedToppings,
+            pizzaSize,
+        });
+
+        //console.log(pizzaSize)
 
         if (passValidator) {
             successPopUp.showModal();
