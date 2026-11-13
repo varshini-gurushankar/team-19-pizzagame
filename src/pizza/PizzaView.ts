@@ -287,15 +287,19 @@ basilTopping.on("dragend", function () {
  *****************************************************************************/
 
 function cloneFactory(node: Konva.Node, type: Toppings, x0: number): void {
+	if(node.getAttr("isToppingClone")) return;
 	const copy = node.clone({
 		x: node.x(),
 		y: node.y(),
 		draggable: true,
 	});
+
+	copy.setAttr("isToppingClone", true);
 	node.position({ x: x0, y: trayY });
 	layer.add(copy);
 
-	console.log("Added: " + copy);
+	console.log("Added: " + type + "\nNum of Toppings: " +
+			(toppingClonesArray.length+1));
 
 	copy.moveToTop();
 	// Push to array
