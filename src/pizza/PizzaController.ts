@@ -21,13 +21,18 @@ export function bindUndo(): void {
 
     undoButton.addEventListener("click", () => {
         const clonedTopping = toppingClonesArray.pop();
-        if (!clonedTopping) return;
 
+        if(!clonedTopping) {
+            console.log("Empty.. " + toppingClonesArray.length);
+            return;
+        }
         const layer = clonedTopping.node.getLayer();
         clonedTopping.node.destroy();
-
         console.log("Deleted: " + clonedTopping.type);
 
         layer?.batchDraw();
+
+        console.log("Deleted: " + clonedTopping.type + "\nNum of Toppings: " +
+                toppingClonesArray.length);
     });
 }
