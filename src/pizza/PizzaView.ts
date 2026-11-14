@@ -11,9 +11,12 @@ const CHEESE_RATIO = 0.9;
 // room under the pie so toppings can sit in the same canvas and be dragged onto it
 const TRAY_HEIGHT = 120;
 
+// <---- commenting this out for now since I moved them to sliceLimits.ts
 // so that setSlices(0) doesnt result in doing 360/0
-export const MIN_SLICES = 1;
-export const MAX_SLICES = 10;
+//export const MIN_SLICES = 1;
+//export const MAX_SLICES = 10;
+import { MIN_SLICES, MAX_SLICES } from "./sliceLimits";
+export { MIN_SLICES, MAX_SLICES } from "./sliceLimits"; //rexport so if someone is still using these variables, it'll continue to work
 
 //create pizza interface usable in other files promises setSlices function
 export interface Pizza {
