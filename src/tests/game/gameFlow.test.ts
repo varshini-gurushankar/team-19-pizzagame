@@ -1,6 +1,6 @@
 import { describe, expect, it} from "vitest";
-import {GameFlow} from "../gameFlow";
-import { orders } from "../orders";
+import {GameFlow} from "../../game/GameFlow";
+import { orders } from "../../customer/CustomerModel";
 
 describe("GameFlow", () => {
 
