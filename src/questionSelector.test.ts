@@ -1,23 +1,25 @@
 /**
  * == GOAL ==
- * select questions for each day,
- * prioritize prviously missed questions,
- * avoid repeated questions within a day,
- * and mix new questions with review questions
+ *  (1) select questions for each day,
+ *  (2) prioritize prviously missed questions,
+ *  (3) avoid repeated questions within a day,
+ *  (4) and mix new questions with review questions
  */
+
+import {
+    describe,
+    expect,
+    it
+} from "vitest";
 
 import {
     getQuestionsByDifficulty,
     getQuestionById
 } from "./customer/QuestionBank.ts"
 
-import {
-    dailyQuestionPicker
-} from "./questionSelector.ts"
+import { dailyQuestionPicker } from "./questionSelector.ts"
 
-import type {
-    QuestionResult
-} from "./questionSelector.ts"
+import type { QuestionResult } from "./questionSelector.ts"
 
 /**
  * Arrays for testing
@@ -65,17 +67,28 @@ export let missedQuestions: QuestionResult[] = [
     { success: false, question: getQuestionById("q29")! },
 ];
 
+describe("dailyQuestionPicker", () => {
+    it("returns 10 unique questions and includes missed questions for review",
+       () => {
+           /**
+            * Pass all four inputs to the function. Copy missedQuestions
+            *  b/c the picker may remove review questions from the array.
+            */
+           const result = dailyQuestionPicker(
+               10,
+               playerData,
+               recentScores,
+               [...missedQuestions]
+           );
 
-/**
- * Called here for testing (WIP)
- */
-const dailyQ: QuestionResult[] = dailyQuestionPicker(
-    10,
-    playerData,
-    recentScores,
-    missedQuestions
-);
+           expect(result).toHaveLength(10);
 
-//console.log(dailyQ);
-console.log("Questions for the Day (output):\n" +
-JSON.stringify(dailyQ, null, 2));
+           const resultIds = result.map(item => item.question.id);
+           expect(new Set(resultIds).size).toBe(resultIds.length);
+
+           // With these scores, the picker should select 4 review questions.
+           for(const missed of missedQuestions.slice(0, 4)) {
+               expect(resultIds).toContain(missed.question.id);
+           }
+  });
+});

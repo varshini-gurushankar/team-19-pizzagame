@@ -129,10 +129,8 @@ export function dailyQuestionPicker(
      */
     let mqLen: number = missedQuestions.length;
     if(mqLen > 0)
-        for(let i = 0; (i < numOfReviewQ) && (i < mqLen); ++i) {
-            result.push(missedQuestions[i]);
-            missedQuestions.shift();
-        }
+        for(let i = 0; (i < numOfReviewQ) && (i < mqLen); ++i)
+            result.push(missedQuestions.shift()!);
 
     let j = result.length;
     while(
