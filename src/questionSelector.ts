@@ -7,20 +7,25 @@
 
 import {
     getQuestionsByDifficulty,
-    getQuestionById
+    getQuestionById,
+    type Question,
+    type Difficulty,
 } from "./customer/QuestionBank.ts"
 
-// Variables and Types
+
+/** Variables and Types */
 
 export type QuestionResult = {
-    success: boolean;
+    success:  boolean;
     question: Question;
 };
 
 let playerTier: Difficulty = "easy";
 const NUM_OF_QUESTIONS: number = 10;
+const HIGH_SCORE: number = 0.9;
+const LOW_SCORE: number = 0.5;
 
-// Function Definitions
+/** Function Definitions */
 
 /**
  * Helper Function for shuffling questions in array . .
@@ -45,7 +50,7 @@ function FY_shuffle(arr: QuestionResult[]): QuestionResult[] {
  * @param playerData array
  * @return number
  */
-function normalize(
+function playerSuccessRate(
     recentScores: QuestionResult[],
     playerData:   QuestionResult[]
 ): number {
@@ -86,7 +91,7 @@ export function dailyQuestionPicker(
     day: number,
     playerData:      QuestionResult[],
     recentScores:    QuestionResult[],
-    missedQuestions: QuestionResult[]
+    missedQuestions: Question["id"][]
 ): QuestionResult[] {
     // The array that will be returned to after being populated with questions.
     let result: QuestionResult[] = [];
@@ -100,21 +105,22 @@ export function dailyQuestionPicker(
      *  long enough.
      */
     if(day > 2) {
-       /**
+        /**
          * For all days after the first two, we have more data to decide what
          *  type of difficulty the player needs.
          */
         let rcLen: number = recentScores.length;
-        if(rcLen >= 10) {
-            let norm: number = normalize(recentScores, playerData);
+        if(rcLen >= NUM_OF_QUESTIONS) {
+            let norm: number = playerSuccessRate(recentScores, playerData);
             console.log("NORM: " + norm);
 
-            // If the player has been doing very well, rank up!
-            if((playerTier !== "hard") && (norm >= .9))
+            // If the player has been doing very well (over 90%), rank up!
+            if((playerTier !== "hard") && (norm >= HIGH_SCORE))
                 rankUp();
 
             // Give up to 5 review questions if the player has been doing poorly
-            else if(norm < .5)
+            // (below 50%)
+            else if(norm < LOW_SCORE)
                 numOfReviewQ = 5;
         }
     }
@@ -123,14 +129,32 @@ export function dailyQuestionPicker(
     const questionPool: Question[] = [...getQuestionsByDifficulty(playerTier)];
 
     /**
-     * If there are any questions in reviewQueue, add up to 4 to result[]
+     * If there are    let mqLen: number = missedQuestions.length;
+     *    if(mqLen > 0)
+     *        for(let i = 0; (i < numOfReviewQ) && (i < mqLen); ++i) {
+     *            const id = missedQuestions.shift()!;
+     *            const question = getQuestionById(id);
+     *            if(question)
+     *                result.push({
+     *                    success: false,
+     *                    question
+});
+}
+any questions in reviewQueue, add up to 4 to result[]
      *  (up to 5 if player hasn't been doing well, see the variable
      *  numOfReviewQ).
      */
     let mqLen: number = missedQuestions.length;
     if(mqLen > 0)
-        for(let i = 0; (i < numOfReviewQ) && (i < mqLen); ++i)
-            result.push(missedQuestions.shift()!);
+        for(let i = 0; (i < numOfReviewQ) && (i < mqLen); ++i) {
+            const id = missedQuestions.shift()!;
+            const question = getQuestionById(id);
+            if(question)
+                result.push({
+                    success: false,
+                    question
+                });
+        }
 
     let j = result.length;
     while(
@@ -153,6 +177,6 @@ export function dailyQuestionPicker(
         }
     }
 
-    // shuffle elements before returning
+    // Shuffle questions before returning
     return FY_shuffle(result);
 }
