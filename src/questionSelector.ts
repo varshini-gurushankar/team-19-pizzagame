@@ -129,18 +129,7 @@ export function dailyQuestionPicker(
     const questionPool: Question[] = [...getQuestionsByDifficulty(playerTier)];
 
     /**
-     * If there are    let mqLen: number = missedQuestions.length;
-     *    if(mqLen > 0)
-     *        for(let i = 0; (i < numOfReviewQ) && (i < mqLen); ++i) {
-     *            const id = missedQuestions.shift()!;
-     *            const question = getQuestionById(id);
-     *            if(question)
-     *                result.push({
-     *                    success: false,
-     *                    question
-});
-}
-any questions in reviewQueue, add up to 4 to result[]
+     * If there are any questions in reviewQueue, add up to 4 to result[]
      *  (up to 5 if player hasn't been doing well, see the variable
      *  numOfReviewQ).
      */
