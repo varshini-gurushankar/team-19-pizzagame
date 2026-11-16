@@ -208,6 +208,7 @@
 
     .score-tracker p { 
       margin: 0; 
+      padding:5px;
       
     }
 
@@ -235,6 +236,24 @@
     .score-pop-wrong {
       display: inline-block;
       animation: score-pop-wrong 1.5s ease-out;
+    }
+
+    @keyframes cash-pop-right {
+      50% { transform: scale(1.5); color: #53c35b; }
+    }
+
+    @keyframes cash-pop-wrong {
+      50% { transform: scale(1.5); color: #ff1900; }
+    }
+
+    .cash-pop-right {
+      display: inline-block;
+      animation: cash-pop-right 1.5s ease-out;
+    }
+
+    .cash-pop-wrong {
+      display: inline-block;
+      animation: cash-pop-wrong 1.5s ease-out;
     }
 
   </style>
@@ -277,6 +296,7 @@
 
           <div class="score-tracker">
             <p>Score: <span id="score">0</span></p>
+            <p>Earnings: $<span id="cash">0</span></p>
           </div>
         </div>
        

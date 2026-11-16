@@ -19,7 +19,6 @@ const game = new GameFlow(questions);
 function updateScore(ans: boolean): void {
     const scoreDisplay = document.getElementById("score") as HTMLParagraphElement;
 
-    //add 100 dollars for correct response, minus 100 if wrong
     const nextScore = `${game.score} / ${questions.length}`;
 
     scoreDisplay.textContent = nextScore;
@@ -33,6 +32,21 @@ function updateScore(ans: boolean): void {
         scoreDisplay.classList.add("score-pop-wrong");
     }
     
+}
+
+function updateCash(ans: boolean): void { 
+    const cashDisplay = document.getElementById("cash") as HTMLParagraphElement;
+
+    const nextCash = `${game.earnings} `;
+
+    cashDisplay.textContent = nextCash 
+
+    cashDisplay.classList.remove("cash-pop-right", "cash-pop-wrong");
+    if (ans) {
+        cashDisplay.classList.add("cash-pop-right");
+    } else {
+        cashDisplay.classList.add("cash-pop-wrong");
+    }
 }
 
 
@@ -87,5 +101,6 @@ function bindServe(): void {
         }
 
         updateScore(passValidator);
+        updateCash(passValidator); 
     });
 }

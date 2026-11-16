@@ -8,6 +8,7 @@ export class GameFlow {
     score = 0 // what score it is for the number of correct pizzas
     wait = true; //its true if the customer is waiting for their pizza
     wrongPizzaOrder: string[] = []; //The array of orders that the user got wrong 
+    earnings = 0 //Score sys
 
 
     constructor(private orders: readonly Question[]) {}
@@ -45,6 +46,7 @@ export class GameFlow {
         }
         if (passed){
             this.score ++;
+            this.earnings += 100;
         }
         else { 
             const question = this.currentOrder();
@@ -57,6 +59,7 @@ export class GameFlow {
 
             //test
             console.log(this.getMissedQuestions())
+            this.earnings -= 100; 
 
         }
 
