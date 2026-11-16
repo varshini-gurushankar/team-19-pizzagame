@@ -55,16 +55,16 @@ export let playerData: QuestionResult[] = [
 ];
 
 export let missedQuestions: QuestionResult[] = [
-    { success: false, question: getQuestionById("q18")! },
-    { success: false, question: getQuestionById("q19")! },
-    { success: false, question: getQuestionById("q20")! },
-    { success: false, question: getQuestionById("q22")! },
-    { success: false, question: getQuestionById("q23")! },
-    { success: false, question: getQuestionById("q24")! },
-    { success: false, question: getQuestionById("q26")! },
-    { success: false, question: getQuestionById("q27")! },
-    { success: false, question: getQuestionById("q28")! },
-    { success: false, question: getQuestionById("q29")! },
+    "q18",
+    "q19",
+    "q20",
+    "q22",
+    "q23",
+    "q24",
+    "q26",
+    "q27",
+    "q28",
+    "q29",
 ];
 
 describe("dailyQuestionPicker", () => {
@@ -87,8 +87,8 @@ describe("dailyQuestionPicker", () => {
            expect(new Set(resultIds).size).toBe(resultIds.length);
 
            // With these scores, the picker should select 4 review questions.
-           for(const missed of missedQuestions.slice(0, 4)) {
-               expect(resultIds).toContain(missed.question.id);
+           for (const id of missedQuestions.slice(0, 4)){
+               expect(resultIds).toContain(id);
            }
   });
 });
