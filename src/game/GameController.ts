@@ -1,4 +1,4 @@
-import { currentOrder, startCustomer } from "../customer/CustomerController";
+import { advance, canServe, getCurrentOrder, markCorrect, startCustomer } from "../customer/CustomerController";
 import { bindUndo, setupPizza } from "../pizza/PizzaController";
 import { validatePizza } from "../pizza/PizzaModel";
 import { toppingClonesArray } from "../pizza/PizzaView";
@@ -17,12 +17,20 @@ function bindServe(): void {
     const successContButton = document.getElementById("success-continue") as HTMLButtonElement;
     const failContButton = document.getElementById("fail-continue") as HTMLButtonElement;
 
-    successContButton.addEventListener("click", () => successPopUp.close());
+    successContButton.addEventListener("click", () => {
+        successPopUp.close();
+        advance();
+    });
     failContButton.addEventListener("click", () => failPopUp.close());
 
     const serveButton = document.getElementById("serve-btn") as HTMLButtonElement;
 
     serveButton?.addEventListener("click", () => {
+        if (!canServe()) return;
+
+        const order = getCurrentOrder();
+        if (!order) return;
+
         const slices = getSelectedSlices();
         if (slices === null) {
             return;
@@ -35,9 +43,10 @@ function bindServe(): void {
             toppingsList[name] = (toppingsList[name] ?? 0) + 1;
         }
 
-        const passValidator = validatePizza(currentOrder, slices, toppingsList);
+        const passValidator = validatePizza(order, slices, toppingsList);
 
         if (passValidator) {
+            markCorrect();
             successPopUp.showModal();
         } else {
             failPopUp.showModal();
