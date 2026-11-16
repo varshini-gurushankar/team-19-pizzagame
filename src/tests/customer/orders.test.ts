@@ -72,7 +72,25 @@ describe("orders", () => {
 
             }
 
-            expect(validatePizza(order, order.slices, toppingonPizza)).toBe(true);
+            const placedToppings = [];
+
+            for (const toppingName in toppingonPizza) {
+                const count = toppingonPizza[toppingName];
+                for (let i = 0; i < count; i++) {
+                    placedToppings.push({
+                        x: 210 + i,
+                        y: 210 + i,
+                        radius: 30,
+                    });
+                }
+            }
+
+            expect(validatePizza(order, order.slices, 
+                {   toppings:toppingonPizza, 
+                    placedToppings,
+                    pizzaSize:420,
+                }   
+            )).toBe(true);
 
         }
 
