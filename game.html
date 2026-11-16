@@ -224,6 +224,61 @@
       left: 40px;
     }
 
+    .score-tracker {
+      text-align: right;
+      font: bold 18px Arial, sans-serif;
+    }
+
+    .score-tracker p { 
+      margin: 0; 
+      padding:5px;
+      
+    }
+
+    .tools {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    @keyframes score-pop-right {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.5); color: #53c35b; }
+    }
+
+    @keyframes score-pop-wrong {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.5); color: #ff1900; }
+    }
+
+    .score-pop-right {
+      display: inline-block;
+      animation: score-pop-right 1.5s ease-out;
+    }
+
+    .score-pop-wrong {
+      display: inline-block;
+      animation: score-pop-wrong 1.5s ease-out;
+    }
+
+    @keyframes cash-pop-right {
+      50% { transform: scale(1.5); color: #53c35b; }
+    }
+
+    @keyframes cash-pop-wrong {
+      50% { transform: scale(1.5); color: #ff1900; }
+    }
+
+    .cash-pop-right {
+      display: inline-block;
+      animation: cash-pop-right 1.5s ease-out;
+    }
+
+    .cash-pop-wrong {
+      display: inline-block;
+      animation: cash-pop-wrong 1.5s ease-out;
+    }
+
   </style>
 </head>
 <body>
@@ -239,10 +294,21 @@
 
 </section>
     <!-- in the pizza panel box -->
+
+    
     <section class="pizza-panel">
 
-        <!-- Undo Button -->
-        <button id="undo-button" type="button">Undo</button>
+        <!-- score tracker  -->
+        <div class="tools">
+          <!-- Undo Button -->
+          <button id="undo-button" type="button">Undo</button>
+
+          <div class="score-tracker">
+            <p>Score: <span id="score">0</span></p>
+            <p>Earnings: $<span id="cash">0</span></p>
+          </div>
+        </div>
+       
 
         <div id="pizza-container"></div>
 
@@ -262,6 +328,8 @@
             <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
             <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
           </div>
+
+          
 
           
         </div>
