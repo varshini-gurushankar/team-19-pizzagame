@@ -7,9 +7,12 @@ export class GameInterface {
     const fill = document.getElementById("patience-fill");
     const timeText = document.getElementById("patience-time");
 
+    //either patience bar or timer text element wasnt found
     if (!fill || !timeText) return;
 
+    //update the remaining time
     timeText.textContent = `${Math.ceil(time)}s`;
+    //update the width of the par with the patience %
     fill.style.width = `${percent}%`;
 
     if (percent > WARNING_PERCENT) {
