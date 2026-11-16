@@ -3,12 +3,36 @@ import { bindUndo, setupPizza } from "../pizza/PizzaController";
 import { validatePizza } from "../pizza/PizzaModel";
 import { toppingClonesArray, topping_sizes } from "../pizza/PizzaView";
 import { getSelectedSlices } from "../pizza/sliceSlider";
+import { orders } from "../customer/CustomerModel";
+import { GameFlow } from "./GameFlow";
 
 export function startGame(): void {
     startCustomer();
     setupPizza();
     bindServe();
     bindUndo();
+}
+
+const game = new GameFlow(orders);
+
+
+function updateScore(ans: boolean): void {
+    const scoreDisplay = document.getElementById("score") as HTMLParagraphElement;
+
+    //add 100 dollars for correct response, minus 100 if wrong
+    const nextScore = `${game.score} / ${orders.length}`;
+
+    scoreDisplay.textContent = nextScore;
+
+    //Animations 
+    scoreDisplay.classList.remove("score-pop-right", "score-pop-wrong");
+    if (ans){
+        scoreDisplay.classList.add("score-pop-right");
+    }
+    else{
+        scoreDisplay.classList.add("score-pop-wrong");
+    }
+    
 }
 
 
@@ -52,10 +76,16 @@ function bindServe(): void {
 
         //console.log(pizzaSize)
 
+        game.serve(passValidator);
+        
+
         if (passValidator) {
             successPopUp.showModal();
         } else {
             failPopUp.showModal();
+            //updateScore(); 
         }
+
+        updateScore(passValidator);
     });
 }

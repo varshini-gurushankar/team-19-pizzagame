@@ -5,6 +5,7 @@ export class GameFlow {
     round = 0 //what round/customer we are on
     score = 0 // what score it is for the number of correct pizzas
     wait = true; //its true if the customer is waiting for their pizza
+    wrongPizzaOrder: Order[] = []; //The array of orders that the user got wrong 
 
 
     constructor(private orders: readonly Order[]) {}
@@ -25,7 +26,14 @@ export class GameFlow {
             return;
         }
         if (passed){
-            this.score++;
+            this.score ++;
+        }
+        else {
+            const order = this.currentOrder();
+            if (order !== null){
+                this.wrongPizzaOrder.push(order);
+            }
+            
         }
         this.wait = false;
     }
@@ -46,5 +54,6 @@ export class GameFlow {
         this.round = 0;
         this.score = 0;
         this.wait = true;
+        this.wrongPizzaOrder = []; 
     }
 }
