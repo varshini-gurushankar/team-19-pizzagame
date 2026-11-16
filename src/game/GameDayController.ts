@@ -20,7 +20,7 @@ export class GameDayController {
     private model: GameDayModel;
     private dependencies: GameDayDependencies;
     // tracks whether startDay() is currently preparing a day
-    private startingDay = false;
+    private startingDay: boolean = false;
 
     constructor(dependencies: GameDayDependencies) {
         this.model = new GameDayModel();

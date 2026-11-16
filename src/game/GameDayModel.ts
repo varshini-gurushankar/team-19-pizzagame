@@ -2,9 +2,9 @@
 export type DayStatus = "ready" | "active" | "complete";
 
 export class GameDayModel {
-    private currentDay = 1;
+    private currentDay: number = 1;
     private status: DayStatus = "ready";
-    private daysFinished = 0;
+    private daysFinished: number = 0;
 
     // get the current game day
     getCurrentDay(): number {
