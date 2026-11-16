@@ -2,13 +2,13 @@ import type { Order } from "../customer/CustomerModel";
 
 type PizzaData = {
     toppings: Record<string, number>;
-    //Stores position and size of the topping
-    placedToppings: {
+    //Stores position and size of the topping as list of objects
+    placedToppings?: {
         x: number;
         y: number;
         radius: number;
     }[];
-    pizzaSize: number;
+    pizzaSize?: number;
 };
 
 // Parameters def:
@@ -28,11 +28,48 @@ export function validatePizza(order: Order, slices: number, pizzaSpec: PizzaData
         totalToppingsCount += pizzaSpec.toppings[toppingName];
     }
 
-    if (totalToppingsCount !== pizzaSpec.placedToppings.length) {
+    if (pizzaSpec.pizzaSize === undefined) {
         return false;
     }
 
+    //If placedToppings is null -> empty list
+    const placedToppings = pizzaSpec.placedToppings ?? [];
 
+    if (totalToppingsCount !== placedToppings.length) {
+        return false;
+    }
+
+    //Check for topping that falls outside pizza (currently if on crust: okay)
+    const radPizza = pizzaSpec.pizzaSize / 2;
+
+    for (const topping of placedToppings) {
+
+        //Testing coordinate system when placing topping 
+        // console.log("Topping X:", topping.x);
+        // console.log("Topping Y:", topping.y);
+
+        const x_dist = topping.x - radPizza;
+        const y_dist = topping.y - radPizza;
+
+        const overall_distance = Math.sqrt(x_dist ** 2 + y_dist ** 2);
+        
+        //If distance is greater than the radius then that means that the topping is outside of the pizza 
+        if (overall_distance + topping.radius > radPizza) {
+            return false;
+        }
+    }
+
+
+    //Check for extra toppings on the pizza that is not needed 
+        for (const toppingName in pizzaSpec.toppings) {
+
+            const found = order.toppings.find(requiredTopping => requiredTopping.toppingName === toppingName);
+
+            if (found === undefined && pizzaSpec.toppings[toppingName] > 0) {
+                return false;
+            }
+        }
+    
     //case if the user doesnt have the right topping proportions for customer
     for (const requiredTopping of order.toppings){
 
@@ -50,37 +87,9 @@ export function validatePizza(order: Order, slices: number, pizzaSpec: PizzaData
             return false;
         }
 
-        //Check for extra toppings on the pizza that is not needed 
-        for (const toppingName in pizzaSpec.toppings) {
-
-            const found = order.toppings.find(requiredTopping => requiredTopping.toppingName === toppingName);
-
-            if (found === undefined && pizzaSpec.toppings[toppingName] > 0) {
-                return false;
-            }
-        }
 
         
-        //Check for topping that falls outside pizza (currently if on crust: okay)
-        const radPizza = pizzaSpec.pizzaSize / 2 
-
-        for (const topping of pizzaSpec.placedToppings){
-
-            //Testing coordinate system when placing topping 
-            // console.log("Topping X:", topping.x);
-            // console.log("Topping Y:", topping.y);
-
-            const x_dist = topping.x - radPizza;
-            const y_dist = topping.y - radPizza;
-
-            const overall_distance = Math.sqrt(x_dist ** 2 + y_dist ** 2);
-            
-            //If distance is greater than the radius then that means that the topping is outside of the pizza 
-            if (overall_distance + topping.radius > radPizza) {
-                return false;
-            }
-        }
-
+        
     }
 
 

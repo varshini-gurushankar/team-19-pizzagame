@@ -3,7 +3,7 @@ import { bindUndo, setupPizza } from "../pizza/PizzaController";
 import { validatePizza } from "../pizza/PizzaModel";
 import { toppingClonesArray, topping_sizes } from "../pizza/PizzaView";
 import { getSelectedSlices } from "../pizza/sliceSlider";
-import { orders } from "../customer/CustomerModel";
+import { questions } from "../customer/QuestionBank";
 import { GameFlow } from "./GameFlow";
 
 export function startGame(): void {
@@ -13,14 +13,14 @@ export function startGame(): void {
     bindUndo();
 }
 
-const game = new GameFlow(orders);
+const game = new GameFlow(questions);
 
 
 function updateScore(ans: boolean): void {
     const scoreDisplay = document.getElementById("score") as HTMLParagraphElement;
 
     //add 100 dollars for correct response, minus 100 if wrong
-    const nextScore = `${game.score} / ${orders.length}`;
+    const nextScore = `${game.score} / ${questions.length}`;
 
     scoreDisplay.textContent = nextScore;
 
