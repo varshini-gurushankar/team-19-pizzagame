@@ -10,7 +10,7 @@ import {
     getQuestionById,
     type Question,
     type Difficulty,
-} from "./customer/QuestionBank.ts"
+} from "../customer/QuestionBank"
 
 
 /** Variables and Types */
