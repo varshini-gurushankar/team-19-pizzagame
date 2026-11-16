@@ -61,10 +61,33 @@
         margin-bottom: 14px;
     }
 
-    #order-details {
+    .customer-list {
+        max-height: 70vh;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .order-details {
         margin: 12px 0 0;
         font-size: 16px;
         line-height: 1.4;
+        color: #34251e;
+    }
+
+    .customer.active {
+        outline: 3px solid #34251e;
+    }
+
+    .customer.done,
+    .customer.left {
+        opacity: 0.55;
+    }
+
+    #day-score {
+        margin: 12px 0 0;
+        font-weight: bold;
         color: #34251e;
     }
 
@@ -91,7 +114,7 @@
         overflow: hidden;
     }
 
-    #patience-fill {
+    .patience-fill {
         width: 100%;
         height: 100%;
         background: #65b979;
@@ -264,22 +287,8 @@
     <!-- puts customer box and earnings box in left column -->
     <section class="left-column">
 
-  <div class="customer">
-
-    <div class="patience-container">
-      <!-- put patience meter in customer box and in left column -->
-      <div class="patience-label">
-        <span>Customer Patience</span>
-        <span id="patience-time">60s</span>
-      </div>
-
-      <div class="patience-bar">
-        <div id="patience-fill"></div>
-      </div>
-
-    </div>
-    <p id="order-details"></p>
-  </div>
+  <div id="customer-list" class="customer-list"></div>
+  <p id="day-score"></p>
 
   <div class="earnings"></div>
 

@@ -12,6 +12,21 @@ export function setupPizza(): void {
     }
 }
 
+export function clearPizza(): void {
+    while (toppingClonesArray.length > 0) {
+        const topping = toppingClonesArray.pop();
+        if (!topping) break;
+        const layer = topping.node.getLayer();
+        topping.node.destroy();
+        layer?.batchDraw();
+    }
+
+    const slider = document.getElementById("slice-slider") as HTMLInputElement | null;
+    if (!slider) return;
+    slider.value = "1";
+    slider.dispatchEvent(new Event("input"));
+}
+
 export function bindUndo(): void {
     const undoButton = document.getElementById("undo-button");
 
