@@ -16,12 +16,13 @@ import {
     getQuestionsByDifficulty,
     getQuestionById,
     type Question,
-    type Difficulty,
-} from "./customer/QuestionBank.ts"
+    type Difficulty
+} from "../../customer/QuestionBank"
 
-import { dailyQuestionPicker } from "./questionSelector.ts"
-
-import type { QuestionResult } from "./questionSelector.ts"
+import {
+    dailyQuestionPicker,
+    type QuestionResult
+} from "../../game/questionSelector"
 
 /** Basic Sanity Test */
 describe("dailyQuestionPicker", () => {
