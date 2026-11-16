@@ -1,6 +1,6 @@
 import { GameFlow } from "../game/GameFlow";
 import { clearPizza } from "../pizza/PizzaController";
-import { dailyQuestionPicker } from "../questionSelector";
+import { dailyQuestionPicker } from "../game/questionSelector";
 import type { Order } from "./CustomerModel";
 import { PatienceMeter } from "./CustomerModel";
 import { CustomerView } from "./CustomerView";
