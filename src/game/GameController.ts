@@ -93,7 +93,7 @@ function bindServe(): void {
         //Get the konva stage width
         const pizzaSize = toppingClonesArray[0]?.node.getStage()?.width() ?? 0;
 
-        const passValidator = validatePizza(currentOrder, slices, {
+        const passValidator = validatePizza(order, slices, {
             toppings: toppingsList,
             placedToppings,
             pizzaSize,
