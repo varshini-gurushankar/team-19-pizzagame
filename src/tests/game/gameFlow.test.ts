@@ -2,6 +2,25 @@ import { describe, expect, it} from "vitest";
 import {GameFlow} from "../../game/GameFlow";
 import { questions, type Question } from "../../customer/QuestionBank";
 
+const testQuestions: Question[] = [
+    { id: "q01", difficulty: "easy", slices: 2, showDecimal: true,
+      toppings: [{ toppingName: "pepperoni", numerator: 1, denominator: 2 }] },
+
+    { id: "q02", difficulty: "easy", slices: 2, showDecimal: false,
+      toppings: [{ toppingName: "olives", numerator: 1, denominator: 2 }] },
+
+    { id: "q03", difficulty: "easy", slices: 3, showDecimal: false,
+      toppings: [{ toppingName: "basil", numerator: 1, denominator: 3 }] },
+
+    { id: "q04", difficulty: "easy", slices: 3, showDecimal: false,
+      toppings: [{ toppingName: "pepperoni", numerator: 2, denominator: 3 }] },
+
+    { id: "q05", difficulty: "easy", slices: 4, showDecimal: false,
+      toppings: [{ toppingName: "onions", numerator: 1, denominator: 4 }] },
+
+    { id: "q06", difficulty: "easy", slices: 4, showDecimal: false,
+      toppings: [{ toppingName: "olives", numerator: 3, denominator: 4 }] },
+];
 
 describe("GameFlow", () => {
 
@@ -53,6 +72,132 @@ describe("GameFlow", () => {
         expect(game.currentOrder()).toBe(questions[0]);
     });
 
+    // Checking to see that getting correct answer = no questions in the arr 
+    it("doesnt add to the wrong question tracker if the pizza is correct", () => {
+        const game = new GameFlow(testQuestions)
 
-    
+        game.serve(true); 
+        game.next()
+        game.serve(true)
+
+        expect(game.getMissedQuestionsID().length).toEqual(0)
+        const wrongQArr: Question[] = game.getMissedQuestions()
+        expect(wrongQArr).toEqual([]);
+    });
+
+    it("adds the question id that was wrong to the wrong question tracker", () =>{
+        //Testing: first question wrong, second right 
+        const game = new GameFlow(testQuestions); 
+
+        game.serve(false); 
+        game.next(); 
+        game.serve(true); 
+
+        expect(game.getMissedQuestionsID()).toEqual(["q01"]);
+
+        const wrongQArr: Question[] = game.getMissedQuestions()
+        expect(wrongQArr).toEqual([testQuestions[0]]);
+
+
+        const game2 = new GameFlow(testQuestions); 
+        game2.serve(true); 
+        game2.next(); 
+        game2.serve(false); 
+
+        expect(game2.getMissedQuestionsID()).toEqual(["q02"]);
+        const wrongQArr2: Question[] = game2.getMissedQuestions()
+        expect(wrongQArr2).toEqual([testQuestions[1]]);
+    });
+
+
+    // All q wrong, need to add all those q to the arr test
+    it('adds all question id that was wrong to the wrong question tracker', () => {
+        const game = new GameFlow(testQuestions); 
+
+        for (let i = 0; i < testQuestions.length; i++) {
+            game.serve(false);
+            game.next();
+        }
+
+        expect(game.getMissedQuestionsID()).toEqual(["q01", "q02", 'q03', 'q04', 'q05', 'q06']);
+        expect(game.getMissedQuestions()).toEqual(testQuestions); 
+    });
+
+    //Testing scoring functionality (all correct = 6 points)
+    it ('adds 1 to the score if the user gets the order correct', () => {
+        const game = new GameFlow(testQuestions); 
+
+        let scoreTrack = 0;
+        for (let i = 0; i < testQuestions.length; i++) {
+            game.serve(true);
+            scoreTrack ++; 
+            expect(game.score).toBe(scoreTrack);
+            game.next();
+        }
+
+        //end should be 6 
+        expect(game.score).toBe(6);
+    })
+
+    it ('does not add to the score if the user gets the order incorrect', () => {
+        const game = new GameFlow(testQuestions); 
+
+        let scoreTrack = 0;
+        for (let i = 0; i < testQuestions.length; i++) {
+            game.serve(false);
+            expect(game.score).toBe(0);
+            game.next();
+        }
+
+        //end should be 0 in end 
+        expect(game.score).toBe(0);
+    })
+
+    //Comprehensive test (score tracker + wrong q tracker)
+    it ('does adds to the score if the user gets the order correct', () => {
+        const game = new GameFlow(testQuestions); 
+        
+
+        //q1
+        game.serve(true);
+        expect(game.score).toBe(1);
+        game.next();
+
+        //q2
+        game.serve(false)
+        expect(game.getMissedQuestionsID()).toEqual(["q02"]);
+        expect(game.score).toBe(1);
+        game.next();
+        
+        //q3
+        game.serve(false);
+        expect(game.getMissedQuestionsID()).toEqual(["q02", 'q03']);
+        expect(game.score).toBe(1);
+        game.next();
+
+        //q4
+        game.serve(true);
+        expect(game.getMissedQuestionsID()).toEqual(["q02", 'q03']);
+        expect(game.score).toBe(2);
+        game.next();
+
+        //q5    
+        game.serve(true);
+        expect(game.getMissedQuestionsID()).toEqual(["q02", 'q03']);
+        expect(game.score).toBe(3);
+        game.next();
+
+
+        //q6
+        game.serve(false);
+        expect(game.getMissedQuestionsID()).toEqual(["q02", 'q03', 'q06']);
+        expect(game.score).toBe(3);
+        game.next();
+
+        //Checking the arr 
+        const wrongQArr: Question[] = game.getMissedQuestions();
+        expect(wrongQArr).toEqual([testQuestions[1], testQuestions[2], testQuestions[5]]);
+    })
+
+
 });

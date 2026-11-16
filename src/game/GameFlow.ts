@@ -55,6 +55,9 @@ export class GameFlow {
 
             this.trackWrongQuestion(question); 
 
+            //test
+            console.log(this.getMissedQuestions())
+
         }
 
 
