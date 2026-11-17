@@ -29,8 +29,24 @@ export function startCustomer(): void {
     patience.start();
 }
 
+export function getScore(): number {
+    return flow.score;
+}
+
+export function getEarnings(): number {
+    return flow.earnings;
+}
+
+export function getQuestionCount(): number {
+    return questions.length;
+}
+
 export function markCorrect(): void {
     flow.serve(true);
+}
+
+export function markWrong(): void {
+    flow.noteWrong();
 }
 
 export function advance(): void {

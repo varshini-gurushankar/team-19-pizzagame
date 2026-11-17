@@ -9,6 +9,7 @@ export class GameFlow {
     wait = true; //its true if the customer is waiting for their pizza
     wrongPizzaOrder: string[] = []; //The array of orders that the user got wrong 
     earnings = 0 //Score sys
+    private wrongNoted = false;
 
 
     constructor(private orders: readonly Question[]) {}
@@ -67,6 +68,22 @@ export class GameFlow {
         this.wait = false;
     }
 
+    // a wrong try costs 100 once and stays on this customer so they can retry
+    noteWrong(): void {
+        if (!this.wait || this.wrongNoted) {
+            return;
+        }
+
+        const question = this.currentOrder();
+        if (question === null) {
+            return;
+        }
+
+        this.trackWrongQuestion(question);
+        this.earnings -= 100;
+        this.wrongNoted = true;
+    }
+
     // if the patience meter runs out, it counts as a miss in the game
     timeUp(): void {
         this.wait = false;
@@ -86,6 +103,7 @@ export class GameFlow {
     next(): void {
         this.round++;
         this.wait = true;
+        this.wrongNoted = false;
     }
 
     // we play again from the start
@@ -93,6 +111,7 @@ export class GameFlow {
         this.round = 0;
         this.score = 0;
         this.wait = true;
-        this.wrongPizzaOrder = []; 
+        this.wrongPizzaOrder = [];
+        this.wrongNoted = false;
     }
 }
