@@ -30,13 +30,6 @@ export function startCustomer(): void {
     patience.start();
 }
 
-export function getScore(): number {
-    return flow.score;
-}
-
-export function getEarnings(): number {
-    return flow.earnings;
-}
 
 export function getQuestionCount(): number {
     return questions.length;
@@ -65,9 +58,6 @@ export function getEarnings(): number {
     return flow.earnings
 }
 
-export function getTotalCustomers(): number {
-    return questions.length;
-}
 
 export function pausePatience(): void {
     patience.stop();
