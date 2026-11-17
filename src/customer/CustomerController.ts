@@ -72,11 +72,7 @@ export function advance(): void {
     moveOn();
 }
 
-function demoQuestions(): Question[] {
-    const list = [
-        ...getQuestionsByDifficulty("medium").slice(0, 5),
-        ...getQuestionsByDifficulty("hard").slice(0, 5),
-    ];
+function shuffleQuestions(list: Question[]): Question[] {
     for (let i = list.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [list[i], list[j]] = [list[j], list[i]];
@@ -84,11 +80,22 @@ function demoQuestions(): Question[] {
     return list;
 }
 
+function demoQuestions(picked: readonly Question[], reviewIds: ReadonlySet<string>): Question[] {
+    const kept = picked.filter((question) => reviewIds.has(question.id));
+    const used = new Set(kept.map((question) => question.id));
+    const open = 10 - kept.length;
+    const mediumCount = Math.ceil(open / 2);
+    const hardCount = open - mediumCount;
+    const medium = getQuestionsByDifficulty("medium").filter((question) => !used.has(question.id)).slice(0, mediumCount);
+    const hard = getQuestionsByDifficulty("hard").filter((question) => !used.has(question.id)).slice(0, hardCount);
+    return shuffleQuestions([...kept, ...medium, ...hard]);
+}
+
 function beginDay(day: number): void {
     const cash = flow.earnings;
-    questions = day === LAST_DAY
-        ? demoQuestions()
-        : dailyQuestionPicker(day, playerData, recentScores, missedIds).map((item) => item.question);
+    const reviewIds = new Set(missedIds);
+    const picked = dailyQuestionPicker(day, playerData, recentScores, missedIds).map((item) => item.question);
+    questions = day === LAST_DAY ? demoQuestions(picked, reviewIds) : picked;
     flow = new GameFlow(questions);
     flow.earnings = cash;
     dayRecorded = false;
@@ -96,6 +103,7 @@ function beginDay(day: number): void {
     view.showQueue(questions);
     view.showDay(day);
     view.setActive(0);
+    view.showActiveOrder(getCurrentOrder());
     view.showScore("");
     view.showNextDay(false);
     writeScore();
@@ -135,6 +143,7 @@ function moveOn(): void {
     if (flow.isFinished()) {
         patience.stop();
         view.clearActive();
+        view.showActiveOrder(null);
         if (!dayRecorded) {
             servedTotal += flow.score;
             facedTotal += questions.length;
@@ -153,6 +162,7 @@ function moveOn(): void {
     }
 
     view.setActive(flow.round);
+    view.showActiveOrder(getCurrentOrder());
     patience.reset();
     patience.start();
 }

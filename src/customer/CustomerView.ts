@@ -90,4 +90,10 @@ export class CustomerView {
         const dialog = document.getElementById("week");
         if (dialog instanceof HTMLDialogElement) dialog.showModal();
     }
+
+    showActiveOrder(order: Order | null): void {
+        const container = document.getElementById("active-order");
+        if (!container) return;
+        container.textContent = order ? formatOrder(order) : "";
+    }
 }
