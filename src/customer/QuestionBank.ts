@@ -26,7 +26,7 @@ import type { Order, toppingName as ToppingName } from "./CustomerModel";
  *                - EX: 0.25 or 0.75 decimals
  * 
  * - hard questions:
- *        - 2-3 toppings
+ *        - 2-4 toppings
  *        - 6-10 slices
  *        - decimals like 0.1, 0.125, 0.3
  */
