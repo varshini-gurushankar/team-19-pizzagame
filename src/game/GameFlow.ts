@@ -55,10 +55,9 @@ export class GameFlow {
                 return 
             }
 
+            //Note to self : make sure that there are no duplicates in teh wrong question tracker 
             this.trackWrongQuestion(question); 
 
-            //test
-            console.log(this.getMissedQuestions())
             this.earnings -= 100; 
 
         }
