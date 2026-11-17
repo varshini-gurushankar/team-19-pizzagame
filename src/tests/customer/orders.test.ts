@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import {orders, toppingNames} from "../orders";
-import {validatePizza} from "../validate";
+import {orders, toppingNames} from "../../customer/CustomerModel";
+import {validatePizza} from "../../pizza/PizzaModel";
 
 
 // i wrote these tests so every order can be built in the game and we can catch any impossible orders
@@ -72,7 +72,25 @@ describe("orders", () => {
 
             }
 
-            expect(validatePizza(order, order.slices, toppingonPizza)).toBe(true);
+            const placedToppings = [];
+
+            for (const toppingName in toppingonPizza) {
+                const count = toppingonPizza[toppingName];
+                for (let i = 0; i < count; i++) {
+                    placedToppings.push({
+                        x: 210 + i,
+                        y: 210 + i,
+                        radius: 30,
+                    });
+                }
+            }
+
+            expect(validatePizza(order, order.slices, 
+                {   toppings:toppingonPizza, 
+                    placedToppings,
+                    pizzaSize:420,
+                }   
+            )).toBe(true);
 
         }
 
