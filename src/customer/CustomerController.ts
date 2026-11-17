@@ -57,6 +57,26 @@ export function advance(): void {
     moveOn();
 }
 
+export function getScore(): number {
+    return flow.score;
+}
+
+export function getEarnings(): number {
+    return flow.earnings
+}
+
+export function getTotalCustomers(): number {
+    return questions.length;
+}
+
+export function pausePatience(): void {
+    patience.stop();
+}
+
+export function resumePatience(): void {
+    patience.start();
+}
+
 function customerLeft(): void {
     if (flow.isFinished() || !flow.wait) return;
 
