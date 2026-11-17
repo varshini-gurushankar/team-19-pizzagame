@@ -69,6 +69,11 @@ export class CustomerView {
         this.gameUI.updatePatienceBar(time, percent, fill, timeText);
     }
 
+    showDay(day: number): void {
+        const label = document.getElementById("current-day");
+        if (label) label.textContent = `Day ${day}`;
+    }
+
     showScore(text: string): void {
         const score = document.getElementById("day-score");
         if (score) score.textContent = text;

@@ -19,8 +19,17 @@
     /* title area */
     header {
       height: 73px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       background: #e3d1d1;
       border-bottom: 3px solid #d88b9c;
+    }
+
+    #current-day {
+      margin: 0;
+      font: bold 22px Arial, sans-serif;
+      color: #34251e;
     }
 
     main {
@@ -293,7 +302,9 @@
   </style>
 </head>
 <body>
-  <header></header>
+  <header>
+    <p id="current-day">Day 1</p>
+  </header>
   <main>
     <!-- puts customer box and earnings box in left column -->
     <section class="left-column">

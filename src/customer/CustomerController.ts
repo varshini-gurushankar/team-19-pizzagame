@@ -2,7 +2,7 @@ import { GameDayController } from "../game/GameDayController";
 import { GameFlow } from "../game/GameFlow";
 import { dailyQuestionPicker, type QuestionResult } from "../game/questionSelector";
 import { clearPizza } from "../pizza/PizzaController";
-import type { Question } from "./QuestionBank";
+import { getQuestionsByDifficulty, type Question } from "./QuestionBank";
 import type { Order } from "./CustomerModel";
 import { PatienceMeter } from "./CustomerModel";
 import { CustomerView } from "./CustomerView";
@@ -72,15 +72,29 @@ export function advance(): void {
     moveOn();
 }
 
+function demoQuestions(): Question[] {
+    const list = [
+        ...getQuestionsByDifficulty("medium").slice(0, 5),
+        ...getQuestionsByDifficulty("hard").slice(0, 5),
+    ];
+    for (let i = list.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [list[i], list[j]] = [list[j], list[i]];
+    }
+    return list;
+}
+
 function beginDay(day: number): void {
     const cash = flow.earnings;
-    const picked = dailyQuestionPicker(day, playerData, recentScores, missedIds);
-    questions = picked.map((item) => item.question);
+    questions = day === LAST_DAY
+        ? demoQuestions()
+        : dailyQuestionPicker(day, playerData, recentScores, missedIds).map((item) => item.question);
     flow = new GameFlow(questions);
     flow.earnings = cash;
     dayRecorded = false;
 
     view.showQueue(questions);
+    view.showDay(day);
     view.setActive(0);
     view.showScore("");
     view.showNextDay(false);
