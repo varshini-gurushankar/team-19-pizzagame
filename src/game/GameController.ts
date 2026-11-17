@@ -1,10 +1,8 @@
-import { advance, canServe, getCurrentOrder, markCorrect, startCustomer } from "../customer/CustomerController";
+import { advance, canServe, getCurrentOrder, getEarnings, getQuestionCount, getScore, markCorrect, markWrong, startCustomer } from "../customer/CustomerController";
 import { bindUndo, setupPizza } from "../pizza/PizzaController";
 import { validatePizza } from "../pizza/PizzaModel";
 import { toppingClonesArray, topping_sizes } from "../pizza/PizzaView";
 import { getSelectedSlices } from "../pizza/sliceSlider";
-import { questions } from "../customer/QuestionBank";
-import { GameFlow } from "./GameFlow";
 
 export function startGame(): void {
     startCustomer();
@@ -13,13 +11,10 @@ export function startGame(): void {
     bindUndo();
 }
 
-const game = new GameFlow(questions);
-
-
 function updateScore(ans: boolean): void {
     const scoreDisplay = document.getElementById("score") as HTMLParagraphElement;
 
-    const nextScore = `${game.score} / ${questions.length}`;
+    const nextScore = `${getScore()} / ${getQuestionCount()}`;
 
     scoreDisplay.textContent = nextScore;
 
@@ -37,7 +32,7 @@ function updateScore(ans: boolean): void {
 function updateCash(ans: boolean): void { 
     const cashDisplay = document.getElementById("cash") as HTMLParagraphElement;
 
-    const nextCash = `${game.earnings} `;
+    const nextCash = `${getEarnings()} `;
 
     cashDisplay.textContent = nextCash 
 
@@ -93,22 +88,18 @@ function bindServe(): void {
         //Get the konva stage width
         const pizzaSize = toppingClonesArray[0]?.node.getStage()?.width() ?? 0;
 
-        const passValidator = validatePizza(currentOrder, slices, {
+        const passValidator = validatePizza(order, slices, {
             toppings: toppingsList,
             placedToppings,
             pizzaSize,
         });
 
-        //console.log(pizzaSize)
-
-        game.serve(passValidator);
-
         if (passValidator) {
             markCorrect();
             successPopUp.showModal();
         } else {
+            markWrong();
             failPopUp.showModal();
-            //updateScore(); 
         }
 
         updateScore(passValidator);
