@@ -73,4 +73,16 @@ export class CustomerView {
         const score = document.getElementById("day-score");
         if (score) score.textContent = text;
     }
+
+    showNextDay(show: boolean): void {
+        const button = document.getElementById("next-day");
+        if (button instanceof HTMLButtonElement) button.hidden = !show;
+    }
+
+    openWeek(text: string): void {
+        const summary = document.getElementById("week-summary");
+        if (summary) summary.textContent = text;
+        const dialog = document.getElementById("week");
+        if (dialog instanceof HTMLDialogElement) dialog.showModal();
+    }
 }
