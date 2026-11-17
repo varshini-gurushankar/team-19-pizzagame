@@ -73,4 +73,10 @@ export class CustomerView {
         const score = document.getElementById("day-score");
         if (score) score.textContent = text;
     }
+
+    showActiveOrder (order: Order | null): void {
+        const container = document.getElementById("active-order")
+        if (!container) return;
+        container.textContent = order ? formatOrder(order) : "";
+    }
 }

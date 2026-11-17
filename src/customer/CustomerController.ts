@@ -26,6 +26,7 @@ export function canServe(): boolean {
 export function startCustomer(): void {
     view.showQueue(questions);
     view.setActive(flow.round);
+    view.showActiveOrder(getCurrentOrder());
     patience.start();
 }
 
@@ -78,6 +79,7 @@ function moveOn(): void {
     }
 
     view.setActive(flow.round);
+    view.showActiveOrder(getCurrentOrder());
     patience.reset();
     patience.start();
 }
