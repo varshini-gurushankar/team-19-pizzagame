@@ -69,13 +69,30 @@ export class CustomerView {
         this.gameUI.updatePatienceBar(time, percent, fill, timeText);
     }
 
+    showDay(day: number): void {
+        const label = document.getElementById("current-day");
+        if (label) label.textContent = `Day ${day}`;
+    }
+
     showScore(text: string): void {
         const score = document.getElementById("day-score");
         if (score) score.textContent = text;
     }
 
-    showActiveOrder (order: Order | null): void {
-        const container = document.getElementById("active-order")
+    showNextDay(show: boolean): void {
+        const button = document.getElementById("next-day");
+        if (button instanceof HTMLButtonElement) button.hidden = !show;
+    }
+
+    openWeek(text: string): void {
+        const summary = document.getElementById("week-summary");
+        if (summary) summary.textContent = text;
+        const dialog = document.getElementById("week");
+        if (dialog instanceof HTMLDialogElement) dialog.showModal();
+    }
+
+    showActiveOrder(order: Order | null): void {
+        const container = document.getElementById("active-order");
         if (!container) return;
         container.textContent = order ? formatOrder(order) : "";
     }

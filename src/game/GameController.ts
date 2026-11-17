@@ -4,8 +4,8 @@ import { validatePizza } from "../pizza/PizzaModel";
 import { toppingClonesArray, topping_sizes } from "../pizza/PizzaView";
 import { getSelectedSlices } from "../pizza/sliceSlider";
 
-export function startGame(): void {
-    startCustomer();
+export async function startGame(): Promise<void> {
+    await startCustomer();
     setupPizza();
     bindServe();
     bindUndo();
