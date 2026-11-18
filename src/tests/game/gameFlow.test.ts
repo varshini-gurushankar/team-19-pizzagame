@@ -199,5 +199,63 @@ describe("GameFlow", () => {
         expect(wrongQArr).toEqual([testQuestions[1], testQuestions[2], testQuestions[5]]);
     })
 
+    it("charges 100 once for a wrong try and still allows a correct retry", () => {
+        const game = new GameFlow(testQuestions);
+
+        game.noteWrong();
+        game.noteWrong();
+
+        expect(game.score).toBe(0);
+        expect(game.earnings).toBe(-100);
+        expect(game.getMissedQuestionsID()).toEqual(["q01"]);
+        expect(game.wait).toBe(true);
+
+        game.serve(true);
+
+        expect(game.score).toBe(1);
+        expect(game.earnings).toBe(0);
+        expect(game.getMissedQuestionsID()).toEqual(["q01"]);
+        expect(game.wait).toBe(false);
+    });
+
+    it("does not charge again after the customer has already been served", () => {
+        const game = new GameFlow(testQuestions);
+
+        game.serve(true);
+        game.noteWrong();
+
+        expect(game.score).toBe(1);
+        expect(game.earnings).toBe(100);
+        expect(game.getMissedQuestionsID()).toEqual([]);
+    });
+
+    it("counts a timeout as a miss without changing the cash", () => {
+        const game = new GameFlow(testQuestions);
+        game.earnings = 300;
+
+        game.timeUp();
+        game.serve(true);
+
+        expect(game.score).toBe(0);
+        expect(game.earnings).toBe(300);
+        expect(game.wait).toBe(false);
+        expect(game.getMissedQuestionsID()).toEqual(["q01"]);
+    });
+
+    it("starts the next day at score 0 and keeps the cash", () => {
+        const day = new GameFlow(testQuestions);
+        day.serve(true);
+        day.next();
+        day.serve(true);
+
+        const nextDay = new GameFlow(testQuestions);
+        nextDay.earnings = day.earnings;
+
+        expect(day.score).toBe(2);
+        expect(day.earnings).toBe(200);
+        expect(nextDay.score).toBe(0);
+        expect(nextDay.earnings).toBe(200);
+        expect(nextDay.currentOrder()).toBe(testQuestions[0]);
+    });
 
 });
