@@ -1,4 +1,4 @@
-import { advance, canServe, getCurrentOrder, getEarnings, getQuestionCount, getScore, markCorrect, markWrong, startCustomer } from "../customer/CustomerController";
+import { advance, canServe, getCurrentOrder, getEarnings, getQuestionCount, getScore, markCorrect, markWrong, startCustomer, pausePatience, resumePatience } from "../customer/CustomerController";
 import { bindUndo, setupPizza } from "../pizza/PizzaController";
 import { validatePizza } from "../pizza/PizzaModel";
 import { toppingClonesArray, topping_sizes } from "../pizza/PizzaView";
@@ -11,10 +11,13 @@ export async function startGame(): Promise<void> {
     bindUndo();
 }
 
+
+
 function updateScore(ans: boolean): void {
     const scoreDisplay = document.getElementById("score") as HTMLParagraphElement;
-
+    
     const nextScore = `${getScore()} / ${getQuestionCount()}`;
+
 
     scoreDisplay.textContent = nextScore;
 
@@ -31,10 +34,12 @@ function updateScore(ans: boolean): void {
 
 function updateCash(ans: boolean): void { 
     const cashDisplay = document.getElementById("cash") as HTMLParagraphElement;
+    const earningsBox = document.getElementById("earnings-box");
 
     const nextCash = `${getEarnings()} `;
 
     cashDisplay.textContent = nextCash 
+    if (earningsBox) earningsBox.textContent = `${getEarnings()}`;
 
     cashDisplay.classList.remove("cash-pop-right", "cash-pop-wrong");
     if (ans) {
@@ -55,7 +60,10 @@ function bindServe(): void {
         successPopUp.close();
         advance();
     });
-    failContButton.addEventListener("click", () => failPopUp.close());
+    failContButton.addEventListener("click", () => {
+        failPopUp.close();
+        resumePatience();
+    });
 
     const serveButton = document.getElementById("serve-btn") as HTMLButtonElement;
 
@@ -94,12 +102,17 @@ function bindServe(): void {
             pizzaSize,
         });
 
+        //console.log(pizzaSize)
+
+
         if (passValidator) {
             markCorrect();
             successPopUp.showModal();
+            pausePatience();
         } else {
             markWrong();
             failPopUp.showModal();
+            pausePatience();
         }
 
         updateScore(passValidator);

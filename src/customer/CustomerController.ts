@@ -45,13 +45,6 @@ export async function startCustomer(): Promise<void> {
     await days.startDay();
 }
 
-export function getScore(): number {
-    return flow.score;
-}
-
-export function getEarnings(): number {
-    return flow.earnings;
-}
 
 export function getQuestionCount(): number {
     return questions.length;
@@ -72,6 +65,20 @@ export function advance(): void {
     moveOn();
 }
 
+export function getScore(): number {
+    return flow.score;
+}
+
+export function getEarnings(): number {
+    return flow.earnings
+}
+
+export function pausePatience(): void {
+    patience.stop();
+}
+
+export function resumePatience(): void {
+    patience.start();
 function shuffleQuestions(list: Question[]): Question[] {
     for (let i = list.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
