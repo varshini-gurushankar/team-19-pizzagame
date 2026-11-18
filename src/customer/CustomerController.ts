@@ -79,6 +79,8 @@ export function pausePatience(): void {
 
 export function resumePatience(): void {
     patience.start();
+}
+
 function shuffleQuestions(list: Question[]): Question[] {
     for (let i = list.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
