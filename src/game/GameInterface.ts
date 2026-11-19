@@ -3,13 +3,19 @@ const DANGER_PERCENT = 25;
 
 export class GameInterface {
 
-  updatePatienceBar(time: number, percent: number): void {
-    const fill = document.getElementById("patience-fill");
-    const timeText = document.getElementById("patience-time");
+  updatePatienceBar(
+    time: number,
+    percent: number,
+    fill: HTMLElement | null = document.getElementById("patience-fill"),
+    timeText: HTMLElement | null = document.getElementById("patience-time"),
+  ): void {
 
+    //either patience bar or timer text element wasnt found
     if (!fill || !timeText) return;
 
+    //update the remaining time
     timeText.textContent = `${Math.ceil(time)}s`;
+    //update the width of the par with the patience %
     fill.style.width = `${percent}%`;
 
     if (percent > WARNING_PERCENT) {

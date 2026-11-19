@@ -25,6 +25,14 @@ export interface Pizza {
     pizzaSize: number;
 }
 
+//Dictionary of sizes for each topping
+export const topping_sizes = {
+    pepperoni: 30,
+    onions: 32,
+    olives: 35,
+    basil: 35,
+}
+
 //function that makes pizza, takes html element, returns null
 export function createPizza(containerId: string): Pizza | null {
     //finds html container
@@ -290,15 +298,19 @@ basilTopping.on("dragend", function () {
  *****************************************************************************/
 
 function cloneFactory(node: Konva.Node, type: Toppings, x0: number): void {
+	if(node.getAttr("isToppingClone")) return;
 	const copy = node.clone({
 		x: node.x(),
 		y: node.y(),
 		draggable: true,
 	});
+
+	copy.setAttr("isToppingClone", true);
 	node.position({ x: x0, y: trayY });
 	layer.add(copy);
 
-	console.log("Added: " + copy);
+	console.log("Added: " + type + "\nNum of Toppings: " +
+			(toppingClonesArray.length+1));
 
 	copy.moveToTop();
 	// Push to array

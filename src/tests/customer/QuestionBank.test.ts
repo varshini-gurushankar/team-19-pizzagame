@@ -47,7 +47,30 @@ function buildCorrectPizza(question: Question): Record<string, number> {
             // calculates how many slices the topping should be on
             slicesCovered(topping.numerator, topping.denominator, question.slices);
     }
-    return toppings;
+
+    // Calculate total number of toppings
+    let totalToppings = 0;
+
+    for (const toppingName in toppings) {
+        totalToppings += toppings[toppingName];
+    }
+
+    // Create valid positions for each topping
+    const placedToppings = [];
+
+    for (let i = 0; i < totalToppings; i++) {
+        placedToppings.push({
+            x: 210,
+            y: 210,
+            radius: 10
+        });
+    }
+
+    return {
+        toppings: toppings,
+        placedToppings: placedToppings,
+        pizzaSize: 420
+    };
 }
 
 describe("question bank", () => {
@@ -191,7 +214,7 @@ describe.each(questions)("question $id", (question) => {
         // gets name of first topping in the questions topping array
         const firstTopping = question.toppings[0].toppingName;
         // removes one slice from the first topping, to make it incorrect
-        pizza[firstTopping] -= 1;
+        pizza.toppings[firstTopping] -= 1;
 
         //should be wrong
         expect(validatePizza(question, question.slices, pizza)).toBe(false);
