@@ -130,6 +130,81 @@ export const questions: readonly Question[] = [
     { id: "q42", difficulty: "easy", slices: 6, showDecimal: false,
       toppings: [{ toppingName: "olives", numerator: 5, denominator: 6 }] },
 
+    { id: "q76", difficulty: "easy", slices: 2, showDecimal: true,
+      toppings: [{ toppingName: "olives", numerator: 1, denominator: 2 }] },
+
+    { id: "q77", difficulty: "easy", slices: 2, showDecimal: false,
+      toppings: [{ toppingName: "onions", numerator: 1, denominator: 2 }] },
+
+    { id: "q78", difficulty: "easy", slices: 2, showDecimal: true,
+      toppings: [{ toppingName: "basil", numerator: 1, denominator: 2 }] },
+
+    { id: "q79", difficulty: "easy", slices: 3, showDecimal: false,
+      toppings: [{ toppingName: "pepperoni", numerator: 1, denominator: 3 }] },
+
+    { id: "q80", difficulty: "easy", slices: 3, showDecimal: false,
+      toppings: [{ toppingName: "onions", numerator: 1, denominator: 3 }] },
+
+    { id: "q81", difficulty: "easy", slices: 3, showDecimal: false,
+      toppings: [{ toppingName: "olives", numerator: 2, denominator: 3 }] },
+
+    { id: "q82", difficulty: "easy", slices: 3, showDecimal: false,
+      toppings: [{ toppingName: "basil", numerator: 2, denominator: 3 }] },
+
+    { id: "q83", difficulty: "easy", slices: 4, showDecimal: false,
+      toppings: [{ toppingName: "olives", numerator: 1, denominator: 4 }] },
+
+    { id: "q84", difficulty: "easy", slices: 4, showDecimal: false,
+      toppings: [{ toppingName: "basil", numerator: 3, denominator: 4 }] },
+
+    { id: "q85", difficulty: "easy", slices: 4, showDecimal: false,
+      toppings: [{ toppingName: "pepperoni", numerator: 1, denominator: 2 }] },
+
+    { id: "q86", difficulty: "easy", slices: 4, showDecimal: false,
+      toppings: [{ toppingName: "olives", numerator: 1, denominator: 2 }] },
+
+    { id: "q87", difficulty: "easy", slices: 4, showDecimal: true,
+      toppings: [{ toppingName: "onions", numerator: 1, denominator: 2 }] },
+
+    { id: "q88", difficulty: "easy", slices: 4, showDecimal: false,
+      toppings: [{ toppingName: "onions", numerator: 1, denominator: 2 }] },
+
+    { id: "q89", difficulty: "easy", slices: 4, showDecimal: true,
+      toppings: [{ toppingName: "basil", numerator: 1, denominator: 2 }] },
+
+    { id: "q90", difficulty: "easy", slices: 5, showDecimal: false,
+      toppings: [{ toppingName: "pepperoni", numerator: 2, denominator: 5 }] },
+
+    { id: "q91", difficulty: "easy", slices: 5, showDecimal: false,
+      toppings: [{ toppingName: "pepperoni", numerator: 4, denominator: 5 }] },
+
+    { id: "q92", difficulty: "easy", slices: 5, showDecimal: false,
+      toppings: [{ toppingName: "olives", numerator: 4, denominator: 5 }] },
+
+    { id: "q93", difficulty: "easy", slices: 5, showDecimal: false,
+      toppings: [{ toppingName: "onions", numerator: 3, denominator: 5 }] },
+
+    { id: "q94", difficulty: "easy", slices: 5, showDecimal: false,
+      toppings: [{ toppingName: "basil", numerator: 3, denominator: 5 }] },
+
+    { id: "q95", difficulty: "easy", slices: 6, showDecimal: false,
+      toppings: [{ toppingName: "pepperoni", numerator: 5, denominator: 6 }] },
+
+    { id: "q96", difficulty: "easy", slices: 6, showDecimal: false,
+      toppings: [{ toppingName: "olives", numerator: 1, denominator: 6 }] },
+
+    { id: "q97", difficulty: "easy", slices: 6, showDecimal: false,
+      toppings: [{ toppingName: "onions", numerator: 1, denominator: 6 }] },
+
+    { id: "q98", difficulty: "easy", slices: 6, showDecimal: false,
+      toppings: [{ toppingName: "onions", numerator: 5, denominator: 6 }] },
+
+    { id: "q99", difficulty: "easy", slices: 6, showDecimal: false,
+      toppings: [{ toppingName: "basil", numerator: 1, denominator: 6 }] },
+
+    { id: "q100", difficulty: "easy", slices: 6, showDecimal: false,
+      toppings: [{ toppingName: "basil", numerator: 5, denominator: 6 }] },
+
   // ----------------------------- MEDIUM ---------------------------------//
 
     { id: "q09", difficulty: "medium", slices: 4, showDecimal: true,
@@ -171,7 +246,7 @@ export const questions: readonly Question[] = [
     { id: "q17", difficulty: "medium", slices: 8, showDecimal: true,
       toppings: [{ toppingName: "pepperoni", numerator: 1, denominator: 4 }] },
 
-   { id: "q43", difficulty: "medium", slices: 4, showDecimal: true,
+    { id: "q43", difficulty: "medium", slices: 4, showDecimal: true,
       toppings: [{ toppingName: "pepperoni", numerator: 1, denominator: 4 }] },
 
     { id: "q44", difficulty: "medium", slices: 4, showDecimal: true,
@@ -234,6 +309,108 @@ export const questions: readonly Question[] = [
           { toppingName: "olives", numerator: 1, denominator: 4 },
       ] },
 
+    { id: "q101", difficulty: "medium", slices: 4, showDecimal: true,
+      toppings: [{ toppingName: "basil", numerator: 1, denominator: 4 }] },
+
+    { id: "q102", difficulty: "medium", slices: 4, showDecimal: true,
+      toppings: [{ toppingName: "olives", numerator: 1, denominator: 4 }] },
+
+    { id: "q103", difficulty: "medium", slices: 4, showDecimal: true,
+      toppings: [{ toppingName: "pepperoni", numerator: 3, denominator: 4 }] },
+
+    { id: "q104", difficulty: "medium", slices: 4, showDecimal: true,
+      toppings: [{ toppingName: "onions", numerator: 3, denominator: 4 }] },
+
+    { id: "q105", difficulty: "medium", slices: 5, showDecimal: true,
+      toppings: [{ toppingName: "pepperoni", numerator: 1, denominator: 5 }] },
+
+    { id: "q106", difficulty: "medium", slices: 5, showDecimal: true,
+      toppings: [{ toppingName: "olives", numerator: 2, denominator: 5 }] },
+
+    { id: "q107", difficulty: "medium", slices: 5, showDecimal: true,
+      toppings: [{ toppingName: "onions", numerator: 4, denominator: 5 }] },
+
+    { id: "q108", difficulty: "medium", slices: 5, showDecimal: true,
+      toppings: [{ toppingName: "basil", numerator: 3, denominator: 5 }] },
+
+    { id: "q109", difficulty: "medium", slices: 6, showDecimal: true,
+      toppings: [{ toppingName: "onions", numerator: 1, denominator: 2 }] },
+
+    { id: "q110", difficulty: "medium", slices: 6, showDecimal: false,
+      toppings: [{ toppingName: "basil", numerator: 1, denominator: 2 }] },
+
+    { id: "q111", difficulty: "medium", slices: 6, showDecimal: false,
+      toppings: [{ toppingName: "onions", numerator: 1, denominator: 3 }] },
+
+    { id: "q112", difficulty: "medium", slices: 6, showDecimal: false,
+      toppings: [{ toppingName: "olives", numerator: 2, denominator: 3 }] },
+
+    { id: "q113", difficulty: "medium", slices: 8, showDecimal: true,
+      toppings: [{ toppingName: "basil", numerator: 1, denominator: 2 }] },
+
+    { id: "q114", difficulty: "medium", slices: 8, showDecimal: false,
+      toppings: [{ toppingName: "onions", numerator: 1, denominator: 4 }] },
+
+    { id: "q115", difficulty: "medium", slices: 8, showDecimal: false,
+      toppings: [{ toppingName: "basil", numerator: 3, denominator: 4 }] },
+
+    { id: "q116", difficulty: "medium", slices: 8, showDecimal: true,
+      toppings: [{ toppingName: "olives", numerator: 3, denominator: 4 }] },
+
+    { id: "q117", difficulty: "medium", slices: 4, showDecimal: false,
+      toppings: [
+          { toppingName: "onions", numerator: 1, denominator: 4 },
+          { toppingName: "pepperoni", numerator: 1, denominator: 4 },
+      ] },
+
+    { id: "q118", difficulty: "medium", slices: 4, showDecimal: true,
+      toppings: [
+          { toppingName: "basil", numerator: 1, denominator: 2 },
+          { toppingName: "onions", numerator: 1, denominator: 2 },
+      ] },
+
+    { id: "q119", difficulty: "medium", slices: 3, showDecimal: false,
+      toppings: [
+          { toppingName: "olives", numerator: 2, denominator: 3 },
+          { toppingName: "basil", numerator: 1, denominator: 3 },
+      ] },
+
+    { id: "q120", difficulty: "medium", slices: 5, showDecimal: false,
+      toppings: [
+          { toppingName: "onions", numerator: 1, denominator: 5 },
+          { toppingName: "basil", numerator: 2, denominator: 5 },
+      ] },
+
+    { id: "q121", difficulty: "medium", slices: 5, showDecimal: true,
+      toppings: [
+          { toppingName: "olives", numerator: 1, denominator: 5 },
+          { toppingName: "pepperoni", numerator: 1, denominator: 5 },
+      ] },
+
+    { id: "q122", difficulty: "medium", slices: 6, showDecimal: false,
+      toppings: [
+          { toppingName: "onions", numerator: 1, denominator: 3 },
+          { toppingName: "olives", numerator: 1, denominator: 3 },
+      ] },
+
+    { id: "q123", difficulty: "medium", slices: 6, showDecimal: false,
+      toppings: [
+          { toppingName: "olives", numerator: 1, denominator: 2 },
+          { toppingName: "onions", numerator: 1, denominator: 6 },
+      ] },
+
+    { id: "q124", difficulty: "medium", slices: 8, showDecimal: true,
+      toppings: [
+          { toppingName: "pepperoni", numerator: 1, denominator: 4 },
+          { toppingName: "basil", numerator: 1, denominator: 4 },
+      ] },
+
+    { id: "q125", difficulty: "medium", slices: 8, showDecimal: false,
+      toppings: [
+          { toppingName: "basil", numerator: 3, denominator: 4 },
+          { toppingName: "pepperoni", numerator: 1, denominator: 4 },
+      ] },
+
   // ----------------------------- HARD ---------------------------------//
 
     { id: "q18", difficulty: "hard", slices: 6, showDecimal: false,
@@ -288,7 +465,7 @@ export const questions: readonly Question[] = [
           { toppingName: "pepperoni", numerator: 1, denominator: 6 },
       ] },
 
-{ id: "q59", difficulty: "hard", slices: 6, showDecimal: false,
+    { id: "q59", difficulty: "hard", slices: 6, showDecimal: false,
       toppings: [
           { toppingName: "olives", numerator: 1, denominator: 2 },
           { toppingName: "pepperoni", numerator: 1, denominator: 3 },
@@ -363,8 +540,6 @@ export const questions: readonly Question[] = [
           { toppingName: "onions", numerator: 1, denominator: 10 },
       ] },
 
-    /* four-topping orders: every tray topping is used */
-
     { id: "q71", difficulty: "hard", slices: 8, showDecimal: true,
       toppings: [
           { toppingName: "pepperoni", numerator: 1, denominator: 4 },
@@ -403,6 +578,174 @@ export const questions: readonly Question[] = [
           { toppingName: "pepperoni", numerator: 1, denominator: 5 },
           { toppingName: "onions", numerator: 1, denominator: 10 },
           { toppingName: "olives", numerator: 1, denominator: 10 },
+      ] },
+
+    { id: "q126", difficulty: "hard", slices: 6, showDecimal: false,
+      toppings: [
+          { toppingName: "pepperoni", numerator: 1, denominator: 3 },
+          { toppingName: "olives", numerator: 1, denominator: 6 },
+          { toppingName: "basil", numerator: 1, denominator: 3 },
+      ] },
+
+    { id: "q127", difficulty: "hard", slices: 6, showDecimal: false,
+      toppings: [
+          { toppingName: "onions", numerator: 1, denominator: 2 },
+          { toppingName: "olives", numerator: 1, denominator: 3 },
+          { toppingName: "pepperoni", numerator: 1, denominator: 6 },
+      ] },
+
+    { id: "q128", difficulty: "hard", slices: 6, showDecimal: false,
+      toppings: [
+          { toppingName: "basil", numerator: 1, denominator: 2 },
+          { toppingName: "pepperoni", numerator: 1, denominator: 6 },
+      ] },
+
+    { id: "q129", difficulty: "hard", slices: 8, showDecimal: true,
+      toppings: [
+          { toppingName: "olives", numerator: 1, denominator: 8 },
+          { toppingName: "pepperoni", numerator: 3, denominator: 4 },
+      ] },
+
+    { id: "q130", difficulty: "hard", slices: 8, showDecimal: false,
+      toppings: [
+          { toppingName: "basil", numerator: 3, denominator: 8 },
+          { toppingName: "onions", numerator: 1, denominator: 4 },
+          { toppingName: "pepperoni", numerator: 1, denominator: 4 },
+      ] },
+
+    { id: "q131", difficulty: "hard", slices: 8, showDecimal: true,
+      toppings: [
+          { toppingName: "pepperoni", numerator: 1, denominator: 2 },
+          { toppingName: "onions", numerator: 3, denominator: 8 },
+      ] },
+
+    { id: "q132", difficulty: "hard", slices: 8, showDecimal: false,
+      toppings: [
+          { toppingName: "onions", numerator: 5, denominator: 8 },
+          { toppingName: "pepperoni", numerator: 1, denominator: 4 },
+      ] },
+
+    { id: "q133", difficulty: "hard", slices: 8, showDecimal: false,
+      toppings: [
+          { toppingName: "pepperoni", numerator: 1, denominator: 8 },
+          { toppingName: "basil", numerator: 3, denominator: 4 },
+      ] },
+
+    { id: "q134", difficulty: "hard", slices: 8, showDecimal: true,
+      toppings: [
+          { toppingName: "olives", numerator: 3, denominator: 8 },
+          { toppingName: "pepperoni", numerator: 1, denominator: 2 },
+          { toppingName: "basil", numerator: 1, denominator: 8 },
+      ] },
+
+    { id: "q135", difficulty: "hard", slices: 8, showDecimal: false,
+      toppings: [
+          { toppingName: "onions", numerator: 1, denominator: 2 },
+          { toppingName: "basil", numerator: 1, denominator: 4 },
+          { toppingName: "olives", numerator: 1, denominator: 8 },
+      ] },
+
+    { id: "q136", difficulty: "hard", slices: 9, showDecimal: false,
+      toppings: [
+          { toppingName: "basil", numerator: 2, denominator: 3 },
+          { toppingName: "onions", numerator: 2, denominator: 9 },
+      ] },
+
+    { id: "q137", difficulty: "hard", slices: 9, showDecimal: false,
+      toppings: [
+          { toppingName: "olives", numerator: 1, denominator: 3 },
+          { toppingName: "pepperoni", numerator: 4, denominator: 9 },
+      ] },
+
+    { id: "q138", difficulty: "hard", slices: 9, showDecimal: false,
+      toppings: [
+          { toppingName: "onions", numerator: 1, denominator: 3 },
+          { toppingName: "basil", numerator: 1, denominator: 9 },
+          { toppingName: "pepperoni", numerator: 1, denominator: 3 },
+      ] },
+
+    { id: "q139", difficulty: "hard", slices: 9, showDecimal: false,
+      toppings: [
+          { toppingName: "pepperoni", numerator: 5, denominator: 9 },
+          { toppingName: "olives", numerator: 1, denominator: 3 },
+      ] },
+
+    { id: "q140", difficulty: "hard", slices: 9, showDecimal: false,
+      toppings: [
+          { toppingName: "olives", numerator: 2, denominator: 3 },
+          { toppingName: "pepperoni", numerator: 1, denominator: 9 },
+          { toppingName: "basil", numerator: 2, denominator: 9 },
+      ] },
+
+    { id: "q141", difficulty: "hard", slices: 10, showDecimal: true,
+      toppings: [
+          { toppingName: "onions", numerator: 3, denominator: 10 },
+          { toppingName: "pepperoni", numerator: 3, denominator: 5 },
+      ] },
+
+    { id: "q142", difficulty: "hard", slices: 10, showDecimal: false,
+      toppings: [
+          { toppingName: "pepperoni", numerator: 2, denominator: 5 },
+          { toppingName: "onions", numerator: 1, denominator: 2 },
+          { toppingName: "basil", numerator: 1, denominator: 10 },
+      ] },
+
+    { id: "q143", difficulty: "hard", slices: 10, showDecimal: true,
+      toppings: [
+          { toppingName: "basil", numerator: 3, denominator: 10 },
+          { toppingName: "olives", numerator: 1, denominator: 2 },
+          { toppingName: "pepperoni", numerator: 1, denominator: 5 },
+      ] },
+
+    { id: "q144", difficulty: "hard", slices: 10, showDecimal: true,
+      toppings: [
+          { toppingName: "onions", numerator: 7, denominator: 10 },
+          { toppingName: "basil", numerator: 1, denominator: 5 },
+          { toppingName: "olives", numerator: 1, denominator: 10 },
+      ] },
+
+    { id: "q145", difficulty: "hard", slices: 10, showDecimal: false,
+      toppings: [
+          { toppingName: "olives", numerator: 3, denominator: 5 },
+          { toppingName: "basil", numerator: 3, denominator: 10 },
+      ] },
+
+    { id: "q146", difficulty: "hard", slices: 10, showDecimal: false,
+      toppings: [
+          { toppingName: "basil", numerator: 4, denominator: 5 },
+          { toppingName: "pepperoni", numerator: 1, denominator: 10 },
+      ] },
+
+    { id: "q147", difficulty: "hard", slices: 8, showDecimal: true,
+      toppings: [
+          { toppingName: "olives", numerator: 3, denominator: 8 },
+          { toppingName: "pepperoni", numerator: 1, denominator: 4 },
+          { toppingName: "basil", numerator: 1, denominator: 8 },
+          { toppingName: "onions", numerator: 1, denominator: 4 },
+      ] },
+
+    { id: "q148", difficulty: "hard", slices: 10, showDecimal: false,
+      toppings: [
+          { toppingName: "onions", numerator: 1, denominator: 5 },
+          { toppingName: "olives", numerator: 3, denominator: 10 },
+          { toppingName: "pepperoni", numerator: 1, denominator: 10 },
+          { toppingName: "basil", numerator: 2, denominator: 5 },
+      ] },
+
+    { id: "q149", difficulty: "hard", slices: 6, showDecimal: false,
+      toppings: [
+          { toppingName: "pepperoni", numerator: 1, denominator: 3 },
+          { toppingName: "onions", numerator: 1, denominator: 6 },
+          { toppingName: "olives", numerator: 1, denominator: 6 },
+          { toppingName: "basil", numerator: 1, denominator: 3 },
+      ] },
+
+    { id: "q150", difficulty: "hard", slices: 9, showDecimal: false,
+      toppings: [
+          { toppingName: "pepperoni", numerator: 1, denominator: 3 },
+          { toppingName: "onions", numerator: 2, denominator: 9 },
+          { toppingName: "basil", numerator: 1, denominator: 9 },
+          { toppingName: "olives", numerator: 1, denominator: 3 },
       ] },
 ];
 
