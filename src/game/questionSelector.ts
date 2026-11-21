@@ -51,8 +51,8 @@ function FY_shuffle(arr: QuestionResult[]): QuestionResult[] {
  * @return real number in interval [0, 1]
  */
 function playerSuccessRate(
-    playerData:   QuestionResult[]
-    recentScores: QuestionResult[],
+    playerData:   QuestionResult[],
+    recentScores: QuestionResult[]
 ): number {
     var arr = recentScores.concat(playerData);
     let totalSuccess: number = 0;
@@ -162,7 +162,7 @@ export function dailyQuestionPicker(
             (randElement) &&
             (!result.some(question => question.question.id === randElement.id))
         ) {
-            result.push({ success: false, question: randElement,});
+            result.push({ success: false, question: randElement });
             ++j;
         }
     }
