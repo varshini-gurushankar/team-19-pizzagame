@@ -29,7 +29,7 @@ const LOW_SCORE: number = 0.5;
 
 /**
  * Helper Function for shuffling questions in array . .
- * Fisher–Yates shuffling algorithm, from this Stack Overflow article:
+ * Fisher–Yates shuffling algorithm, from this Stack Overflow answer:
  *      https://stackoverflow.com/a/2450976
  * @param arr array that you want to shuffle
  * @return shuffled array
@@ -46,19 +46,20 @@ function FY_shuffle(arr: QuestionResult[]): QuestionResult[] {
 
 /**
  * Helper Function to normalize player's score to a number in interval [0, 1]
- * @param recentScores array
- * @param playerData array
- * @return number
+ * @param playerData array of player scores from the previous day d-1
+ * @param recentScores array of scores from day d-2
+ * @return real number in interval [0, 1]
  */
 function playerSuccessRate(
-    recentScores: QuestionResult[],
     playerData:   QuestionResult[]
+    recentScores: QuestionResult[],
 ): number {
     var arr = recentScores.concat(playerData);
     let totalSuccess: number = 0;
     for(let i = 0; i < arr.length; ++i)
         if(arr[i].success)
             ++totalSuccess;
+
     // the check avoids dividing by zero
     return arr.length === 0 ? 0 : totalSuccess / arr.length;
 }
@@ -95,6 +96,7 @@ export function dailyQuestionPicker(
 ): QuestionResult[] {
     // The array that will be returned to after being populated with questions.
     let result: QuestionResult[] = [];
+
     // By default, the player can retry up to 40% of their missed questions.
     let numOfReviewQ: number = 4;
 
@@ -111,15 +113,20 @@ export function dailyQuestionPicker(
          */
         let rcLen: number = recentScores.length;
         if(rcLen >= NUM_OF_QUESTIONS) {
-            let norm: number = playerSuccessRate(recentScores, playerData);
+            let norm: number = playerSuccessRate(playerData, recentScores);
             console.log("NORM: " + norm);
 
             // If the player has been doing very well (over 90%), rank up!
-            if((playerTier !== "hard") && (norm >= HIGH_SCORE))
+            if(
+                (playerTier !== "hard") &&
+                (norm >= HIGH_SCORE)
+            )
                 rankUp();
 
-            // Give up to 5 review questions if the player has been doing poorly
-            // (below 50%)
+            /**
+             * Give up to 5 review questions if the player has been doing poorly
+             *  (below 50%)
+             */
             else if(norm < LOW_SCORE)
                 numOfReviewQ = 5;
         }
@@ -139,34 +146,27 @@ export function dailyQuestionPicker(
             const id = missedQuestions.shift()!;
             const question = getQuestionById(id);
             if(question)
-                result.push({
-                    success: false,
-                    question
-                });
+                result.push({ success: false, question });
         }
 
-        let j = result.length;
-        while(
-            (questionPool.length > 0) &&
-            (j < NUM_OF_QUESTIONS)
+    let j = result.length;
+    while(
+        (questionPool.length > 0) &&
+        (j < NUM_OF_QUESTIONS)
+    ) {
+        const randomIndex = Math.floor(Math.random() * questionPool.length);
+        const [randElement] = questionPool.splice(randomIndex, 1);
+
+        // Do not add duplicates
+        if(
+            (randElement) &&
+            (!result.some(question => question.question.id === randElement.id))
         ) {
-            const randomIndex = Math.floor(Math.random() * questionPool.length);
-            const [randElement] = questionPool.splice(randomIndex, 1);
-
-            // Do not add duplicates
-            if(
-                randElement &&
-                !result.some(question => question.question.id ===
-                randElement.id)
-            ) {
-                result.push({
-                    success:  false,
-                    question: randElement,
-                });
-                ++j;
-            }
+            result.push({ success: false, question: randElement,});
+            ++j;
         }
+    }
 
-        // Shuffle questions before returning
-        return FY_shuffle(result);
+    // Shuffle questions before returning
+    return FY_shuffle(result);
 }
