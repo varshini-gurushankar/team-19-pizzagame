@@ -29,7 +29,7 @@ const LOW_SCORE: number = 0.5;
 
 /**
  * Helper Function for shuffling questions in array . .
- * Fisher–Yates shuffling algorithm, from this Stack Overflow answer:
+ * Fisher–Yates shuffling algorithm, from this Stack Overflow article:
  *      https://stackoverflow.com/a/2450976
  * @param arr array that you want to shuffle
  * @return shuffled array
@@ -145,27 +145,28 @@ export function dailyQuestionPicker(
                 });
         }
 
-    let j = result.length;
-    while(
-        (questionPool.length > 0) &&
-        (j < NUM_OF_QUESTIONS)
-    ) {
-        const randomIndex = Math.floor(Math.random() * questionPool.length);
-        const [randElement] = questionPool.splice(randomIndex, 1);
-
-        // Do not add duplicates
-        if(
-            randElement &&
-            !result.some(question => question.question.id === randElement.id)
+        let j = result.length;
+        while(
+            (questionPool.length > 0) &&
+            (j < NUM_OF_QUESTIONS)
         ) {
-            result.push({
-                success:  false,
-                question: randElement,
-            });
-            ++j;
-        }
-    }
+            const randomIndex = Math.floor(Math.random() * questionPool.length);
+            const [randElement] = questionPool.splice(randomIndex, 1);
 
-    // Shuffle questions before returning
-    return FY_shuffle(result);
+            // Do not add duplicates
+            if(
+                randElement &&
+                !result.some(question => question.question.id ===
+                randElement.id)
+            ) {
+                result.push({
+                    success:  false,
+                    question: randElement,
+                });
+                ++j;
+            }
+        }
+
+        // Shuffle questions before returning
+        return FY_shuffle(result);
 }
