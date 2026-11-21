@@ -29,7 +29,7 @@ const LOW_SCORE: number = 0.5;
 
 /**
  * Helper Function for shuffling questions in array . .
- * Fisher–Yates shuffling algorithm, from this Stack Overflow article:
+ * Fisher–Yates shuffling algorithm, from this Stack Overflow answer:
  *      https://stackoverflow.com/a/2450976
  * @param arr array that you want to shuffle
  * @return shuffled array
