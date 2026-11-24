@@ -6,7 +6,7 @@
 
 The player (YOU!) just inherited the family pizza shop and has to keep it 
 running through a busy week. Customers will line up at the counter with orders 
-written as fractions, such as “⅗ of the pizza with pepperoni please!” Each 
+written as fractions, such as “3/5 of the pizza with pepperoni please!” Each 
 customer will have a patience meter that slowly runs down as they wait.
 
 ### Over Timer Minigame
