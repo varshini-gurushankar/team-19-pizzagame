@@ -19,6 +19,10 @@ export function getCurrentOrder(): Order | null {
     return flow.currentOrder();
 }
 
+export function getDailyQuestionCount(): number {
+    return questions.length;
+}
+
 export function canServe(): boolean {
     return flow.wait && !flow.isFinished();
 }

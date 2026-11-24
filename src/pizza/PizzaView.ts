@@ -131,6 +131,11 @@ type ToppingClone = {
 
 // Array that saves all copies of cloned toppings
 export const toppingClonesArray: ToppingClone[] = [];
+export const toppingsAddRemove = "pizza-toppings-changed";
+
+export function notifyToppingsChanged(): void {
+	document.dispatchEvent(new Event(toppingsAddRemove));
+}
 
 export function setupToppings(layer: Konva.Layer, pizzaSize: number): void {
 	const trayY = pizzaSize + 58;
@@ -315,6 +320,7 @@ function cloneFactory(node: Konva.Node, type: Toppings, x0: number): void {
 	copy.moveToTop();
 	// Push to array
 	toppingClonesArray.push({ type, node: copy });
+	notifyToppingsChanged();
 	layer.batchDraw();
 }
 

@@ -24,7 +24,7 @@ export class GameFlow {
     }
 
     private trackWrongQuestion(question: Question): void{
-        if (question === null){
+        if (this.wrongPizzaOrder.includes(question.id)){
             return; 
         }
 
@@ -55,7 +55,7 @@ export class GameFlow {
                 return 
             }
 
-            //Note to self : make sure that there are no duplicates in teh wrong question tracker 
+            // Retries record a missed question only once.
             this.trackWrongQuestion(question); 
 
             this.earnings -= 100; 
@@ -64,6 +64,12 @@ export class GameFlow {
 
 
         this.wait = false;
+    }
+
+    retry(): void {
+        if (!this.isFinished()) {
+            this.wait = true;
+        }
     }
 
     // if the patience meter runs out, it counts as a miss in the game

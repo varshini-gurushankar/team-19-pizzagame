@@ -1,12 +1,15 @@
-import { advance, canServe, getCurrentOrder, markCorrect, startCustomer } from "../customer/CustomerController";
+import { advance, canServe, getCurrentOrder, getDailyQuestionCount, markCorrect, startCustomer } from "../customer/CustomerController";
+import { toppingNames } from "../customer/CustomerModel";
 import { bindUndo, setupPizza } from "../pizza/PizzaController";
 import { validatePizza } from "../pizza/PizzaModel";
-import { toppingClonesArray, topping_sizes } from "../pizza/PizzaView";
+import { toppingsAddRemove, toppingClonesArray, topping_sizes } from "../pizza/PizzaView";
 import { getSelectedSlices } from "../pizza/sliceSlider";
 import { questions } from "../customer/QuestionBank";
 import { GameFlow } from "./GameFlow";
 
 export function startGame(): void {
+    document.addEventListener(toppingsAddRemove, updateToppingCounts);
+    updateToppingCounts();
     startCustomer();
     setupPizza();
     bindServe();
@@ -15,38 +18,53 @@ export function startGame(): void {
 
 const game = new GameFlow(questions);
 
+function updateToppingCounts(): void {
+    const counts = {
+        pepperoni: 0,
+        onions: 0,
+        olives: 0,
+        basil: 0,
+    };
+
+    for (const { type } of toppingClonesArray) {
+        counts[type] += 1;
+    }
+
+    for (const name of toppingNames) {
+        const count = document.getElementById(`topping-count-${name}`);
+        if (!(count instanceof HTMLElement)) {
+            throw new Error(`Topping count display for "${name}" not found`);
+        }
+        count.textContent = String(counts[name]);
+    }
+}
+
+function restartResultAnimation(element: HTMLElement, passed: boolean, type: "score" | "cash"): void {
+    const successClass = `${type}-pop-right`;
+    const failureClass = `${type}-pop-wrong`;
+    element.classList.remove(successClass, failureClass);
+    void element.offsetWidth;
+    element.classList.add(passed ? successClass : failureClass);
+}
 
 function updateScore(ans: boolean): void {
-    const scoreDisplay = document.getElementById("score") as HTMLParagraphElement;
+    const scoreDisplay = document.getElementById("score") as HTMLSpanElement;
 
-    const nextScore = `${game.score} / ${questions.length}`;
+    const nextScore = `${game.score} / ${getDailyQuestionCount()}`;
 
     scoreDisplay.textContent = nextScore;
 
-    //Animations 
-    scoreDisplay.classList.remove("score-pop-right", "score-pop-wrong");
-    if (ans){
-        scoreDisplay.classList.add("score-pop-right");
-    }
-    else{
-        scoreDisplay.classList.add("score-pop-wrong");
-    }
-    
+    restartResultAnimation(scoreDisplay, ans, "score");
 }
 
 function updateCash(ans: boolean): void { 
-    const cashDisplay = document.getElementById("cash") as HTMLParagraphElement;
+    const cashDisplay = document.getElementById("cash") as HTMLSpanElement;
 
     const nextCash = `${game.earnings} `;
 
     cashDisplay.textContent = nextCash 
 
-    cashDisplay.classList.remove("cash-pop-right", "cash-pop-wrong");
-    if (ans) {
-        cashDisplay.classList.add("cash-pop-right");
-    } else {
-        cashDisplay.classList.add("cash-pop-wrong");
-    }
+    restartResultAnimation(cashDisplay, ans, "cash");
 }
 
 
@@ -58,9 +76,13 @@ function bindServe(): void {
 
     successContButton.addEventListener("click", () => {
         successPopUp.close();
+        game.next();
         advance();
     });
-    failContButton.addEventListener("click", () => failPopUp.close());
+    failContButton.addEventListener("click", () => {
+        failPopUp.close();
+        game.retry();
+    });
 
     const serveButton = document.getElementById("serve-btn") as HTMLButtonElement;
 

@@ -53,6 +53,36 @@
       padding: 30px;
     }
 
+    .placed-topping-counts {
+      margin-bottom: 28px;
+      padding: 16px;
+      border: 2px solid #34251e;
+      background: #fffdf4;
+    }
+
+    .placed-topping-counts h2 {
+      margin: 0 0 12px;
+      color: #34251e;
+      font-size: 18px;
+    }
+
+    .placed-topping-counts ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .placed-topping-counts li {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #e5d8d2;
+    }
+
+    .placed-topping-counts li:last-child {
+      border-bottom: 0;
+    }
+
     /* customer box area */
     .customer {
         background: #fffdf4;
@@ -121,13 +151,6 @@
         transition: width 0.1s linear;
     }
 
-    /* earning box area */
-    .earnings {
-        height: 146px;
-        margin-top: 28px;
-        border: 2px solid #34251e;
-        background: #fae7a5;
-    }
 
     /* "CUT INTO X SLICES" text*/
     .slice-control label {
@@ -279,10 +302,62 @@
       animation: cash-pop-wrong 1.5s ease-out;
     }
 
+    .game-header {
+      height: 100px;
+      padding: 0 6%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      background: #fff8e5;
+      border-bottom: 6px solid #d88b9c;
+    }
+
+    .menu-link {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color: #4a3fa0;
+      font: bold 24px Arial, sans-serif;
+      text-decoration: none;
+    }
+
+    .game-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .pizza-icon {
+      font-size: 48px;
+    }
+
+    .game-brand p {
+      margin: 0 0 8px;
+      color: #a64e4e;
+      font: bold 12px Arial, sans-serif;
+      letter-spacing: 3px;
+    }
+
+    .game-brand h1 {
+      margin: 0;
+      color: #34251e;
+      font: 32px Georgia, serif;
+    }
+
   </style>
 </head>
 <body>
-  <header></header>
+  <header class="game-header">
+    <a class="menu-link" href="./index.html">← <span>Menu</span></a>
+
+    <div class="game-brand">
+      <span class="pizza-icon" aria-hidden="true">🍕</span>
+      <div>
+        <p>PIZZA GAME</p>
+        <h1>DINNER RUSH</h1>
+      </div>
+    </div>
+  </header>
   <main>
     <!-- puts customer box and earnings box in left column -->
     <section class="left-column">
@@ -290,12 +365,9 @@
   <div id="customer-list" class="customer-list"></div>
   <p id="day-score"></p>
 
-  <div class="earnings"></div>
 
 </section>
     <!-- in the pizza panel box -->
-
-    
     <section class="pizza-panel">
 
         <!-- score tracker  -->
@@ -336,11 +408,17 @@
 
     </section>
     <section class="order-panel">
-      
-      <!-- Serve Button -->
-      <div class="complete-order">
-        <button class="serve-btn" id = "serve-btn" type="button">Serve Pizza</button>
+      <div class="placed-topping-counts">
+        <h2>Current Pizza: </h2>
+        <ul aria-live="polite">
+          <li>Pepperoni <span id="topping-count-pepperoni">0</span></li>
+          <li>Onions <span id="topping-count-onions">0</span></li>
+          <li>Olives <span id="topping-count-olives">0</span></li>
+          <li>Basil <span id="topping-count-basil">0</span></li>
+        </ul>
       </div>
+
+      <button class="serve-btn" id="serve-btn" type="button">Serve Pizza</button>
     </section>
   </main>
 
@@ -353,7 +431,7 @@
   <dialog id="fail">
     <h2>Oh No!</h2>
     <p>The order was incorrect.</p>
-    <button id="fail-continue" type="button">Continue</button>
+    <button id="fail-continue" type="button">Try Again</button>
   </dialog>
 
   <script type="module">

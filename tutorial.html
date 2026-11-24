@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dinner Rush</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    /* background */
+    body {
+      margin: 0;
+      background: #fff8e5;
+    }
+
+    /* title area */
+    header {
+      height: 73px;
+      background: #e3d1d1;
+      border-bottom: 3px solid #d88b9c;
+    }
+
+    main {
+      display: grid;
+
+      /* three columns */
+      grid-template-columns: 
+      minmax(220px, 1fr) 
+      minmax(400px, 1.8fr) 
+      minmax(260px, 1.05fr);
+
+      gap: 28px;
+      padding: 30px 24px;
+      align-items: start;
+    }
+
+    /* pizza choose toppings area  */
+    .pizza-panel {
+      min-height: 745px;
+      background: #fffdf4;
+      border: 3px solid #34251e;
+      padding: 34px;
+    }
+
+    /* order details area */
+    .order-panel {
+      min-height: 620px;
+      background: #fae7a5;
+      border: 3px solid #34251e;
+      padding: 30px;
+    }
+
+    /* customer box area */
+    .customer {
+        background: #fffdf4;
+        border: 2px solid #ff0000;
+        padding: 15px;
+        margin-bottom: 14px;
+    }
+
+    .customer-list {
+        max-height: 70vh;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .order-details {
+        margin: 12px 0 0;
+        font-size: 16px;
+        line-height: 1.4;
+        color: #34251e;
+    }
+
+    .customer.active {
+        outline: 3px solid #34251e;
+    }
+
+    .customer.done,
+    .customer.left {
+        opacity: 0.55;
+    }
+
+    #day-score {
+        margin: 12px 0 0;
+        font-weight: bold;
+        color: #34251e;
+    }
+
+    /* customer patience meter */
+    .patience-container {
+        margin-top: 12px;
+    }
+
+    .patience-label {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #34251e;
+    }
+
+    .patience-bar {
+        width: 100%;
+        height: 20px;
+        background: #e5d8d2;
+        border: 2px solid #34251e;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .patience-fill {
+        width: 100%;
+        height: 100%;
+        background: #65b979;
+        transition: width 0.1s linear;
+    }
+
+    /* "CUT INTO X SLICES" text*/
+    .slice-control label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #34251e;
+      text-align: center; 
+    }
+
+    /* konva pizza */
+    #pizza-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    /* The num in ^^^ label */
+    #slice-count {
+      color:#4a3fa0;
+      font-size: 1.3em;
+    }
+
+    /* slider */
+    #slice-slider {
+      width: 100%;
+      accent-color: #4a3fa0;  
+    }
+
+    /* num indicators for slider */
+    .slice-ticks {
+      display: flex;
+      justify-content: space-between;
+      padding: 0px 5px;
+      font-size: 13px;
+      color: #4a3fa0;
+      font-weight: bold;
+    }
+
+    /* gap in between each num indictaor for slider */
+    .slice-ticks span {
+      width: 0px;                
+      display: flex;
+      justify-content: center;
+    }
+
+    /* centering the button */
+    .serve-btn {
+      display: block;
+      margin: 20px auto 0;
+      padding: 20px 30px;
+      border: none;
+      border-radius: 8px;
+      background: #49834d;
+      color: white;
+      font: bold 18px Arial, sans-serif;
+      cursor: pointer;
+      transition: background-color 0.5s ease, padding 0.5s ease; 
+    }
+
+    /* hover effect for the button */
+    .serve-btn:hover {
+      background-color: #286c47;
+      padding:23px 33px;
+    }
+
+
+    /* konva pizza */
+    #pizza-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    
+    /* toppings container */
+    #toppings-container {
+      width: 100%;
+      height: 300px;
+      margin-top: 300px;
+      margin-bottom: 10px;
+    }
+
+    /* undo button */
+    #undo-button {
+      display: block;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #49834d;
+      color: white;
+      font: bold 18px Arial, sans-serif;
+      cursor: pointer;
+      transition: background-color 0.5s ease, padding 0.5s ease;
+      left: 40px;
+    }
+
+    .score-tracker {
+      text-align: right;
+      font: bold 18px Arial, sans-serif;
+    }
+
+    .score-tracker p { 
+      margin: 0; 
+      padding:5px;
+      
+    }
+
+    .tools {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    @keyframes score-pop-right {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.5); color: #53c35b; }
+    }
+
+    @keyframes score-pop-wrong {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.5); color: #ff1900; }
+    }
+
+    .score-pop-right {
+      display: inline-block;
+      animation: score-pop-right 1.5s ease-out;
+    }
+
+    .score-pop-wrong {
+      display: inline-block;
+      animation: score-pop-wrong 1.5s ease-out;
+    }
+
+    @keyframes cash-pop-right {
+      50% { transform: scale(1.5); color: #53c35b; }
+    }
+
+    @keyframes cash-pop-wrong {
+      50% { transform: scale(1.5); color: #ff1900; }
+    }
+
+    .cash-pop-right {
+      display: inline-block;
+      animation: cash-pop-right 1.5s ease-out;
+    }
+
+    .cash-pop-wrong {
+      display: inline-block;
+      animation: cash-pop-wrong 1.5s ease-out;
+    }
+
+  </style>
+</head>
+<body>
+  <header class="tutorial-header">
+    <a href="./index.html" class="exit-tutorial">← Exit tutorial</a>
+
+    <div class="tutorial-brand">
+      <span aria-hidden="true">🍕</span>
+      <div>
+        <small>DINNER RUSH</small>
+        <strong>TUTORIAL</strong>
+      </div>
+    </div>
+
+    <div class="tutorial-progress">
+      <span>STEP 1 OF 6</span>
+      <progress value="1" max="6">1 of 6</progress>
+    </div>
+  </header>
+
+  <main>
+    <!-- Left column: customer queue -->
+    <section class="left-column">
+      <div class="customer-list">
+        <article class="customer active">
+          <strong>NOW SERVING: Mia</strong>
+          <p class="order-details">½ pepperoni, ⅕ basil, ³⁄₁₀ mushroom</p>
+        </article>
+
+        <article class="customer">
+          <strong>UP NEXT: Noah</strong>
+          <p class="order-details">⅖ olive, ³⁄₁₀ mushroom, ³⁄₁₀ basil</p>
+        </article>
+
+        <article class="customer">
+          <strong>UP NEXT: Ava</strong>
+          <p class="order-details">⅕ pepperoni, ⅖ olive, ⅖ pineapple</p>
+        </article>
+      </div>
+
+    </section>
+
+    <!-- Middle column: pizza and controls -->
+    <section class="pizza-panel">
+      <div class="tools">
+        <button id="undo-button" type="button">Undo</button>
+
+        <div class="score-tracker">
+          <p>Score: 0</p>
+          <p>Earnings: $0</p>
+        </div>
+      </div>
+
+      <div id="pizza-container"></div>
+
+      <div class="slice-control">
+        <label for="slice-slider">
+          CUT INTO <span id="slice-count">1</span>
+          <span id="slice-word">SLICE</span>
+        </label>
+        <input type="range" id="slice-slider" min="1" max="10" step="1" value="1">
+
+        <div class="slice-ticks">
+          <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+          <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right column: current order -->
+    <section class="order-panel">
+      <div class="order-details">
+        <h2>Mia’s pizza</h2>
+        <p>½ pepperoni · ⅕ basil · ³⁄₁₀ mushroom</p>
+        <p>Pepperoni: 5 slices</p>
+        <p>Basil: 2 slices</p>
+        <p>Mushroom: 3 slices</p>
+      </div>
+
+      <button class="serve-btn" type="button">Serve Pizza</button>
+    </section>
+  </main>
+
+  <!-- Tutorial lesson overlay -->
+  <div class="tutorial-overlay">
+    <section class="tutorial-step" role="dialog" aria-labelledby="step-title">
+      <span class="step-number">01</span>
+
+      <div>
+        <p class="eyebrow">UNDERSTANDING ORDERS</p>
+        <h2 id="step-title">Read the customer’s fractions</h2>
+        <p>
+          Mia wants ½ of the pizza with pepperoni, ⅕ with basil, and ³⁄₁₀
+          with mushroom. On a 10-slice pizza, that means 5, 2, and 3 slices.
+        </p>
+      </div>
+
+      <nav class="step-navigation" aria-label="Tutorial steps">
+        <button type="button" disabled>Previous</button>
+        <button type="button">Next →</button>
+      </nav>
+    </section>
+  </div>
+
+  <button type="button" class="help-button" aria-label="Help">?</button>
+
+  <script type="module">
+  import { setupPizza } from "/src/pizza/PizzaController.ts";
+  setupPizza();
+</script>
+</body>
+</html>
