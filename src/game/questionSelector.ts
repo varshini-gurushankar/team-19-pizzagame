@@ -94,6 +94,18 @@ export function dailyQuestionPicker(
     recentScores:    QuestionResult[],
     missedQuestions: Question["id"][]
 ): QuestionResult[] {
+    // Print to terminal for debugging
+    console.log(
+        "Day:\t" + day + "\n" +
+        "PlayerData:\n" + playerData.map(
+            result => result.question.id
+        ).join(", ") + "\n" +
+        "Recent Scores:\n" + recentScores.map(
+            result => result.question.id
+        ).join(", ") + "\n" +
+        "Missed Questions:\n" + missedQuestions.join(", ")
+    );
+
     // The array that will be returned to after being populated with questions.
     let result: QuestionResult[] = [];
 
@@ -154,6 +166,7 @@ export function dailyQuestionPicker(
         (questionPool.length > 0) &&
         (j < NUM_OF_QUESTIONS)
     ) {
+        // Randomly choose questions from pool
         const randomIndex = Math.floor(Math.random() * questionPool.length);
         const [randElement] = questionPool.splice(randomIndex, 1);
 
