@@ -1,5 +1,5 @@
-// screens html ids list; will add game-screen, win-screen, lose-screen, etc later
-const screenIds = ["intro-screen", "howto-screen"] as const;
+// screens html ids list; will add win-screen, lose-screen, etc later
+const screenIds = ["intro-screen", "howto-screen", "game-screen"] as const;
 //makes type ScreenId, so only valid screenIds work
 type ScreenId = (typeof screenIds)[number];
 
@@ -28,9 +28,8 @@ function onClick(buttonId: string, handler: () => void): void {
     button.addEventListener("click", handler);
 }
 
-// placeholder until the sorting game exists
 function startGame(): void {
-    console.log("W.I.P");
+    showScreen("game-screen");
 }
 
 //button to screen linkage
@@ -38,3 +37,4 @@ onClick("howto-button", () => showScreen("howto-screen"));
 onClick("howto-back-button", () => showScreen("intro-screen"));
 onClick("start-button", startGame);
 onClick("howto-start-button", startGame);
+onClick("exit-round-button", () => showScreen("intro-screen"));
