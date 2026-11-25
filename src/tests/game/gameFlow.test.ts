@@ -38,6 +38,18 @@ describe("GameFlow", () => {
         expect(game.score).toBe(0)
     });
 
+    it("keeps the order available for a correct retry without duplicating missed IDs", () => {
+        const game = new GameFlow(testQuestions);
+
+        game.noteWrong();
+        game.noteWrong();
+        game.serve(true);
+
+        expect(game.score).toBe(1);
+        expect(game.currentOrder()).toBe(testQuestions[0]);
+        expect(game.getMissedQuestionsID()).toEqual(["q01"]);
+    });
+
     //player presses continue, and second order in the list is now the current order
     it("moves on to the next customers order after player clicks continue", () => {
         const game = new GameFlow(questions);

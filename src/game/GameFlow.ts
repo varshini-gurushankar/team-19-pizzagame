@@ -25,7 +25,7 @@ export class GameFlow {
     }
 
     private trackWrongQuestion(question: Question): void{
-        if (question === null){
+        if (this.wrongPizzaOrder.includes(question.id)){
             return; 
         }
 
@@ -56,10 +56,9 @@ export class GameFlow {
                 return 
             }
 
+            // Retries record a missed question only once.
             this.trackWrongQuestion(question); 
 
-            //test
-            console.log(this.getMissedQuestions())
             this.earnings -= 100; 
 
         }

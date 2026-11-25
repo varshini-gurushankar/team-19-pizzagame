@@ -1,4 +1,9 @@
-import { createPizza, setupToppings, toppingClonesArray } from "./PizzaView";
+import {
+    createPizza,
+    notifyToppingsChanged,
+    setupToppings,
+    toppingClonesArray,
+} from "./PizzaView";
 import { setupSliceSlider } from "./sliceSlider";
 
 export function setupPizza(): void {
@@ -13,13 +18,17 @@ export function setupPizza(): void {
 }
 
 export function clearPizza(): void {
+    let removedTopping = false;
     while (toppingClonesArray.length > 0) {
         const topping = toppingClonesArray.pop();
         if (!topping) break;
         const layer = topping.node.getLayer();
         topping.node.destroy();
         layer?.batchDraw();
+        removedTopping = true;
     }
+
+    if (removedTopping) notifyToppingsChanged();
 
     const slider = document.getElementById("slice-slider") as HTMLInputElement | null;
     if (!slider) return;
@@ -43,6 +52,7 @@ export function bindUndo(): void {
         }
         const layer = clonedTopping.node.getLayer();
         clonedTopping.node.destroy();
+        notifyToppingsChanged();
         console.log("Deleted: " + clonedTopping.type);
 
         layer?.batchDraw();

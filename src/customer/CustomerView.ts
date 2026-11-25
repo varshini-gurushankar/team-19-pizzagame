@@ -20,7 +20,7 @@ export class CustomerView {
             row.innerHTML = `
                 <div class="patience-container">
                     <div class="patience-label">
-                        <span>Customer ${index + 1}</span>
+                        <span class="customer-status">Customer ${index + 1}</span>
                         <span class="patience-time">${patienceSeconds}s</span>
                     </div>
                     <div class="patience-bar">
@@ -40,6 +40,23 @@ export class CustomerView {
         this.activeIndex = index;
         this.rows.forEach((row, i) => {
             row.classList.toggle("active", i === index);
+            if (row.classList.contains("done") || row.classList.contains("left")) {
+                return;
+            }
+            
+            const label = row.querySelector(".customer-status");
+
+            if (label) {
+                if (i === index){
+                    label.textContent = `NOW SERVING: Customer ${i + 1}`;
+                }
+                else if (i === index + 1){
+                    label.textContent =   `UP NEXT: Customer ${i + 1}`
+                }
+                else{
+                    label.textContent = `Customer ${i + 1}`
+                }
+            }
         });
         this.rows[index]?.scrollIntoView({ block: "nearest" });
     }
@@ -54,7 +71,7 @@ export class CustomerView {
         if (!row) return;
         row.classList.remove("active");
         row.classList.add(status);
-        const label = row.querySelector(".patience-label span");
+        const label = row.querySelector(".customer-status");
         if (label) {
             label.textContent = status === "left"
                 ? `Customer ${index + 1} left`

@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dinner Rush Tutorial</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    /* background */
+    body {
+      margin: 0;
+      background: #fff8e5;
+    }
+
+    /* title area */
+    header {
+      height: 73px;
+      background: #e3d1d1;
+      border-bottom: 3px solid #d88b9c;
+    }
+
+    main {
+      display: grid;
+
+      /* three columns */
+      grid-template-columns: 
+      minmax(220px, 1fr) 
+      minmax(400px, 1.8fr) 
+      minmax(260px, 1.05fr);
+
+      gap: 28px;
+      padding: 30px 24px;
+      align-items: start;
+    }
+
+    /* pizza choose toppings area  */
+    .pizza-panel {
+      min-height: 745px;
+      background: #fffdf4;
+      border: 3px solid #34251e;
+      padding: 34px;
+    }
+
+    /* order details area */
+    .order-panel {
+      min-height: 620px;
+      background: #fae7a5;
+      border: 3px solid #34251e;
+      padding: 30px;
+    }
+
+    .placed-topping-counts {
+      margin-bottom: 28px;
+      padding: 16px;
+      border: 2px solid #34251e;
+      background: #fffdf4;
+    }
+
+    .placed-topping-counts h2 {
+      margin: 0 0 12px;
+      color: #34251e;
+      font-size: 18px;
+    }
+
+    .placed-topping-counts ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .placed-topping-counts li {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #e5d8d2;
+    }
+
+    .placed-topping-counts li:last-child {
+      border-bottom: 0;
+    }
+
+    /* customer box area */
+    .customer {
+        background: #fffdf4;
+        border: 2px solid #ff0000;
+        padding: 15px;
+        margin-bottom: 14px;
+    }
+
+    .customer-list {
+        max-height: 70vh;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    /* Box highlight around current tutorial step*/
+    .tutorial-highlight {
+        outline: 6.5px solid #ffc908;
+        outline-offset: 4px;
+        border-radius: 8px;
+    }
+
+    .order-details {
+        margin: 12px 0 0;
+        font-size: 16px;
+        line-height: 1.4;
+        color: #34251e;
+    }
+
+    .customer.done, .customer.left {
+        opacity: 0.55;
+    }
+
+    /* customer patience meter */
+    .patience-container {
+        margin-top: 12px;
+    }
+
+    .patience-label {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #34251e;
+    }
+
+    .patience-bar {
+        width: 100%;
+        height: 20px;
+        background: #e5d8d2;
+        border: 2px solid #34251e;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .patience-fill {
+        width: 100%;
+        height: 100%;
+        background: #65b979;
+        transition: width 0.1s linear;
+    }
+
+    /* "CUT INTO X SLICES" text*/
+    .slice-control label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #34251e;
+      text-align: center; 
+    }
+
+    /* konva pizza */
+    #pizza-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    /* The num in ^^^ label */
+    #slice-count {
+      color:#4a3fa0;
+      font-size: 1.3em;
+    }
+
+    /* slider */
+    #slice-slider {
+      width: 100%;
+      accent-color: #4a3fa0;  
+    }
+
+    /* num indicators for slider */
+    .slice-ticks {
+      display: flex;
+      justify-content: space-between;
+      padding: 0px 5px;
+      font-size: 13px;
+      color: #4a3fa0;
+      font-weight: bold;
+    }
+
+    /* gap in between each num indictaor for slider */
+    .slice-ticks span {
+      width: 0px;                
+      display: flex;
+      justify-content: center;
+    }
+
+    /* centering the button */
+    .serve-btn {
+      display: block;
+      margin: 20px auto 0;
+      padding: 20px 30px;
+      border: none;
+      border-radius: 8px;
+      background: #49834d;
+      color: white;
+      font: bold 18px Arial, sans-serif;
+      cursor: pointer;
+      transition: background-color 0.5s ease, padding 0.5s ease; 
+    }
+
+    /* hover effect for the button */
+    .serve-btn:hover {
+      background-color: #286c47;
+      padding:23px 33px;
+    }
+
+
+    /* konva pizza */
+    #pizza-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    
+    /* toppings container */
+    #toppings-container {
+      width: 100%;
+      height: 300px;
+      margin-top: 300px;
+      margin-bottom: 10px;
+    }
+
+    /* undo button */
+    #undo-button {
+      display: block;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #49834d;
+      color: white;
+      font: bold 18px Arial, sans-serif;
+      cursor: pointer;
+      transition: background-color 0.5s ease, padding 0.5s ease;
+      left: 40px;
+    }
+
+    .score-tracker {
+      text-align: right;
+      font: bold 18px Arial, sans-serif;
+    }
+
+    .score-tracker p { 
+      margin: 0; 
+      padding:5px;
+    }
+
+    .tools {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tutorial-header {
+      position: relative;
+      z-index: 5;
+      height: 100px;
+      padding: 0 6%;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      background: #fff8e5;
+      border-bottom: 6px solid #d88b9c;
+    }
+
+    .exit-tutorial {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color: #4a3fa0;
+      font: bold 24px Arial, sans-serif;
+      text-decoration: none;
+    }
+
+    .tutorial-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .tutorial-brand > span {
+      font-size: 48px;
+    }
+
+    .tutorial-brand div {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .tutorial-brand small {
+      color: #a64e4e;
+      font: bold 12px Arial, sans-serif;
+      letter-spacing: 3px;
+    }
+
+    .tutorial-brand strong {
+      color: #34251e;
+      font: 32px Georgia, serif;
+    }
+
+    .tutorial-progress {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-self: end;
+      gap: 6px;
+      color: #80695e;
+      font: bold 11px Arial, sans-serif;
+    }
+
+    .tutorial-progress progress {
+      width: 145px;
+      height: 7px;
+      accent-color: #4a3fa0;
+    }
+
+    .tutorial-overlay {
+      position: fixed;
+      z-index: 3;
+      inset: 100px 0 0;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 24px 16px 48px;
+      pointer-events: none;
+    }
+
+    .tutorial-step {
+      width: min(780px, 100%);
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 4px;
+      padding: 5px;
+      border: 2px solid #34251e;
+      border-radius: 10px;
+      background: #fff8df;
+      box-shadow: 6px 7px 0 rgb(74 63 160 / 25%);
+      pointer-events: none;
+    }
+
+    .tutorial-step h2 {
+      margin: 4px 0 6px;
+      font: 20px Georgia, serif;
+    }
+
+    .tutorial-step p {
+      margin: 0;
+      color: #66564a;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .step-navigation button {
+      padding: 11px 14px;
+      border: 2px solid #4a3fa0;
+      border-radius: 4px;
+      color: #4a3fa0;
+      background: transparent;
+      font-weight: bold;
+      font-size: 14px;
+      pointer-events: auto;
+      transition: transform 150ms ease;
+    }
+
+    .step-navigation button:not(:disabled):hover, .step-navigation button:not(:disabled):focus-visible {
+      transform: scale(1.04);
+    }
+
+    .step-navigation button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .step-navigation button:not(:disabled) {
+      cursor: pointer;
+    }
+
+  </style>
+</head>
+<body>
+  <header class="tutorial-header">
+    <a href="./index.html" class="exit-tutorial">&larr; Menu</a>
+
+    <div class="tutorial-brand">
+      <div>
+        <small>TUTORIAL</small>
+        <strong>DINNER RUSH</strong>
+      </div>
+    </div>
+
+    <div class="tutorial-progress">
+      <span></span>
+      <progress value="1" max="6"></progress>
+    </div>
+  </header>
+
+  <main>
+    <!-- Left column: customer queue -->
+    <section class="left-column">
+      <div id="customer-list" class="customer-list"></div>
+      <p id="day-score"></p>
+    </section>
+
+    <!-- Middle column: pizza and controls -->
+    <section class="pizza-panel">
+      <div class="tools">
+        <button id="undo-button" type="button">Undo</button>
+
+        <div class="score-tracker">
+          <p>Score: <span id="score">0 / 10</span></p>
+          <p>Earnings: $<span id="cash">0</span></p>
+        </div>
+      </div>
+
+      <div id="pizza-container"></div>
+
+      <div class="slice-control">
+        <label for="slice-slider">
+          CUT INTO <span id="slice-count">1</span>
+          <span id="slice-word">SLICE</span>
+        </label>
+        <input type="range" id="slice-slider" min="1" max="10" step="1" value="1">
+
+        <div class="slice-ticks">
+          <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+          <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right column: current order -->
+    <section class="order-panel">
+      <div class="placed-topping-counts">
+        <h2>Current Pizza:</h2>
+        <ul>
+          <li>Pepperoni <span id="topping-count-pepperoni">0</span></li>
+          <li>Onions <span id="topping-count-onions">0</span></li>
+          <li>Olives <span id="topping-count-olives">0</span></li>
+          <li>Basil <span id="topping-count-basil">0</span></li>
+        </ul>
+      </div>
+
+      <button class="serve-btn" id="serve-btn" type="button">Serve Pizza</button>
+    </section>
+  </main>
+
+  <!-- Tutorial lesson overlay -->
+  <div class="tutorial-overlay">
+    <section class="tutorial-step">
+      <span class="step-number" id="step-number">1</span>
+
+      <div>
+        <h2 id="step-title"></h2>
+        <p id="step-description"></p>
+      </div>
+
+      <nav class="step-navigation">
+        <button type="button" id="previous-step" disabled>Previous</button>
+        <button type="button" id="next-step">Next</button>
+      </nav>
+    </section>
+  </div>
+
+  <script type="module">
+    import { setupTutorial } from "/src/tutorial/tutorial.ts";
+    import { startGame } from "/src/game/GameController.ts";
+    setupTutorial();
+    startGame();
+  </script>
+</body>
+</html>
