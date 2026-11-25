@@ -102,3 +102,32 @@ export function renderBoxes(labels: readonly string[]): void {
         pile?.append(box);
     }
 }
+
+// fills an end-screen row with small boxes, or a message if there are none
+export function renderEndBoxes(containerId: string, labels: readonly string[]): void {
+    //finds correct container
+    const container = document.getElementById(containerId);
+    //if it doesnt exist, stop
+    if (!container) {
+        return;
+    }
+    //clears children of the end-boxes id div
+    container.replaceChildren();
+
+    //if there are any boxes placed at all
+    if (labels.length === 0) {
+        const empty = document.createElement("p");
+        empty.className = "end-empty";
+        empty.textContent = "No boxes were placed.";
+        container.append(empty);
+        return;
+    }
+
+    //create a box for every label
+    for (const label of labels) {
+        const box = document.createElement("span");
+        box.className = "end-box";
+        box.textContent = label;
+        container.append(box);
+    }
+}
