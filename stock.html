@@ -71,7 +71,7 @@
       font-weight: bold;
     }
 
-    .shelf {
+    .shelf-drawing {
       width: 270px;
       height: auto;
     }
@@ -231,6 +231,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 14px;
+      min-height: 188px;
     }
 
     /* actual boxes */
@@ -242,8 +243,19 @@
       border: 2px solid #8a5530;
       border-radius: 4px;
       background: #d79a63;
+      color: #4a2222;
+      font-size: 16px;
       font-weight: bold;
       cursor: grab;
+    }
+
+    .box.selected {
+      outline: 3px solid #22324a;
+    }
+
+    .box.wrong {
+      border-color: #e0453c;
+      box-shadow: 0 0 0 4px rgba(224, 69, 60, 0.35);
     }
 
     /* "Lightest" & "Heaviest" labels at top of shelf */
@@ -269,16 +281,41 @@
 
     /* slots for the boxes to be sorted in */
     .slot {
-      height: 110px;
-      padding: 6px;
+      position: relative;
+      height: 118px;
+      padding: 26px 6px 6px;
       border: 2px dashed #b9aea4;
       border-radius: 6px;
+    }
+
+    .slot-number {
+      position: absolute;
+      top: 6px;
+      left: 8px;
       color: #8f8378;
-      font-size: 12px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .check-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 16px;
+    }
+
+    .order-hint {
+      margin: 0 auto 0 0;
+      color: #2f7d46;
+      font-weight: bold;
+    }
+
+    .order-hint.wrong {
+      color: #c0453c;
     }
 
     #check-order-button {
-      float: right;
+      flex-shrink: 0;
     }
 
     /* can't submit order if not all slots are filled */
@@ -300,7 +337,7 @@
 
     <div class="yard">
       <div class="yard-item">
-        <svg class="shelf" viewBox="0 0 300 240" aria-hidden="true">
+        <svg class="shelf-drawing" viewBox="0 0 300 240" aria-hidden="true">
           <defs>
             <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0" stop-color="#e2a15c"/>
@@ -423,14 +460,14 @@
     </header>
 
     <!-- instruction banner -->
-    <p class="instruction-banner">
+    <p id="instruction-banner" class="instruction-banner">
       Drag the boxes onto the shelf in order from <strong>LEAST</strong> to <strong>GREATEST</strong>.
     </p>
 
     <div class="game-area">
 
       <!-- boxes area -->
-      <div class="panel">
+      <div id="delivery-panel" class="panel">
         <p class="label">NEW DELIVERY</p>
         <h3><span id="boxes-left">8</span> boxes left</h3>
 
@@ -456,22 +493,32 @@
         </div>
 
         <div id="shelf" class="shelf">
-          <div class="slot" data-slot="0">1</div>
-          <div class="slot" data-slot="1">2</div>
-          <div class="slot" data-slot="2">3</div>
-          <div class="slot" data-slot="3">4</div>
-          <div class="slot" data-slot="4">5</div>
-          <div class="slot" data-slot="5">6</div>
-          <div class="slot" data-slot="6">7</div>
-          <div class="slot" data-slot="7">8</div>
+          <div class="slot" data-slot="0"><span class="slot-number">1</span></div>
+          <div class="slot" data-slot="1"><span class="slot-number">2</span></div>
+          <div class="slot" data-slot="2"><span class="slot-number">3</span></div>
+          <div class="slot" data-slot="3"><span class="slot-number">4</span></div>
+          <div class="slot" data-slot="4"><span class="slot-number">5</span></div>
+          <div class="slot" data-slot="5"><span class="slot-number">6</span></div>
+          <div class="slot" data-slot="6"><span class="slot-number">7</span></div>
+          <div class="slot" data-slot="7"><span class="slot-number">8</span></div>
         </div>
 
-        <!-- button is disabled until all 8 slots are filled -->
-        <button id="check-order-button" class="start-button" type="button" disabled>Check order →</button>
+        <div class="check-row">
+          <p id="order-hint" class="order-hint" hidden></p>
+          <!-- button is disabled until all 8 slots are filled -->
+          <button id="check-order-button" class="start-button" type="button" disabled>Check order →</button>
+        </div>
       </div>
 
     </div>
   </section>
+  <dialog id="round-end">
+    <h2 id="round-title"></h2>
+    <p id="round-message"></p>
+    <button id="play-again" type="button">Play again</button>
+    <button id="return-menu" type="button">Return to menu</button>
+  </dialog>
+
   <script type="module" src="/src/stock/stockMenu.ts"></script>
 </body>
 </html>
