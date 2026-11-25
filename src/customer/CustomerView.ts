@@ -1,5 +1,6 @@
 import { GameInterface } from "../game/GameInterface";
 import type { Order } from "./CustomerModel";
+import { patienceSeconds } from "./CustomerController"
 import { formatOrder } from "./formatOrder";
 
 export class CustomerView {
@@ -19,7 +20,7 @@ export class CustomerView {
                 <div class="patience-container">
                     <div class="patience-label">
                         <span>Customer ${index + 1}</span>
-                        <span class="patience-time">60s</span>
+                        <span class="patience-time">${patienceSeconds}s</span>
                     </div>
                     <div class="patience-bar">
                         <div class="patience-fill"></div>

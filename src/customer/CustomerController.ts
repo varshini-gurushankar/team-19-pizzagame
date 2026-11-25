@@ -1,6 +1,10 @@
 import { GameDayController } from "../game/GameDayController";
 import { GameFlow } from "../game/GameFlow";
-import { dailyQuestionPicker, type QuestionResult } from "../game/questionSelector";
+import {
+    dailyQuestionPicker,
+    playerTier,
+    type QuestionResult
+} from "../game/questionSelector";
 import { clearPizza } from "../pizza/PizzaController";
 import { getQuestionsByDifficulty, type Question } from "./QuestionBank";
 import type { Order } from "./CustomerModel";
@@ -22,9 +26,11 @@ let controlsBound = false;
 
 const view = new CustomerView();
 
+export let patienceSeconds = /*playerTier === "hard" ? 60 :*/ 30;
+
 // Initializes patience meter
-const patience = new PatienceMeter(
-    30,
+let patience = new PatienceMeter(
+    patienceSeconds,
     (time, percent) => view.updatePatienceBar(time, percent),
     () => customerLeft(),
 );
@@ -46,7 +52,6 @@ export async function startCustomer(): Promise<void> {
     bindDayControls();
     await days.startDay();
 }
-
 
 export function getQuestionCount(): number {
     return questions.length;
@@ -117,6 +122,12 @@ function beginDay(day: number): void {
     flow = new GameFlow(questions);
     flow.earnings = cash;
     dayRecorded = false;
+    patienceSeconds = playerTier === "hard" ? 60 : 30;
+    patience = new PatienceMeter(
+        patienceSeconds,
+        (time, percent) => view.updatePatienceBar(time, percent),
+        () => customerLeft(),
+    );
 
     view.showQueue(questions);
     view.showDay(day);

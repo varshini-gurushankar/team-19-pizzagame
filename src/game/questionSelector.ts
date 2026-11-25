@@ -20,7 +20,7 @@ export type QuestionResult = {
     question: Question;
 };
 
-let playerTier: Difficulty = "easy";
+export let playerTier: Difficulty = "easy";
 const NUM_OF_QUESTIONS: number = 10;
 const HIGH_SCORE: number = 0.9;
 const LOW_SCORE: number = 0.5;
