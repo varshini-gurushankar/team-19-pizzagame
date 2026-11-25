@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oven Timer</title>
+
+    <style>
+        body {
+            margin: 0;
+            background-color: #fff0c9;
+            color: #263650;
+            font-family: Arial, sans-serif;
+        }
+
+        .oven-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+        }
+
+        .oven-header a {
+            color: #263650;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .oven-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .oven-title {
+            text-align: center;
+            font-size: 60px;
+            margin: 20px;
+        }
+
+        .oven-container {
+            background-color: #fffdf4;
+            border: 4px solid #263650;
+            border-radius: 15px;
+            max-width: 850px;
+            margin: 30px auto;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .oven-label {
+            color: #c45145;
+            font-weight: bold;
+        }
+
+        #oven-question {
+            font-size: 32px;
+            margin: 30px 0;
+        }
+
+        .oven-dial-container {
+            margin: 40px auto;
+        }
+
+        #oven-dial {
+            width: 70%;
+        }
+
+        #bake-button {
+            background-color: #e84c3d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 15px 35px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #bake-button:hover {
+            background-color: #c93d30;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="oven-header">
+        <a href="/index.html">← Back to Shop</a>
+
+        <div class="oven-stats">
+            <div>⭐ Score: <span id="oven-score">0</span></div>
+            <div>Day: <span id="oven-day">1</span></div>
+        </div>
+    </header>
+
+    <h1 class="oven-title">OVEN TIMER</h1>
+
+    <main class="oven-container">
+
+        <p class="oven-label">TODAY'S ORDER</p>
+
+        <h2 id="oven-question"></h2>
+
+        <p>Convert the fraction to a decimal, then set the dial.</p>
+
+        <!-- Teammate will replace this slider with the oven dial -->
+        <div class="oven-dial-container">
+            <input
+                type="range"
+                id="oven-dial"
+                min="0"
+                max="1"
+                step="0.01"
+                value="0"
+            >
+
+            <p>
+                Selected Decimal:
+                <span id="selected-value">0.00</span>
+            </p>
+        </div>
+
+        <!-- Teammate can add oven graphics here -->
+        <div class="oven-image">
+            <p style="font-size: 80px;">🍕</p>
+        </div>
+
+        <button id="bake-button">
+            Start Baking →
+        </button>
+
+    </main>
+
+    <!-- Your OvenResultView will display feedback here -->
+    <div id="oven-result" hidden></div>
+
+    <script type="module" src="/src/oven/oven.ts"></script>
+
+</body>
+</html>
