@@ -145,6 +145,148 @@
     .howto-list li{
       margin-bottom: 12px;
     }
+
+    /* I made the width as big as my screen could handle might change later */
+    .game-screen {
+      max-width: 1900px; 
+      margin: 0 auto;
+      padding: 20px 24px;
+    }
+
+    /* */
+    .game-header {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+    }
+
+    .game-header .text-button {
+      justify-self: start;
+    }
+
+    /* "LEAST TO GREATEST" text */
+    .game-title {
+      margin: 4px 0;
+      font-size: 30px;
+    }
+
+    /* patience bar */
+    .patience {
+      justify-self: end;
+      width: 350px;
+      text-align: left;
+    }
+
+    /* Driver patience 30s text*/
+    .patience-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    /* actual patience bar */
+    .patience-bar {
+      height: 14px;
+      background: #e5d8d2;
+      border: 2px solid #22324a;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    /* patience bar meter filling */
+    #driver-fill {
+      width: 100%;
+      height: 100%;
+      background: #65b979;
+    }
+
+    /* instruction box  */
+    .instruction-banner {
+      margin: 18px 0;
+      padding: 14px;
+      background: #22324a;
+      color: white;
+    }
+
+    /* space between boxes and shelf */
+    .game-area {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 24px;
+      text-align: left;
+    }
+
+    /* outlines of outerboxes */
+    .panel {
+      padding: 24px;
+      border: 3px solid #22324a;
+      border-radius: 10px;
+      background: #fffdf4;
+    }
+
+    /* space between boxes */
+    .box-pile {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    /* actual boxes */
+    .box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 80px;
+      border: 2px solid #8a5530;
+      border-radius: 4px;
+      background: #d79a63;
+      font-weight: bold;
+      cursor: grab;
+    }
+
+    /* "Lightest" & "Heaviest" labels at top of shelf */
+    .shelf-direction {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      color: #8a5530;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    /* shelf outer outline */
+    .shelf {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      padding: 16px;
+      border: 10px solid #9c5530;
+      border-radius: 6px;
+      margin-bottom: 18px;
+    }
+
+    /* slots for the boxes to be sorted in */
+    .slot {
+      height: 110px;
+      padding: 6px;
+      border: 2px dashed #b9aea4;
+      border-radius: 6px;
+      color: #8f8378;
+      font-size: 12px;
+    }
+
+    #check-order-button {
+      float: right;
+    }
+
+    /* can't submit order if not all slots are filled */
+    #check-order-button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
   </style>
 </head>
 <body>
@@ -255,6 +397,79 @@
         <button id="howto-start-button" class="start-button" type="button">I'm ready →</button>
         <button id="howto-back-button" class="text-button" type="button">Back</button>
       </div>
+    </div>
+  </section>
+
+  <!-- hide game screen until we click "Start sorting" or "I'm ready" -->
+  <section id="game-screen" class="game-screen" hidden>
+
+    <header class="game-header">
+      <button id="exit-round-button" class="text-button" type="button">← Exit round</button>
+      <div>
+        <p class="label">STOCK SUPPLY</p>
+        <h2 class="game-title">LEAST TO GREATEST</h2>
+      </div>
+
+      <!-- patience bar -->
+      <div class="patience">
+        <div class="patience-label">
+          <span>Driver patience</span>
+          <span id="driver-time">1m20s</span>
+        </div>
+        <div class="patience-bar">
+          <div id="driver-fill"></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- instruction banner -->
+    <p class="instruction-banner">
+      Drag the boxes onto the shelf in order from <strong>LEAST</strong> to <strong>GREATEST</strong>.
+    </p>
+
+    <div class="game-area">
+
+      <!-- boxes area -->
+      <div class="panel">
+        <p class="label">NEW DELIVERY</p>
+        <h3><span id="boxes-left">8</span> boxes left</h3>
+
+        <!-- placeholder numbers -->
+        <div id="box-pile" class="box-pile">
+          <div class="box">1 lb</div>
+          <div class="box">2.25 lb</div>
+          <div class="box">5 lb</div>
+          <div class="box">2 1/3 lb</div>
+          <div class="box">0.4 lb</div>
+          <div class="box">3 1/2 lb</div>
+          <div class="box">7/5 lb</div>
+          <div class="box">3/5 lb</div>
+        </div>
+      </div>
+
+      <!-- shelf -->
+      <div class="panel">
+        <div class="shelf-direction">
+          <span>LIGHTEST</span>
+          <span>→</span>
+          <span>HEAVIEST</span>
+        </div>
+
+        <div id="shelf" class="shelf">
+          <div class="slot" data-slot="0">1</div>
+          <div class="slot" data-slot="1">2</div>
+          <div class="slot" data-slot="2">3</div>
+          <div class="slot" data-slot="3">4</div>
+          <div class="slot" data-slot="4">5</div>
+          <div class="slot" data-slot="5">6</div>
+          <div class="slot" data-slot="6">7</div>
+          <div class="slot" data-slot="7">8</div>
+        </div>
+
+        <!-- button is disabled until all 8 slots are filled -->
+        <button id="check-order-button" class="start-button" type="button" disabled>Check order →</button>
+      </div>
+
     </div>
   </section>
   <script type="module" src="/src/stock/stockMenu.ts"></script>
