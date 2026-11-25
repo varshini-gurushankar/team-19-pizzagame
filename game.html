@@ -70,6 +70,10 @@
       background: #fffdf4;
     }
 
+    #active-order {
+      margin-bottom: 28px;
+    }
+
     .placed-topping-counts h2 {
       margin: 0 0 12px;
       color: #34251e;
@@ -422,21 +426,17 @@
 
     </section>
     <section class="order-panel">
+      <h2>Current Order: </h2>
+      <div id="active-order"></div>
+
       <div class="placed-topping-counts">
-        <h2>Current Pizza: </h2>
+        <h2>Current Pizza:</h2>
         <ul aria-live="polite">
           <li>Pepperoni <span id="topping-count-pepperoni">0</span></li>
           <li>Onions <span id="topping-count-onions">0</span></li>
           <li>Olives <span id="topping-count-olives">0</span></li>
           <li>Basil <span id="topping-count-basil">0</span></li>
         </ul>
-      
-      <h2>Current Order</h2>
-      <div id="active-order"></div>
-      
-      <!-- Serve Button -->
-      <div class="complete-order">
-        <button class="serve-btn" id = "serve-btn" type="button">Serve Pizza</button>
       </div>
 
       <button class="serve-btn" id="serve-btn" type="button">Serve Pizza</button>
