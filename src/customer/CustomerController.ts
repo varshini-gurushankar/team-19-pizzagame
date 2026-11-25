@@ -30,6 +30,11 @@ const patience = new PatienceMeter(
 const days = new GameDayController({
     areCustomersFinished: () => flow.isFinished(),
     prepareDay: (day) => beginDay(day),
+
+    // every time a new game day starts, the current day number is saved
+    onDayStarted: (day) => {
+        localStorage.setItem("pizzaGameDay", day.toString());
+    }
 });
 
 export function getCurrentOrder(): Order | null {

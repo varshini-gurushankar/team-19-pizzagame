@@ -9,6 +9,15 @@ const selectedValue = document.getElementById("selected-value")!;
 const bakeButton = document.getElementById("bake-button") as HTMLButtonElement;
 const resultContainer = document.getElementById("oven-result")!;
 
+// display the current day from the main game
+const dayDisplay = document.getElementById("oven-day");
+
+const currentDay = localStorage.getItem("pizzaGameDay") ?? "1";
+
+if (dayDisplay) {
+    dayDisplay.textContent = currentDay;
+}
+
 // create the result view
 const resultView = new OvenResultView(
     resultContainer,
@@ -26,8 +35,8 @@ const controller = new OvenGameController({
             `Bake the pizza for ${question.numerator}/${question.denominator} of a minute!`;
 
         // reset the dial for the new question
-        dial.value = "0.5";
-        selectedValue.textContent = "0.50";
+        dial.value = "0";
+        selectedValue.textContent = "0.00";
         bakeButton.disabled = false;
     },
 
