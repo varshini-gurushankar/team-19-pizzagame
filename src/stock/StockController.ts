@@ -1,4 +1,4 @@
-import { SHELF_SIZE, StockModel, parseWeight, wrongIndexes } from "./StockModel";
+import { SHELF_SIZE, StockModel, parseWeight, wrongIndexes, pickWeights } from "./StockModel";
 import * as view from "./StockView";
 
 const ROUND_MS = 80_000;
@@ -21,9 +21,16 @@ export function startRound(): void {
     selected = null;
     ended = false;
 
+    //at the start of every round 
+    //put 8 new boxes onto the page with 8 random weight labels
+    view.renderBoxes(pickWeights());      
+    //for every box                              
     for (const box of view.allBoxes()) {
-        view.moveToPile(box);
+        //make it draggable
         box.draggable = true;
+        //gets weight label of the box and if its null use the empty string
+        //then parses that label into a numerical value so we can actually compare them
+        //turns it back into strings since box.dataset.weight only stores strings
         box.dataset.weight = String(parseWeight(box.textContent ?? ""));
     }
 
