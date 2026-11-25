@@ -26,9 +26,10 @@ let controlsBound = false;
 
 const view = new CustomerView();
 
-export let patienceSeconds = /*playerTier === "hard" ? 60 :*/ 30;
-
-// Initializes patience meter
+/**
+ * Initializes patience meter
+ */
+export let patienceSeconds = 30;
 let patience = new PatienceMeter(
     patienceSeconds,
     (time, percent) => view.updatePatienceBar(time, percent),
@@ -112,6 +113,7 @@ function demoQuestions(picked: readonly Question[], reviewIds: ReadonlySet<strin
 function beginDay(day: number): void {
     const cash = flow.earnings;
     const reviewIds = new Set(missedIds);
+
     const picked = dailyQuestionPicker(
         day,
         playerData,
@@ -119,9 +121,12 @@ function beginDay(day: number): void {
         missedIds
     ).map((item) => item.question);
     questions = picked;
+
     flow = new GameFlow(questions);
     flow.earnings = cash;
+
     dayRecorded = false;
+
     patienceSeconds = playerTier === "hard" ? 60 : 30;
     patience = new PatienceMeter(
         patienceSeconds,

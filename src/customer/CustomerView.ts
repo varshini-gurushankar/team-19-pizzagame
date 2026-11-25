@@ -1,6 +1,6 @@
 import { GameInterface } from "../game/GameInterface";
 import type { Order } from "./CustomerModel";
-import { patienceSeconds } from "./CustomerController"
+import { playerTier } from "../game/questionSelector"
 import { formatOrder } from "./formatOrder";
 
 export class CustomerView {
@@ -9,6 +9,7 @@ export class CustomerView {
     private activeIndex = -1;
 
     showQueue(orders: readonly Order[]): void {
+        const patienceSeconds = playerTier === "hard" ? 60 : 30;
         const list = document.getElementById("customer-list");
         if (!list) return;
 
