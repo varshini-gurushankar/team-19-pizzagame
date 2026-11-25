@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { StockModel, firstMistake, isLightestToHeaviest, parseWeight, wrongIndexes, pickWeights, WEIGHT_LABELS, SHELF_SIZE } from "../../stock/StockModel";
+import { StockModel, firstMistake, isLightestToHeaviest, parseWeight, wrongIndexes, pickWeights, WEIGHT_LABELS, SHELF_SIZE, sortedLabels } from "../../stock/StockModel";
 
 //lets us test pickWEights with exact same, yet random inputs everytime so we can actually predict the behavior
 function fixedRandom(values: number[]): () => number {
@@ -173,5 +173,22 @@ describe("pickWeights", () => {
         //pick 3 weights, use predictable random numbers, and this specific weight bank
         //should throw since only 2 unique values exist and you needed to pick 3
         expect(() => pickWeights(3, Math.random, ["7/5 lb", "1.4 lb", "2 lb"])).toThrow();
+    });
+});
+
+describe("sortedLabels", () => {
+    it("sorts mixed formats from lightest to heaviest", () => {
+        expect(sortedLabels(["5 lb", "2 1/3 lb", "0.4 lb", "7/5 lb"]))
+            .toEqual(["0.4 lb", "7/5 lb", "2 1/3 lb", "5 lb"]);
+    });
+
+    it("does not change the list it was given", () => {
+        const labels = ["5 lb", "1 lb"];
+        sortedLabels(labels);
+        expect(labels).toEqual(["5 lb", "1 lb"]);
+    });
+
+    it("returns an empty list for no labels", () => {
+        expect(sortedLabels([])).toEqual([]);
     });
 });
