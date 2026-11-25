@@ -2,6 +2,7 @@
 /* maps game names to their file */
 const pages: Record<string, string> = {
   "Main game": "game.html",
+  "Stock supply": "stock.html"
 };
 
 /* button logic */

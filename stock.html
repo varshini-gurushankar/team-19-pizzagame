@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stock Supply</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background-color: #fff8e5;
+      background-image: radial-gradient(#ead9b0 1.2px, transparent 1.2px);
+      background-size: 22px 22px;
+      color: #1e2a44;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    /* back button */
+    .back-link {
+      position: absolute;
+      top: 20px;
+      left: 24px;
+      color: #22324a;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    /* the screen */
+    .screen {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 70px 24px 40px;
+    }
+
+    .tagline {
+      margin: 8px 0 0;
+      color: #5c6b86;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .yard {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 48px;
+      margin-top: 36px;
+    }
+
+    .yard-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .chip {
+      margin: 0;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: #f3e2b8;
+      color: #6a5330;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .shelf-drawing {
+      width: 270px;
+      height: auto;
+    }
+
+    .delivery {
+      width: 460px;
+      height: auto;
+    }
+
+    .fresh .chip {
+      transform: translateX(-54px);
+    }
+
+    /* "MORNING DELIVERY MINI-GAME" text*/
+    .label {
+      color: #c0533f;
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    /* "STOCK SUPPLY" text format */
+    h1 {
+      margin: 10px 0;
+      font-size: 64px;
+      letter-spacing: 2px;
+    }
+
+    /* the box */
+    .card {
+      margin-top: 40px;
+      padding: 28px;
+      border: 3px solid #224a27;
+      border-radius: 10px;
+      background: #fffdf4;
+      text-align: left;
+      line-height: 1.5;
+    }
+
+    /* "Start sorting ->" button */
+    .start-button {
+      padding: 14px 26px;
+      border: none;
+      border-radius: 8px;
+      background: #e0453c;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* "How to play" button */
+    .text-button {
+      border: none;
+      background: none;
+      color: #0066ff;
+      font-size: 15px;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    /* button distance away from each other and text */
+    .buttons {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    /* distance of list items in the HOW TO PLAY section*/
+    .howto-list li{
+      margin-bottom: 12px;
+    }
+
+    /* I made the width as big as my screen could handle might change later */
+    .game-screen {
+      max-width: 1900px; 
+      margin: 0 auto;
+      padding: 20px 24px;
+    }
+
+    /* */
+    .game-header {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+    }
+
+    .game-header .text-button {
+      justify-self: start;
+    }
+
+    /* "LEAST TO GREATEST" text */
+    .game-title {
+      margin: 4px 0;
+      font-size: 30px;
+    }
+
+    /* patience bar */
+    .patience {
+      justify-self: end;
+      width: 350px;
+      text-align: left;
+    }
+
+    /* Driver patience 30s text*/
+    .patience-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    /* actual patience bar */
+    .patience-bar {
+      height: 14px;
+      background: #e5d8d2;
+      border: 2px solid #22324a;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    /* patience bar meter filling */
+    #driver-fill {
+      width: 100%;
+      height: 100%;
+      background: #65b979;
+    }
+
+    /* instruction box  */
+    .instruction-banner {
+      margin: 18px 0;
+      padding: 14px;
+      background: #22324a;
+      color: white;
+    }
+
+    /* space between boxes and shelf */
+    .game-area {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 24px;
+      text-align: left;
+    }
+
+    /* outlines of outerboxes */
+    .panel {
+      padding: 24px;
+      border: 3px solid #22324a;
+      border-radius: 10px;
+      background: #fffdf4;
+    }
+
+    /* space between boxes */
+    .box-pile {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      min-height: 188px;
+    }
+
+    /* actual boxes */
+    .box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 80px;
+      border: 2px solid #8a5530;
+      border-radius: 4px;
+      background: #d79a63;
+      color: #4a2222;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: grab;
+    }
+
+    .box.selected {
+      outline: 3px solid #22324a;
+    }
+
+    .box.wrong {
+      border-color: #e0453c;
+      box-shadow: 0 0 0 4px rgba(224, 69, 60, 0.35);
+    }
+
+    /* "Lightest" & "Heaviest" labels at top of shelf */
+    .shelf-direction {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      color: #8a5530;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    /* shelf outer outline */
+    .shelf {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      padding: 16px;
+      border: 10px solid #9c5530;
+      border-radius: 6px;
+      margin-bottom: 18px;
+    }
+
+    /* slots for the boxes to be sorted in */
+    .slot {
+      position: relative;
+      height: 118px;
+      padding: 26px 6px 6px;
+      border: 2px dashed #b9aea4;
+      border-radius: 6px;
+    }
+
+    .slot-number {
+      position: absolute;
+      top: 6px;
+      left: 8px;
+      color: #8f8378;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .check-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 16px;
+    }
+
+    .order-hint {
+      margin: 0 auto 0 0;
+      color: #2f7d46;
+      font-weight: bold;
+    }
+
+    .order-hint.wrong {
+      color: #c0453c;
+    }
+
+    #check-order-button {
+      flex-shrink: 0;
+    }
+
+    /* can't submit order if not all slots are filled */
+    #check-order-button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+  </style>
+</head>
+<body>
+  <a class="back-link" href="index.html">← Back to shop</a>
+
+  <!-- intro screen -->
+  <section id="intro-screen" class="screen">
+    <p class="label">MORNING DELIVERY MINI-GAME</p>
+    <h1>STOCK SUPPLY</h1>
+    <p class="tagline">Sort smart. Stock fast. Open on time.</p>
+
+    <div class="yard">
+      <div class="yard-item">
+        <svg class="shelf-drawing" viewBox="0 0 300 240" aria-hidden="true">
+          <defs>
+            <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#e2a15c"/>
+              <stop offset="0.5" stop-color="#c47c38"/>
+              <stop offset="1" stop-color="#a86428"/>
+            </linearGradient>
+          </defs>
+          <rect x="46" y="8" width="28" height="220" rx="14" fill="url(#wood)"/>
+          <rect x="226" y="8" width="28" height="220" rx="14" fill="url(#wood)"/>
+          <rect x="10" y="22" width="280" height="26" rx="13" fill="url(#wood)"/>
+          <rect x="10" y="107" width="280" height="26" rx="13" fill="url(#wood)"/>
+          <rect x="10" y="192" width="280" height="26" rx="13" fill="url(#wood)"/>
+        </svg>
+        <p class="chip">Your empty shelf</p>
+      </div>
+
+      <div class="yard-item fresh">
+        <svg class="delivery" viewBox="0 0 500 300" aria-hidden="true">
+          <defs>
+            <linearGradient id="crate" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#f6d7ae"/>
+              <stop offset="0.2" stop-color="#e8c08a"/>
+              <stop offset="1" stop-color="#d7a56a"/>
+            </linearGradient>
+          </defs>
+          <g fill="url(#crate)" stroke="#c48b4c" stroke-width="3.5">
+            <rect x="186" y="4" width="120" height="58" rx="8"/>
+            <rect x="124" y="68" width="120" height="58" rx="8"/>
+            <rect x="250" y="68" width="120" height="58" rx="8"/>
+            <rect x="70" y="132" width="148" height="66" rx="8"/>
+            <rect x="224" y="132" width="148" height="66" rx="8"/>
+            <rect x="8" y="204" width="176" height="78" rx="8"/>
+            <rect x="190" y="204" width="176" height="78" rx="8"/>
+          </g>
+          <g fill="#3aaa55">
+            <rect x="352" y="248" width="18" height="44" rx="8"/>
+            <rect x="384" y="248" width="18" height="44" rx="8"/>
+            <rect x="340" y="176" width="70" height="82" rx="18"/>
+          </g>
+          <circle cx="375" cy="158" r="28" fill="#e8b48a"/>
+          <ellipse cx="372" cy="138" rx="24" ry="13" fill="#2f9a48"/>
+          <ellipse cx="400" cy="142" rx="16" ry="6" fill="#278a40"/>
+          <circle cx="366" cy="158" r="2.4" fill="#3a2a22"/>
+          <circle cx="384" cy="158" r="2.4" fill="#3a2a22"/>
+          <path d="M366 168 Q375 175 384 168" fill="none" stroke="#c47a62" stroke-width="2" stroke-linecap="round"/>
+          <g fill="none" stroke-linecap="round">
+            <path d="M408 196 C444 178 492 200 470 236" stroke="#2d8a44" stroke-width="20"/>
+            <path d="M408 196 C444 178 492 200 470 236" stroke="#3aaa55" stroke-width="14"/>
+          </g>
+          <rect x="388" y="214" width="96" height="54" rx="7" fill="url(#crate)" stroke="#c48b4c" stroke-width="3.5"/>
+          <g fill="none" stroke-linecap="round">
+            <path d="M348 198 C318 228 348 262 404 244" stroke="#2d8a44" stroke-width="20"/>
+            <path d="M348 198 C318 228 348 262 404 244" stroke="#3aaa55" stroke-width="14"/>
+          </g>
+          <circle cx="404" cy="244" r="9" fill="#e8b48a"/>
+          <circle cx="470" cy="236" r="9" fill="#e8b48a"/>
+        </svg>
+        <p class="chip">Fresh delivery</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <p>
+        Before the shop opens, ingredient boxes arrive labeled with whole numbers,
+        fractions, and decimals. Stack them from <strong>lightest to heaviest</strong>
+        before the driver gets tired of waiting!
+      </p>
+      <div class="buttons">
+        <button id="start-button" class="start-button" type="button">Start sorting →</button>
+        <button id="howto-button" class="text-button" type="button">How to play</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- tutorial screen -->
+  <section id="howto-screen" class="screen" hidden>
+    <p class="label">STOCK SUPPLY</p>
+    <h1>HOW TO PLAY</h1>
+
+    <div class="card">
+      <ol class="howto-list">
+        <li>You get <strong>8 boxes</strong>. Each one has a weight in pounds, like
+            <strong>2</strong>, <strong>3/5</strong>, <strong>2 1/3</strong>, or <strong>0.4</strong>.</li>
+        <li>Drag each box onto the shelf, or click a box and then click a slot.
+            Slot 1 is the <strong>lightest</strong> and slot 8 is the <strong>heaviest</strong>.</li>
+        <li>When every box is on the shelf, press <strong>Check order</strong>.</li>
+        <li>Finish before the driver's patience bar runs out!</li>
+      </ol>
+      <p>
+        <strong>Tip:</strong> turn every weight into a decimal to compare them.
+        For example, 3/5 = 0.6 and 2 1/3 ≈ 2.33.
+      </p>
+      <div class="buttons">
+        <button id="howto-start-button" class="start-button" type="button">I'm ready →</button>
+        <button id="howto-back-button" class="text-button" type="button">Back</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- hide game screen until we click "Start sorting" or "I'm ready" -->
+  <section id="game-screen" class="game-screen" hidden>
+
+    <header class="game-header">
+      <button id="exit-round-button" class="text-button" type="button">← Exit round</button>
+      <div>
+        <p class="label">STOCK SUPPLY</p>
+        <h2 class="game-title">LEAST TO GREATEST</h2>
+      </div>
+
+      <!-- patience bar -->
+      <div class="patience">
+        <div class="patience-label">
+          <span>Driver patience</span>
+          <span id="driver-time">1m20s</span>
+        </div>
+        <div class="patience-bar">
+          <div id="driver-fill"></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- instruction banner -->
+    <p id="instruction-banner" class="instruction-banner">
+      Drag the boxes onto the shelf in order from <strong>LEAST</strong> to <strong>GREATEST</strong>.
+    </p>
+
+    <div class="game-area">
+
+      <!-- boxes area -->
+      <div id="delivery-panel" class="panel">
+        <p class="label">NEW DELIVERY</p>
+        <h3><span id="boxes-left">8</span> boxes left</h3>
+
+        <!-- placeholder numbers -->
+        <div id="box-pile" class="box-pile">
+          <div class="box">1 lb</div>
+          <div class="box">2.25 lb</div>
+          <div class="box">5 lb</div>
+          <div class="box">2 1/3 lb</div>
+          <div class="box">0.4 lb</div>
+          <div class="box">3 1/2 lb</div>
+          <div class="box">7/5 lb</div>
+          <div class="box">3/5 lb</div>
+        </div>
+      </div>
+
+      <!-- shelf -->
+      <div class="panel">
+        <div class="shelf-direction">
+          <span>LIGHTEST</span>
+          <span>→</span>
+          <span>HEAVIEST</span>
+        </div>
+
+        <div id="shelf" class="shelf">
+          <div class="slot" data-slot="0"><span class="slot-number">1</span></div>
+          <div class="slot" data-slot="1"><span class="slot-number">2</span></div>
+          <div class="slot" data-slot="2"><span class="slot-number">3</span></div>
+          <div class="slot" data-slot="3"><span class="slot-number">4</span></div>
+          <div class="slot" data-slot="4"><span class="slot-number">5</span></div>
+          <div class="slot" data-slot="5"><span class="slot-number">6</span></div>
+          <div class="slot" data-slot="6"><span class="slot-number">7</span></div>
+          <div class="slot" data-slot="7"><span class="slot-number">8</span></div>
+        </div>
+
+        <div class="check-row">
+          <p id="order-hint" class="order-hint" hidden></p>
+          <!-- button is disabled until all 8 slots are filled -->
+          <button id="check-order-button" class="start-button" type="button" disabled>Check order →</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <dialog id="round-end">
+    <h2 id="round-title"></h2>
+    <p id="round-message"></p>
+    <button id="play-again" type="button">Play again</button>
+    <button id="return-menu" type="button">Return to menu</button>
+  </dialog>
+
+  <script type="module" src="/src/stock/stockMenu.ts"></script>
+</body>
+</html>

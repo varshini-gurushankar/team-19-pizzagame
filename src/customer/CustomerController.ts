@@ -1,19 +1,24 @@
 import { GameDayController } from "../game/GameDayController";
 import { GameFlow } from "../game/GameFlow";
-import { dailyQuestionPicker, type QuestionResult } from "../game/questionSelector";
+import {
+    dailyQuestionPicker,
+    playerTier,
+    type QuestionResult
+} from "../game/questionSelector";
 import { clearPizza } from "../pizza/PizzaController";
 import { getQuestionsByDifficulty, type Question } from "./QuestionBank";
 import type { Order } from "./CustomerModel";
 import { PatienceMeter } from "./CustomerModel";
 import { CustomerView } from "./CustomerView";
 
-const LAST_DAY = 2;
+//const LAST_DAY = 2; // for testing
+const LAST_DAY = 7;
 
 let questions: Question[] = [];
 let flow = new GameFlow([]);
 let playerData: QuestionResult[] = [];
 let recentScores: QuestionResult[] = [];
-const missedIds: string[] = [];
+const missedIds: Question["id"][] = [];
 let servedTotal = 0;
 let facedTotal = 0;
 let dayRecorded = false;
@@ -21,8 +26,12 @@ let controlsBound = false;
 
 const view = new CustomerView();
 
-const patience = new PatienceMeter(
-    60,
+/**
+ * Initializes patience meter
+ */
+export let patienceSeconds = 30;
+let patience = new PatienceMeter(
+    patienceSeconds,
     (time, percent) => view.updatePatienceBar(time, percent),
     () => customerLeft(),
 );
@@ -49,7 +58,6 @@ export async function startCustomer(): Promise<void> {
     bindDayControls();
     await days.startDay();
 }
-
 
 export function getQuestionCount(): number {
     return questions.length;
@@ -86,6 +94,7 @@ export function resumePatience(): void {
     patience.start();
 }
 
+/*
 function shuffleQuestions(list: Question[]): Question[] {
     for (let i = list.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -104,15 +113,31 @@ function demoQuestions(picked: readonly Question[], reviewIds: ReadonlySet<strin
     const hard = getQuestionsByDifficulty("hard").filter((question) => !used.has(question.id)).slice(0, hardCount);
     return shuffleQuestions([...kept, ...medium, ...hard]);
 }
+*/
 
 function beginDay(day: number): void {
     const cash = flow.earnings;
     const reviewIds = new Set(missedIds);
-    const picked = dailyQuestionPicker(day, playerData, recentScores, missedIds).map((item) => item.question);
-    questions = day === LAST_DAY ? demoQuestions(picked, reviewIds) : picked;
+
+    const picked = dailyQuestionPicker(
+        day,
+        playerData,
+        recentScores,
+        missedIds
+    ).map((item) => item.question);
+    questions = picked;
+
     flow = new GameFlow(questions);
     flow.earnings = cash;
+
     dayRecorded = false;
+
+    patienceSeconds = playerTier === "hard" ? 60 : 30;
+    patience = new PatienceMeter(
+        patienceSeconds,
+        (time, percent) => view.updatePatienceBar(time, percent),
+        () => customerLeft(),
+    );
 
     view.showQueue(questions);
     view.showDay(day);
