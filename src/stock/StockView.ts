@@ -81,3 +81,24 @@ function formatTime(remainingMs: number): string {
     }
     return `${minutes}m${seconds.toString().padStart(2, "0")}s`;
 }
+
+export function renderBoxes(labels: readonly string[]): void {
+    //remove existing boxes
+    for (const box of allBoxes()) {
+        box.remove();
+    }
+    //gets box-pile HTML element
+    const pile = document.getElementById("box-pile");
+    //for every label given
+    for (const label of labels) {
+        //makes div element
+        const box = document.createElement("div");
+        //gives div the class box
+        box.className = "box";
+        //gives box appropiate weight label
+        box.textContent = label;
+        //adds the div element with class box and appropaite label to the box pile div
+        // if it is null then do nothing
+        pile?.append(box);
+    }
+}
