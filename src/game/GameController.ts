@@ -81,7 +81,6 @@ function bindServe(): void {
 
     successContButton.addEventListener("click", () => {
         successPopUp.close();
-        game.next();
         advance();
     });
     failContButton.addEventListener("click", () => {
