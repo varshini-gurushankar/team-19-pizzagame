@@ -1,5 +1,6 @@
 import { GameInterface } from "../game/GameInterface";
 import type { Order } from "./CustomerModel";
+import { playerTier } from "../game/questionSelector"
 import { formatOrder } from "./formatOrder";
 
 export class CustomerView {
@@ -8,6 +9,7 @@ export class CustomerView {
     private activeIndex = -1;
 
     showQueue(orders: readonly Order[]): void {
+        const patienceSeconds = playerTier === "hard" ? 60 : 30;
         const list = document.getElementById("customer-list");
         if (!list) return;
 
@@ -18,8 +20,8 @@ export class CustomerView {
             row.innerHTML = `
                 <div class="patience-container">
                     <div class="patience-label">
-                        <span class="customer-status">Customer ${index + 1}</span>
-                        <span class="patience-time">60s</span>
+                        <span>Customer ${index + 1}</span>
+                        <span class="patience-time">${patienceSeconds}s</span>
                     </div>
                     <div class="patience-bar">
                         <div class="patience-fill"></div>
@@ -86,8 +88,31 @@ export class CustomerView {
         this.gameUI.updatePatienceBar(time, percent, fill, timeText);
     }
 
+    showDay(day: number): void {
+        const label = document.getElementById("current-day");
+        if (label) label.textContent = `Day ${day}`;
+    }
+
     showScore(text: string): void {
         const score = document.getElementById("day-score");
         if (score) score.textContent = text;
+    }
+
+    showNextDay(show: boolean): void {
+        const button = document.getElementById("next-day");
+        if (button instanceof HTMLButtonElement) button.hidden = !show;
+    }
+
+    openWeek(text: string): void {
+        const summary = document.getElementById("week-summary");
+        if (summary) summary.textContent = text;
+        const dialog = document.getElementById("week");
+        if (dialog instanceof HTMLDialogElement) dialog.showModal();
+    }
+
+    showActiveOrder(order: Order | null): void {
+        const container = document.getElementById("active-order");
+        if (!container) return;
+        container.textContent = order ? formatOrder(order) : "";
     }
 }

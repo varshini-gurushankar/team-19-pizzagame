@@ -19,8 +19,18 @@
     /* title area */
     header {
       height: 73px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 28px;
       background: #e3d1d1;
       border-bottom: 3px solid #d88b9c;
+    }
+
+    #current-day {
+      margin: 0;
+      font: bold 22px Arial, sans-serif;
+      color: #34251e;
     }
 
     main {
@@ -92,7 +102,7 @@
     }
 
     .customer-list {
-        max-height: 70vh;
+        max-height: 76vh;
         overflow-y: auto;
         display: flex;
         flex-direction: column;
@@ -119,6 +129,17 @@
         margin: 12px 0 0;
         font-weight: bold;
         color: #34251e;
+    }
+
+    #next-day {
+        margin-top: 12px;
+        padding: 10px 18px;
+        border: none;
+        border-radius: 8px;
+        background: #49834d;
+        color: white;
+        font: bold 16px Arial, sans-serif;
+        cursor: pointer;
     }
 
     /* customer patience meter */
@@ -150,7 +171,6 @@
         background: #65b979;
         transition: width 0.1s linear;
     }
-
 
     /* "CUT INTO X SLICES" text*/
     .slice-control label {
@@ -352,6 +372,10 @@
         <h1>DINNER RUSH</h1>
       </div>
     </div>
+  <!--
+  <header>
+    <p id="current-day">Day 1</p>
+  -->
   </header>
   <main>
     <!-- puts customer box and earnings box in left column -->
@@ -359,7 +383,7 @@
 
   <div id="customer-list" class="customer-list"></div>
   <p id="day-score"></p>
-
+  <button id="next-day" type="button" hidden>Next day</button>
 
 </section>
     <!-- in the pizza panel box -->
@@ -375,7 +399,6 @@
             <p>Earnings: $<span id="cash">0</span></p>
           </div>
         </div>
-       
 
         <div id="pizza-container"></div>
 
@@ -395,10 +418,6 @@
             <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
             <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
           </div>
-
-          
-
-          
         </div>
 
     </section>
@@ -411,6 +430,13 @@
           <li>Olives <span id="topping-count-olives">0</span></li>
           <li>Basil <span id="topping-count-basil">0</span></li>
         </ul>
+      
+      <h2>Current Order</h2>
+      <div id="active-order"></div>
+      
+      <!-- Serve Button -->
+      <div class="complete-order">
+        <button class="serve-btn" id = "serve-btn" type="button">Serve Pizza</button>
       </div>
 
       <button class="serve-btn" id="serve-btn" type="button">Serve Pizza</button>
@@ -427,6 +453,12 @@
     <h2>Oh No!</h2>
     <p>The order was incorrect.</p>
     <button id="fail-continue" type="button">Try Again</button>
+  </dialog>
+
+  <dialog id="week">
+    <h2>Two days done</h2>
+    <p id="week-summary"></p>
+    <button id="week-menu" type="button">Back to menu</button>
   </dialog>
 
   <script type="module">

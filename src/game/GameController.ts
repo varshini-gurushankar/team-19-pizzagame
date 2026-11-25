@@ -1,11 +1,10 @@
-import { advance, canServe, getCurrentOrder, getDailyQuestionCount, markCorrect, startCustomer } from "../customer/CustomerController";
+//import { advance, canServe, getCurrentOrder, getDailyQuestionCount, markCorrect, startCustomer } from "../customer/CustomerController";
 import { toppingNames } from "../customer/CustomerModel";
+import { advance, canServe, getCurrentOrder, getEarnings, getQuestionCount, getScore, markCorrect, markWrong, startCustomer, pausePatience, resumePatience } from "../customer/CustomerController";
 import { bindUndo, setupPizza } from "../pizza/PizzaController";
 import { validatePizza } from "../pizza/PizzaModel";
 import { toppingsAddRemove, toppingClonesArray, topping_sizes } from "../pizza/PizzaView";
 import { getSelectedSlices } from "../pizza/sliceSlider";
-import { questions } from "../customer/QuestionBank";
-import { GameFlow } from "./GameFlow";
 
 export function startGame(): void {
     document.addEventListener(toppingsAddRemove, updateToppingCounts);
@@ -15,8 +14,6 @@ export function startGame(): void {
     bindServe();
     bindUndo();
 }
-
-const game = new GameFlow(questions);
 
 function updateToppingCounts(): void {
     const counts = {
@@ -48,9 +45,15 @@ function restartResultAnimation(element: HTMLElement, passed: boolean, type: "sc
 }
 
 function updateScore(ans: boolean): void {
+    /*
+     * Accepted ``Incoming Changes``, but will comment this out.
+     
     const scoreDisplay = document.getElementById("score") as HTMLSpanElement;
-
     const nextScore = `${game.score} / ${getDailyQuestionCount()}`;
+     */
+  
+    const scoreDisplay = document.getElementById("score") as HTMLParagraphElement;  
+    const nextScore = `${getScore()} / ${getQuestionCount()}`;
 
     scoreDisplay.textContent = nextScore;
 
@@ -58,11 +61,13 @@ function updateScore(ans: boolean): void {
 }
 
 function updateCash(ans: boolean): void { 
-    const cashDisplay = document.getElementById("cash") as HTMLSpanElement;
+    const cashDisplay = document.getElementById("cash") as HTMLParagraphElement;
+    const earningsBox = document.getElementById("earnings-box");
 
-    const nextCash = `${game.earnings} `;
+    const nextCash = `${getEarnings()} `;
 
     cashDisplay.textContent = nextCash 
+    if (earningsBox) earningsBox.textContent = `${getEarnings()}`;
 
     restartResultAnimation(cashDisplay, ans, "cash");
 }
@@ -81,7 +86,8 @@ function bindServe(): void {
     });
     failContButton.addEventListener("click", () => {
         failPopUp.close();
-        game.retry();
+        //game.retry();
+        resumePatience();
     });
 
     const serveButton = document.getElementById("serve-btn") as HTMLButtonElement;
@@ -123,14 +129,14 @@ function bindServe(): void {
 
         //console.log(pizzaSize)
 
-        game.serve(passValidator);
-
         if (passValidator) {
             markCorrect();
             successPopUp.showModal();
+            pausePatience();
         } else {
+            markWrong();
             failPopUp.showModal();
-            //updateScore(); 
+            pausePatience();
         }
 
         updateScore(passValidator);

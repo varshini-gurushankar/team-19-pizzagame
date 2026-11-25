@@ -36,8 +36,8 @@ function isExactDecimal(denominator: number): boolean {
     return remaining === 1;
 }
 
-//make object that is the answer for the question given and returns the pizza specs
-function buildCorrectPizza(question: Question) {
+// make object that is the answer for the question given and returns a record
+function buildCorrectPizza(question: Question): Record<string, number> {
     // makes toppings object
     const toppings: Record<string, number> = {};
     // for every topping
