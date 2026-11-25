@@ -7,20 +7,20 @@ interface TutorialStep {
 const tutorialSteps: TutorialStep[] = [
     {
         target: "#customer-list",
-        title: "Read the customer’s fractions",
-        description: "Read the active customer’s order and note which toppings they want.",
+        title: "Reading the customers order",
+        description: "Read the active customers order, noting which toppings they want, and the amount of time you have to serve the pizza",
     },
 
     {
         target: ".slice-control",
-        title: "Set the number of slices",
+        title: "Using the slice slider",
         description: "Use the slider to cut the pizza into the number of slices needed for the order.",
     },
 
     {
         target: "#pizza-container",
-        title: "Build the customer’s pizza",
-        description: "Drag the requested toppings onto the pizza to match the fractions in the order.",
+        title: "Build the customers pizza",
+        description: "Drag the requested toppings onto the pizza to match the fractions in the order. The toppings are pepperoni, onion, olives, and basil. ",
     },
 
     {
@@ -31,8 +31,8 @@ const tutorialSteps: TutorialStep[] = [
 
     {
         target: "#undo-button",
-        title: "Undo your last topping",
-        description: "If you place the wrong topping, click Undo to remove the last one you added.",
+        title: "Made a Mistake",
+        description: "If you place the wrong topping, click Undo to remove the last topping you added.",
     },
 
     {
@@ -44,19 +44,19 @@ const tutorialSteps: TutorialStep[] = [
 ];
 
 export function setupTutorial(): void {
-    const stepNumber = document.getElementById("step-number");
-    const stepTitle = document.getElementById("step-title");
-    const stepDescription = document.getElementById("step-description");
-    const progressLabel = document.querySelector(".tutorial-progress span");
-    const progressBar = document.querySelector(".tutorial-progress progress");
-    const previousButton = document.getElementById("previous-step");
-    const nextButton = document.getElementById("next-step");
+    const stepNumber = document.getElementById("step-number") as HTMLSpanElement;
+    const stepTitle = document.getElementById("step-title") as HTMLHeadingElement;
+    const stepDescription = document.getElementById("step-description") as HTMLParagraphElement;
+    const progressLabel = document.querySelector(".tutorial-progress span") as HTMLSpanElement;
+    const progressBar = document.querySelector(".tutorial-progress progress") as HTMLProgressElement;
+    const previousButton = document.getElementById("previous-step") as HTMLButtonElement;
+    const nextButton = document.getElementById("next-step") as HTMLButtonElement;
 
     let currentStep = 0;
 
     function showStep(index: number): void {
         const step = tutorialSteps[index];
-        const target = document.querySelector(step.target);
+        const target = document.querySelector(step.target) as HTMLElement;
 
         document.querySelector(".tutorial-highlight")?.classList.remove("tutorial-highlight");
         target.classList.add("tutorial-highlight");

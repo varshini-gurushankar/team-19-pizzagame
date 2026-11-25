@@ -367,6 +367,11 @@
       background: transparent;
       font-weight: bold;
       pointer-events: auto;
+      transition: transform 150ms ease;
+    }
+
+    .step-navigation button:not(:disabled):hover, .step-navigation button:not(:disabled):focus-visible {
+      transform: scale(1.04);
     }
 
     .step-navigation button:disabled {
@@ -382,7 +387,7 @@
 </head>
 <body>
   <header class="tutorial-header">
-    <a href="./index.html" class="exit-tutorial">← Return to Menu</a>
+    <a href="./index.html" class="exit-tutorial">&larr; Menu</a>
 
     <div class="tutorial-brand">
       <div>
