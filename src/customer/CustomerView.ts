@@ -20,7 +20,7 @@ export class CustomerView {
             row.innerHTML = `
                 <div class="patience-container">
                     <div class="patience-label">
-                        <span>Customer ${index + 1}</span>
+                        <span class="customer-status">Customer ${index + 1}</span>
                         <span class="patience-time">${patienceSeconds}s</span>
                     </div>
                     <div class="patience-bar">
