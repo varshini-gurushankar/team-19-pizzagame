@@ -38,13 +38,11 @@ describe("GameFlow", () => {
         expect(game.score).toBe(0)
     });
 
-    it("allows unlimited attempts on the same order until it is correct", () => {
+    it("keeps the order available for a correct retry without duplicating missed IDs", () => {
         const game = new GameFlow(testQuestions);
 
-        game.serve(false);
-        game.retry();
-        game.serve(false);
-        game.retry();
+        game.noteWrong();
+        game.noteWrong();
         game.serve(true);
 
         expect(game.score).toBe(1);
