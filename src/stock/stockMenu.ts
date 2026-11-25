@@ -1,3 +1,5 @@
+import { startRound, stopRound } from "./StockController";
+
 // screens html ids list; will add win-screen, lose-screen, etc later
 const screenIds = ["intro-screen", "howto-screen", "game-screen"] as const;
 //makes type ScreenId, so only valid screenIds work
@@ -30,6 +32,7 @@ function onClick(buttonId: string, handler: () => void): void {
 
 function startGame(): void {
     showScreen("game-screen");
+    startRound();
 }
 
 //button to screen linkage
@@ -37,4 +40,7 @@ onClick("howto-button", () => showScreen("howto-screen"));
 onClick("howto-back-button", () => showScreen("intro-screen"));
 onClick("start-button", startGame);
 onClick("howto-start-button", startGame);
-onClick("exit-round-button", () => showScreen("intro-screen"));
+onClick("exit-round-button", () => {
+    stopRound();
+    showScreen("intro-screen");
+});
