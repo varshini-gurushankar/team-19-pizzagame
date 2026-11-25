@@ -154,3 +154,10 @@ export function pickWeights(
     }
     return picked;
 }
+
+//sorts the labels
+export function sortedLabels(labels: readonly string[]): string[] {
+    //makes copy of labels and sorts it based on difference between one element and another, if positive, put b first, then a
+    // otherwise the opposite
+    return [...labels].sort((a, b) => parseWeight(a) - parseWeight(b));
+}

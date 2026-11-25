@@ -1,7 +1,7 @@
 import { startRound, stopRound } from "./StockController";
 
-// screens html ids list; will add win-screen, lose-screen, etc later
-const screenIds = ["intro-screen", "howto-screen", "game-screen"] as const;
+// screens html ids list
+const screenIds = ["intro-screen", "howto-screen", "game-screen", "win-screen", "lose-screen"] as const;
 //makes type ScreenId, so only valid screenIds work
 type ScreenId = (typeof screenIds)[number];
 
@@ -44,3 +44,5 @@ onClick("exit-round-button", () => {
     stopRound();
     showScreen("intro-screen");
 });
+onClick("win-try-again", startGame);
+onClick("lose-try-again", startGame);

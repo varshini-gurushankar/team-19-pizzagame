@@ -324,6 +324,98 @@
       cursor: not-allowed;
     }
 
+    /* the badge at the top which will be a check mark on win and ! on lose */
+    .end-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 14px;
+      border: 4px solid #22324a;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 42px;
+      font-weight: bold;
+    }
+
+    /* on win badge is yellow */
+    .win-icon {
+      background: #f2c14e;
+    }
+
+    /* on win badge is orange */
+    .lose-icon {
+      background: #e09a63;
+    }
+
+    /* center end screen card */
+    .end-card {
+      text-align: center;
+    }
+
+    /* space above "LEARNING MOMENT" text */
+    .learning-label {
+      margin-top: 28px;
+    }
+
+    /* "The correct order was" text */
+    .end-heading {
+      margin: 4px 0 14px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    /* row of small boxes on the end screens */
+    .end-boxes {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    /* the individual boxes on the end screen */
+    .end-box {
+      padding: 10px 14px;
+      border: 2px solid #8a5530;
+      border-radius: 6px;
+      background: #d79a63;
+      color: #4a2222;
+      font-weight: bold;
+    }
+
+    /* "No boxes were placed" text */
+    .end-empty {
+      color: #8f8378;
+      font-style: italic;
+    }
+
+    /* "Lightest -> Heaviest" text */
+    .end-direction {
+      margin: 12px 0 0;
+      color: #8f8378;
+      font-size: 13px;
+    }
+
+    /* Row for the two buttons at bottom  */
+    .end-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    /* "Back to shop" button */
+    .secondary-button {
+      padding: 14px 26px;
+      border: 3px solid #22324a;
+      border-radius: 8px;
+      background: white;
+      color: #22324a;
+      font-size: 16px;
+      font-weight: bold;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
@@ -470,18 +562,7 @@
       <div id="delivery-panel" class="panel">
         <p class="label">NEW DELIVERY</p>
         <h3><span id="boxes-left">8</span> boxes left</h3>
-
-        <!-- placeholder numbers -->
-        <div id="box-pile" class="box-pile">
-          <div class="box">1 lb</div>
-          <div class="box">2.25 lb</div>
-          <div class="box">5 lb</div>
-          <div class="box">2 1/3 lb</div>
-          <div class="box">0.4 lb</div>
-          <div class="box">3 1/2 lb</div>
-          <div class="box">7/5 lb</div>
-          <div class="box">3/5 lb</div>
-        </div>
+        <div id="box-pile" class="box-pile"></div>
       </div>
 
       <!-- shelf -->
@@ -512,13 +593,47 @@
 
     </div>
   </section>
-  <dialog id="round-end">
-    <h2 id="round-title"></h2>
-    <p id="round-message"></p>
-    <button id="play-again" type="button">Play again</button>
-    <button id="return-menu" type="button">Return to menu</button>
-  </dialog>
+  <!-- win screen -->
+  <section id="win-screen" class="screen" hidden>
+    <div class="end-icon win-icon">✓</div>
+    <p class="label">SHELVES STOCKED</p>
+    <h1>SUCCESS IN TIME!</h1>
+    <p class="tagline">Every box is in order.</p>
 
+    <div class="card end-card">
+      <p class="label">YOUR SHELF</p>
+      <div id="win-shelf" class="end-boxes"></div>
+      <p class="end-direction">Lightest → Heaviest</p>
+    </div>
+
+    <div class="end-buttons">
+      <button id="win-try-again" class="start-button" type="button">Play again</button>
+      <a class="secondary-button" href="index.html">Back to shop</a>
+    </div>
+  </section>
+
+  <!-- lose screen if timer runs out -->
+  <section id="lose-screen" class="screen" hidden>
+    <div class="end-icon lose-icon">!</div>
+    <p class="label">DELIVERY DELAYED</p>
+    <h1>OUT OF TIME!</h1>
+    <p class="tagline">Try again! You've got this.</p>
+
+    <div class="card end-card">
+      <p class="label">YOUR SHELF</p>
+      <div id="lose-shelf" class="end-boxes"></div>
+
+      <p class="label learning-label">LEARNING MOMENT</p>
+      <p class="end-heading">The correct order was:</p>
+      <div id="lose-answer" class="end-boxes"></div>
+      <p class="end-direction">Lightest → Heaviest</p>
+    </div>
+
+    <div class="end-buttons">
+      <button id="lose-try-again" class="start-button" type="button">Try again</button>
+      <a class="secondary-button" href="index.html">Back to shop</a>
+    </div>
+  </section>
   <script type="module" src="/src/stock/stockMenu.ts"></script>
 </body>
 </html>

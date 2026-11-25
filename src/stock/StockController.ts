@@ -1,9 +1,12 @@
-import { SHELF_SIZE, StockModel, parseWeight, wrongIndexes, pickWeights } from "./StockModel";
+import { SHELF_SIZE, StockModel, parseWeight, wrongIndexes, pickWeights, sortedLabels } from "./StockModel";
 import * as view from "./StockView";
+import { showScreen } from "./stockMenu";
 
+//80_000 = 1m20s (this is just here for testing so I remember old value)
 const ROUND_MS = 80_000;
 
 const model = new StockModel();
+let currentLabels: string[] = [];
 let selected: HTMLElement | null = null;
 let dragging: HTMLElement | null = null;
 let ghost: HTMLElement | null = null;
@@ -21,9 +24,8 @@ export function startRound(): void {
     selected = null;
     ended = false;
 
-    //at the start of every round 
-    //put 8 new boxes onto the page with 8 random weight labels
-    view.renderBoxes(pickWeights());      
+    currentLabels = pickWeights();
+    view.renderBoxes(currentLabels);
     //for every box                              
     for (const box of view.allBoxes()) {
         //make it draggable
@@ -45,13 +47,10 @@ export function startRound(): void {
     timer = window.setInterval(tick, 100);
 }
 
+//stops driver's countdown
 export function stopRound(): void {
     window.clearInterval(timer);
     timer = 0;
-    const dialog = document.getElementById("round-end");
-    if (dialog instanceof HTMLDialogElement && dialog.open) {
-        dialog.close();
-    }
 }
 
 function tick(): void {
@@ -164,19 +163,33 @@ function checkOrder(): void {
     view.setOrderHint(`${wrong.length} ${noun} out of order. Compare again!`, true);
 }
 
+// ends the round and shows the win or lose screen
 function showRoundEnd(won: boolean): void {
+    //stop timer
     stopRound();
+    //round has ended
     ended = true;
+    //make button unclickable, since player shouldn't be able to submit another answer if the round ended
     view.setCheckEnabled(false);
-    const dialog = document.getElementById("round-end");
-    const title = document.getElementById("round-title");
-    const message = document.getElementById("round-message");
-    if (!(dialog instanceof HTMLDialogElement) || !title || !message || dialog.open) {
-        return;
+
+    //if win
+    if (won) {
+        view.renderEndBoxes("win-shelf", placedLabels());
+        showScreen("win-screen");
+    //if lose
+    } else {
+        view.renderEndBoxes("lose-shelf", placedLabels());
+        view.renderEndBoxes("lose-answer", sortedLabels(currentLabels));
+        showScreen("lose-screen");
     }
-    title.textContent = won ? "Congrats!" : "Oh No!";
-    message.textContent = won ? "The shelf is in order." : "The driver left.";
-    dialog.showModal();
+}
+
+// gets the boxes that you placed
+function placedLabels(): string[] {
+    //gets every element with class box inside of a .slot inside #shelf
+    return [...document.querySelectorAll("#shelf .slot .box")]
+        //replaces each box element with its text, and if null use empty string
+        .map((box) => box.textContent ?? "");
 }
 
 function clearCheck(): void {
@@ -330,10 +343,4 @@ function wire(): void {
     });
 
     document.getElementById("check-order-button")?.addEventListener("click", checkOrder);
-    document.getElementById("play-again")?.addEventListener("click", () => {
-        startRound();
-    });
-    document.getElementById("return-menu")?.addEventListener("click", () => {
-        window.location.href = "index.html";
-    });
 }
