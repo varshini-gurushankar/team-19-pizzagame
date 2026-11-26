@@ -1,10 +1,12 @@
 import { OvenGameController } from "./OvenGameController";
 import { OvenResultView } from "./OvenGameView";
+import { OvenDialController } from "./OvenDialController";
+import { OvenDialView } from "./OvenDialView";
 
 // get HTML elements
 const questionDisplay = document.getElementById("oven-question")!;
 const scoreDisplay = document.getElementById("oven-score")!;
-const dial = document.getElementById("oven-dial") as HTMLInputElement;
+const dial = document.getElementById("oven-dial")!;
 const selectedValue = document.getElementById("selected-value")!;
 const bakeButton = document.getElementById("bake-button") as HTMLButtonElement;
 const resultContainer = document.getElementById("oven-result")!;
@@ -26,6 +28,16 @@ const resultView = new OvenResultView(
     }
 );
 
+let dialView: OvenDialView;
+
+const dialController = new OvenDialController({
+    onValueChanged: () => {
+        dialView.render();
+    }
+});
+
+dialView = new OvenDialView(dial, dialController, selectedValue);
+
 // create the game controller
 const controller = new OvenGameController({
 
@@ -35,13 +47,13 @@ const controller = new OvenGameController({
             `Bake the pizza for ${question.numerator}/${question.denominator} of a minute!`;
 
         // reset the dial for the new question
-        dial.value = "0";
-        selectedValue.textContent = "0.00";
+        dialController.resetNeedle();
         bakeButton.disabled = false;
     },
 
     // show feedback after answering
     onAnswerSubmitted: (result) => {
+        dialController.lock();
         bakeButton.disabled = true;
         resultView.show(result);
     },
@@ -52,14 +64,9 @@ const controller = new OvenGameController({
     }
 });
 
-// update the decimal when the slider moves
-dial.addEventListener("input", () => {
-    selectedValue.textContent = Number(dial.value).toFixed(2);
-});
-
 // submit the player's selected decimal
 bakeButton.addEventListener("click", () => {
-    const selectedDecimal = Number(dial.value);
+    const selectedDecimal = dialController.getSelectedDecimal();
     controller.submitAnswer(selectedDecimal);
 });
 
